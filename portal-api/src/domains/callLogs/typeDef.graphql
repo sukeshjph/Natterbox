@@ -1,0 +1,58 @@
+enum Flags {
+  TRANSFERRED
+  ATTENDED_TRANSFERRED
+  BLIND_TRANSFERRED
+  CALLER_ID_WITHHELD
+  ALERT
+  PICKED_UP
+  PICKED_OFF
+  CONNECTED_TO_CALL_QUEUE
+  EAVESDROP_ATTACHED
+  EAVESDROPPED
+  RECORDED
+  LATE_DIVERTED
+  EARLY_DIVERTED
+  VOICEMAIL_RECORD_ENABLED
+  DIVERTED
+  LISTEN_IN_ENABLED
+  ACTIVE_RECORD_SUCCEEDED
+  ACTIVE_RECORD_FAILED
+  ACTIVE_RECORD_STREAM_SUCCEEDED
+  ACTIVE_RECORD_STREAM_FAILED
+  DIAGNOSTICS_ENABLED
+  VIRTUAL_CHANNEL
+  CALL_QUEUE_AGENT
+  CALL_QUEUE_IN_PATH
+  ANALYTICS_ENABLED
+}
+
+type CallLog {
+  timeStart: Date # timeStart
+  fromUserId: Int
+  fromNumber: String # fromNumber
+  toNumberDialled: String # toNumberDialled
+  connectedTo: String # bUuid !== null THEN GET NAME OF USER if outbound fromUserID, if inbound toUserId
+  connectedToNumber: String # bUuid !== null THEN GET NUMBER OF USER if outbound fromUserID, if inbound toUserId
+  timeRinging: Time # timeRinging
+  timeTalking: Time # timeTalking
+  direction: String # direction
+  type: String # if bUuid !== null Connected, bUuid == null not connected
+  flags: String # if aFlags.length > 1 then YES
+  policy: String # Get Policy from policyID
+  recording: FileStream # check in aFlags & bFlags that it is recorded, if I find a match then go get recording from either aUuid or bUuid <- return both recordings if possible
+}
+
+extend type Query {
+  callLogs(searchInput: CallLogSearchInput): [CallLog]
+}
+
+input CallLogSearchInput {
+  uuid: String
+  startTime: String
+  endTime: String
+  fromUserId: Int
+  fromNumber: String
+  toNumberDialled: String
+  connectedTo: String
+  connectedToNumber: String
+}

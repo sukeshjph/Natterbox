@@ -1,0 +1,36 @@
+type HoldMusic {
+  type: String
+  preset: String
+}
+
+type GeneralSettings {
+  externalCallerIdNumber: String
+  presentCallerId: Boolean
+  timezone: String
+  voice: String
+  countryCode: String
+  holdMusic: HoldMusic
+  message: String
+}
+
+extend type Query {
+  generalSettings: GeneralSettings
+}
+
+extend type Mutation {
+  updateGeneralSettings(settings: inputUpdateGSettings): GeneralSettings
+  deleteGeneralSettings(deleteInput: inputDeleteGSettings): GeneralSettings
+}
+
+input inputUpdateGSettings {
+  externalCallerIdNumber: String
+  presentCallerId: Boolean
+  timezone: String
+  voice: String
+  countryCode: String
+}
+
+input inputDeleteGSettings {
+  settingsCategory: String!
+  settings: [String]!
+}

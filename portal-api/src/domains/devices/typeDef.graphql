@@ -1,0 +1,37 @@
+type Device {
+  id: ID
+  sipExtension: String
+  description: String
+  location: String
+  enabled: Boolean
+  macAddress: String
+  registered: Boolean
+  registrationExpiry: Date
+  password: Null
+}
+
+extend type Query {
+  devices: [Device]
+  device(id: ID): Device
+}
+
+extend type Mutation {
+  createDevice(device: createDevice): Device
+  updateDevice(id: ID, device: updateDevice): Device
+  deleteDevice(id: ID): Device
+}
+
+input updateDevice {
+  sipExtension: String
+  description: String
+  location: String
+  enabled: Boolean
+  password: Null
+}
+
+input createDevice {
+  sipExtension: String
+  description: String
+  location: String
+  enabled: Boolean
+}
