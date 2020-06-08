@@ -1,0 +1,78 @@
+@import "../../../../styles/common";
+
+.paper {
+  width: "100%";
+}
+
+.callTypesContainer {
+  display: flex;
+}
+
+.formControl {
+  margin-right: 30px;
+  margin-top: 16px;
+}
+
+.textControl {
+  @include textControl;
+}
+
+.submitButton {
+  margin-right: 2rem;
+  max-width: 100px;
+  background-color: #c4d600;
+
+  &:hover {
+    background-color: #d2e506;
+  }
+}
+
+.expansionPanelSummary {
+  padding: 3px 8px;
+  min-height: 35px;
+  max-height: 45px;
+}
+
+.expansionPanelSummaryContent {
+  display: flex;
+  align-items: center;
+}
+
+.searchFormGroup {
+  padding-left: 20px;
+}
+
+.topContainer {
+  display: flex;
+  align-items: center;
+}
+
+.topItemContainer {
+  width: 200px;
+
+  input {
+    width: 190px;
+    height: 35px;
+  }
+
+  .topLabel {
+    font-size: 12px;
+    margin-bottom: 5px;
+    color: rgba(0, 0, 0, 0.54);
+  }
+}
+
+.userSelect {
+  align-self: flex-end;
+}
+
+.nonDateLogContainer {
+  display: flex;
+  flex-wrap: wrap;
+  width: 80%;
+}
+
+.nonDateLogContainer > .item {
+  flex: 0 50%;
+  max-width: 200px;
+}

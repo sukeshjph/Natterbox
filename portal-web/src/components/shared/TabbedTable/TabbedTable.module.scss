@@ -1,0 +1,35 @@
+.tabsMenu {
+  max-width: 100vw;
+}
+
+.headerText {
+  font-size: 18px;
+  font-weight: 500;
+  margin-left: 10px;
+  line-height: 10px;
+}
+
+.toolBar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  text-transform: none;
+  background-color: #adb3b7;
+  max-height: 45px;
+}
+
+.toolBarVertical {
+  display: flex;
+  flex-direction: column;
+  background-color: #adb3b7;
+  max-height: 45px;
+}
+
+.tab {
+  min-width: 118px;
+  font-weight: 600;
+
+  span:first-child {
+    text-transform: none;
+  }
+}

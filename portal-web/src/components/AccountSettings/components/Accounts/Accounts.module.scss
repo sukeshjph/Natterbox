@@ -1,0 +1,74 @@
+@import "../../../../styles/common";
+
+.root {
+  padding: 30px;
+}
+
+%formControlCommon {
+  margin-bottom: 20px;
+}
+
+.settingsDropdown {
+  width: 170px;
+
+  @extend %formControlCommon;
+
+  @include common-select;
+}
+
+.gSettingsRoot {
+  display: flex;
+  flex-direction: column;
+}
+
+.gSettingsFormLabel {
+  margin-bottom: 15px;
+  margin-left: 10px;
+  font-size: 1rem;
+
+  .formText {
+    margin-right: 20px;
+    width: 150px;
+  }
+}
+
+.gSettingsSelect {
+  @include common-select;
+}
+
+.gSettingsLeftCol {
+  width: 20%;
+  border: 0;
+  text-align: right;
+  font-size: 0.9rem;
+  vertical-align: top;
+}
+
+.gSettingsRightCol {
+  border: 0;
+}
+
+.gSettingsCol {
+  border: 0;
+  text-align: left;
+}
+
+.localePanel {
+  display: flex;
+  flex-direction: column;
+}
+
+.presentCallerId {
+  span:nth-child(2) {
+    font-size: 0.9rem;
+  }
+}
+
+.gSettingsButtons {
+  margin-right: 2rem;
+}
+
+.numberMessage {
+  display: flex;
+  padding: 1rem 0 1rem 0;
+}

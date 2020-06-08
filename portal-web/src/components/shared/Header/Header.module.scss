@@ -1,0 +1,48 @@
+.root {
+  background-color: #5c6770;
+}
+
+.upperHeader {
+  min-height: 80px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.lowerHeader {
+  display: flex;
+  justify-content: space-between;
+}
+
+.rectangle {
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+  width: 116px;
+  height: 40px;
+  border-radius: 4px;
+  border: solid 1px #c4d600;
+  background-color: #c4d600;
+  margin-left: 25px;
+}
+
+.search {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-right: 10px;
+  margin-bottom: 5px;
+  min-width: 250px;
+}
+
+.tabLink {
+  span:first-child {
+    font-size: 18px;
+    font-weight: 500;
+    text-transform: none;
+  }
+}
+
+.tabLinkSelected {
+  border-bottom: 2px solid white;
+}

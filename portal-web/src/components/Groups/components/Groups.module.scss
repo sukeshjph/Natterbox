@@ -1,0 +1,40 @@
+@import "../../../styles/common";
+
+.GroupButton {
+  align-self: flex-start;
+}
+
+.formControl {
+  flex-direction: initial;
+}
+
+.formControlInline {
+  margin-left: 20px;
+  width: 40%;
+}
+
+.formGroupInline {
+  flex-direction: row !important;
+  flex-wrap: nowrap;
+}
+
+.GroupButtonInline {
+  margin-left: 20px;
+  align-self: flex-start;
+}
+
+.textControl {
+  @include textControl;
+}
+
+.settingsDropdown {
+  @include common-select;
+}
+
+.formValidator {
+  @include formValidator;
+}
+
+.tooltip {
+  @include tooltip;
+}

@@ -1,0 +1,36 @@
+@import "../../../styles/variables";
+
+.ActionContainer {
+  display: flex;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  height: 30px;
+  justify-content: space-between;
+}
+
+.ActionBlocks {
+  display: flex;
+}
+
+.ActionBlock {
+  display: flex;
+  align-items: center;
+  padding-left: 10px;
+  padding-right: 10px;
+  outline: none;
+  cursor: pointer;
+
+  span {
+    padding-left: 6px;
+  }
+}
+
+.ActionIconButton {
+  padding: 5px;
+}
+
+.ActionIconText {
+  font-size: 13px;
+  font-weight: 500;
+  color: $colour-grey-darkest;
+}

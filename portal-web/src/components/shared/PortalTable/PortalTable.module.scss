@@ -1,0 +1,57 @@
+@import "../../../styles/variables";
+
+.portalTableContainer {
+  height: 62vh;
+}
+
+.portalTable {
+  min-width: 750;
+}
+
+%headerCell {
+  position: sticky;
+  top: 0;
+  background-color: #b9bfc6;
+  z-index: 2;
+}
+
+.portalHeaderCell {
+  font-size: 0.9rem;
+  max-width: 300px;
+  min-width: 150px;
+  padding: 10px 12px;
+  text-align: left;
+  color: #5c6770;
+  font-weight: 600;
+
+  @extend %headerCell;
+}
+
+.portalHeaderCheckbox {
+  padding: 0 0 0 4px;
+
+  @extend %headerCell;
+}
+
+.portalDataCell {
+  font-size: 0.8rem;
+  max-width: 300px;
+  min-width: 170px;
+  padding: 5px 12px;
+  word-wrap: break-word;
+  word-break: break-all;
+  z-index: 1;
+}
+
+.portalEmptyDiv {
+  min-height: 30px;
+  padding: 10px;
+}
+
+.rowClickable {
+  cursor: pointer;
+}
+
+.portalRowEven {
+  background-color: $colour-grey-light;
+}

@@ -1,0 +1,15 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Loading Renders Loading 1`] = `
+<div
+  className="spinPanel"
+  data-testid="loadingSpinner"
+>
+  <Spinner
+    fadeIn="full"
+    name="ball-spin-fade-loader"
+    noFadeIn={false}
+    overrideSpinnerClassName=""
+  />
+</div>
+`;

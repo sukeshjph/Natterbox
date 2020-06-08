@@ -1,0 +1,23 @@
+@import "../../../styles/common";
+
+.pageSizeDropdown {
+  @include pageSizeDropdown;
+}
+
+.formValidator {
+  min-width: 450px;
+}
+
+.submitButton {
+  align-self: flex-start;
+  margin-bottom: 20px;
+  margin-top: 10px;
+}
+
+.textControl {
+  @include textControl;
+}
+
+.userSelect {
+  max-width: 250px;
+}

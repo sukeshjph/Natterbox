@@ -1,0 +1,22 @@
+.headerText {
+  font-size: 18px;
+  font-weight: 500;
+  margin-left: 10px;
+}
+
+.toolBar {
+  display: flex;
+  justify-content: space-between;
+  text-transform: none;
+  background-color: #adb3b7;
+}
+
+.logTab {
+  span:first-child {
+    text-transform: none;
+  }
+}
+
+.tabsMenu {
+  max-width: 100vw;
+}

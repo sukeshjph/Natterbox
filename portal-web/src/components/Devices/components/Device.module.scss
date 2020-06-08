@@ -1,0 +1,21 @@
+@import "../../../styles/common";
+
+.DeviceButton {
+  align-self: flex-start;
+}
+
+.formControl {
+  flex-direction: initial;
+}
+
+.textControl {
+  @include textControl;
+}
+
+.settingsDropdown {
+  @include common-select;
+}
+
+.formValidator {
+  @include formValidator;
+}
