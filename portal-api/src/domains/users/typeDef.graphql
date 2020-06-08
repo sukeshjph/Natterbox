@@ -1,0 +1,67 @@
+type User {
+  userId: ID
+  password: String
+  userName: String
+  firstName: String
+  lastName: String
+  middleNames: String
+  sipExtension: String
+  primaryMobileNumber: String
+  permissionLevel: String
+  enabled: Boolean
+  primaryGroupId: String
+  availabilityProfileId: String
+  availabilityStateId: String
+  memberOf: [String]
+  sipDevices: [String]
+  pciEnabled: Boolean
+  scopes: [String]
+  connectedTo: String # bUuid !== null THEN GET NAME OF USER if outbound fromUserID, if inbound toUserId
+  connectedToNumber: String # bUuid !== null THEN GET NUMBER OF USER if outbound fromUserID, if inbound toUserId
+}
+
+extend type Query {
+  users: [User]
+  user(id: ID!): User
+}
+
+extend type Mutation {
+  createUser(user: CreateUser): User
+  updateUser(id: ID!, user: UpdateUser): User
+}
+
+input CreateUser {
+  userName: String!
+  firstName: String!
+  middleNames: String!
+  lastName: String!
+  sipExtension: String
+  primaryMobileNumber: String!
+  pin: String
+  permissionLevel: String!
+  enabled: Boolean!
+  primaryGroupId: Int
+  availabilityProfileId: Int
+  availabilityStateId: Int
+  memberOf: [String]
+  sipDevices: [String]
+  pciEnabled: Boolean
+}
+
+input UpdateUser {
+  userName: String
+  firstName: String
+  middleNames: String
+  lastName: String
+  sipExtension: String
+  primaryMobileNumber: String
+  pin: String
+  permissionLevel: String
+  enabled: Boolean
+  primaryGroupId: Int
+  availabilityProfileId: Int
+  availabilityStateId: Int
+  memberOf: [String]
+  sipDevices: [String]
+  pciEnabled: Boolean
+}
