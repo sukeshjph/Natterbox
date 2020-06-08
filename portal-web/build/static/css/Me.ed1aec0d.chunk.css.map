@@ -1,0 +1,1 @@
+{"version":3,"sources":["MePage.module.scss"],"names":[],"mappings":"AAAA,yBACE,YAAa,CAKd,yDAGC,WAAY","file":"Me.ed1aec0d.chunk.css","sourcesContent":[".container {\n  padding: 16px;\n}\n\n.copyButton {\n  width: 300px;\n}\n\n.copyButtonAlert {\n  width: 300px;\n}\n"]}

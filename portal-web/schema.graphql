@@ -1,0 +1,286 @@
+# This file was generated based on ".graphqlconfig". Do not edit manually.
+
+schema {
+    query: Query
+    mutation: Mutation
+}
+
+type CallLog {
+    connectedTo: String
+    connectedToNumber: String
+    direction: String
+    flags: String
+    fromNumber: String
+    fromUserId: Int
+    policy: String
+    recording: FileStream
+    timeRinging: Time
+    timeStart: Date
+    timeTalking: Time
+    toNumberDialled: String
+    type: String
+}
+
+type Device {
+    description: String
+    enabled: Boolean
+    id: ID
+    location: String
+    macAddress: String
+    password: Null
+    registered: Boolean
+    registrationExpiry: Date
+    sipExtension: String
+}
+
+type GeneralSettings {
+    countryCode: String
+    externalCallerIdNumber: String
+    holdMusic: HoldMusic
+    message: String
+    presentCallerId: Boolean
+    timezone: String
+    voice: String
+}
+
+type Group {
+    category: String
+    emailAddress: String
+    id: ID
+    members: Members
+    name: String
+    sipExtension: String
+    system: Boolean
+}
+
+type HoldMusic {
+    preset: String
+    type: String
+}
+
+type Members {
+    users: [ID]
+}
+
+type Mutation {
+    createDevice(device: createDevice): Device
+    createGroup(group: createGroup): Group
+    createUser(user: CreateUser): User
+    deleteDevice(id: ID): Device
+    deleteGeneralSettings(deleteInput: inputDeleteGSettings): GeneralSettings
+    updateDevice(device: updateDevice, id: ID): Device
+    updateGeneralSettings(settings: inputUpdateGSettings): GeneralSettings
+    updateGroup(group: updateGroup, id: ID): Group
+    updateNumber(id: String, number: updateNumber): Number
+    updateUser(id: ID!, user: UpdateUser): User
+}
+
+type Number {
+    areaCode: String
+    areaName: String
+    countryCode: String
+    geographic: Boolean
+    label: String
+    localNumber: String
+    number: String
+    policyId: ID
+    userId: ID
+}
+
+type Paginated {
+    count: Int
+    firstIndex: Int
+    groups: [Group]!
+    hasMore: Boolean!
+    lastIndex: Int
+    nextIndex: Int
+    numbers: [Number]!
+    prevIndex: Int
+}
+
+type Query {
+    callLogs(searchInput: CallLogSearchInput): [CallLog]
+    device(id: ID): Device
+    devices: [Device]
+    generalSettings: GeneralSettings
+    group(id: ID): Group
+    groups: [Group]!
+    groupsPaginated(index: Int, length: Int): Paginated!
+    numbers: [Number]!
+    numbersPaginated(index: Int, length: Int): Paginated!
+    user(id: ID!): User
+    users: [User]
+}
+
+type User {
+    availabilityProfileId: String
+    availabilityStateId: String
+    connectedTo: String
+    connectedToNumber: String
+    enabled: Boolean
+    firstName: String
+    lastName: String
+    memberOf: [String]
+    middleNames: String
+    password: String
+    pciEnabled: Boolean
+    permissionLevel: String
+    primaryGroupId: String
+    primaryMobileNumber: String
+    scopes: [String]
+    sipDevices: [String]
+    sipExtension: String
+    userId: ID
+    userName: String
+}
+
+enum Flags {
+    ACTIVE_RECORD_FAILED
+    ACTIVE_RECORD_STREAM_FAILED
+    ACTIVE_RECORD_STREAM_SUCCEEDED
+    ACTIVE_RECORD_SUCCEEDED
+    ALERT
+    ANALYTICS_ENABLED
+    ATTENDED_TRANSFERRED
+    BLIND_TRANSFERRED
+    CALLER_ID_WITHHELD
+    CALL_QUEUE_AGENT
+    CALL_QUEUE_IN_PATH
+    CONNECTED_TO_CALL_QUEUE
+    DIAGNOSTICS_ENABLED
+    DIVERTED
+    EARLY_DIVERTED
+    EAVESDROPPED
+    EAVESDROP_ATTACHED
+    LATE_DIVERTED
+    LISTEN_IN_ENABLED
+    PICKED_OFF
+    PICKED_UP
+    RECORDED
+    TRANSFERRED
+    VIRTUAL_CHANNEL
+    VOICEMAIL_RECORD_ENABLED
+}
+
+input CallLogSearchInput {
+    connectedTo: String
+    connectedToNumber: String
+    endTime: String
+    fromNumber: String
+    fromUserId: Int
+    startTime: String
+    toNumberDialled: String
+    uuid: String
+}
+
+input CreateUser {
+    availabilityProfileId: Int
+    availabilityStateId: Int
+    enabled: Boolean!
+    firstName: String!
+    lastName: String!
+    memberOf: [String]
+    middleNames: String!
+    pciEnabled: Boolean
+    permissionLevel: String!
+    pin: String
+    primaryGroupId: Int
+    primaryMobileNumber: String!
+    sipDevices: [String]
+    sipExtension: String
+    userName: String!
+}
+
+input UpdateUser {
+    availabilityProfileId: Int
+    availabilityStateId: Int
+    enabled: Boolean
+    firstName: String
+    lastName: String
+    memberOf: [String]
+    middleNames: String
+    pciEnabled: Boolean
+    permissionLevel: String
+    pin: String
+    primaryGroupId: Int
+    primaryMobileNumber: String
+    sipDevices: [String]
+    sipExtension: String
+    userName: String
+}
+
+input createDevice {
+    description: String
+    enabled: Boolean
+    location: String
+    sipExtension: String
+}
+
+input createGroup {
+    category: String!
+    emailAddress: String
+    name: String!
+    pin: String
+    sipExtension: String
+}
+
+input inputDeleteGSettings {
+    settings: [String]!
+    settingsCategory: String!
+}
+
+input inputUpdateGSettings {
+    countryCode: String
+    externalCallerIdNumber: String
+    presentCallerId: Boolean
+    timezone: String
+    voice: String
+}
+
+input updateDevice {
+    description: String
+    enabled: Boolean
+    location: String
+    password: Null
+    sipExtension: String
+}
+
+input updateGroup {
+    category: String
+    emailAddress: String
+    name: String
+    pin: String
+    sipExtension: String
+}
+
+input updateNumber {
+    label: String
+    userId: PositiveInt
+}
+
+
+scalar Date
+
+scalar Time
+
+scalar FileStream
+
+scalar Null
+
+"Integers that will have a value greater than 0."
+scalar PositiveInt
+
+"Use JavaScript Date object for date/time fields."
+scalar DateTime
+
+"A field whose value conforms to the standard internet email address format as specified in RFC822: https://www.w3.org/Protocols/rfc822/."
+scalar EmailAddress
+
+"A field whose value conforms to the standard E.164 format as specified in: https://en.wikipedia.org/wiki/E.164. Basically this is +17895551234."
+scalar PhoneNumber
+
+"A field whose value conforms to the standard postal code formats for United States, United Kingdom, Germany, Canada, France, Italy, Australia, Netherlands, Spain, Denmark, Sweden, Belgium, India, Austria, Portugal, Switzerland or Luxembourg."
+scalar PostalCode
+
+"A field whose value conforms to the standard URL format as specified in RFC3986: https://www.ietf.org/rfc/rfc3986.txt."
+scalar URL

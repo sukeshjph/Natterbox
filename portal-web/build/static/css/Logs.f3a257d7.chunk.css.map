@@ -1,0 +1,1 @@
+{"version":3,"sources":["CallLog.module.scss"],"names":[],"mappings":"AAAA,sBACE,YAAa,CACd,mCAGC,YAAa","file":"Logs.f3a257d7.chunk.css","sourcesContent":[".paper {\n  width: \"100%\";\n}\n\n.callTypesContainer {\n  display: flex;\n}\n"]}

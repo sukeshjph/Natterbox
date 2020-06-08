@@ -1,0 +1,68 @@
+audit-ci version: 2.5.1
+Modules to whitelist: http-proxy.
+[36mYarn audit report results:[0m
+{
+  "resolution": {
+    "id": 1486,
+    "path": "react-scripts>webpack-dev-server>http-proxy-middleware>http-proxy",
+    "dev": false,
+    "bundled": false,
+    "optional": false
+  },
+  "advisory": {
+    "findings": [
+      {
+        "version": "1.18.0",
+        "paths": [
+          "react-scripts>webpack-dev-server>http-proxy-middleware>http-proxy"
+        ]
+      }
+    ],
+    "id": 1486,
+    "created": "2020-02-21T14:16:24.023Z",
+    "updated": "2020-05-14T19:10:42.605Z",
+    "deleted": null,
+    "title": "Denial of Service",
+    "found_by": {
+      "link": "https://twitter.com/_awry",
+      "name": "Grant Murphy",
+      "email": ""
+    },
+    "reported_by": {
+      "link": "https://twitter.com/_awry",
+      "name": "Grant Murphy",
+      "email": ""
+    },
+    "module_name": "http-proxy",
+    "cves": [],
+    "vulnerable_versions": ">=0.0.0",
+    "patched_versions": "<0.0.0",
+    "overview": "All versions of `http-proxy` are vulnerable to Denial of Service. An HTTP request with a long body triggers an `ERR_HTTP_HEADERS_SENT` unhandled exception that crashes the proxy server. This is only possible when the proxy server sets headers in the proxy request using the `proxyReq.setHeader` function.   \n\nFor a proxy server running on `http://localhost:3000`, the following curl request triggers the unhandled exception:  \n```curl -XPOST http://localhost:3000 -d \"$(python -c 'print(\"x\"*1025)')\"```",
+    "recommendation": "No fix is currently available. Consider using an alternative package until a fix is made available.",
+    "references": "",
+    "access": "public",
+    "severity": "high",
+    "cwe": "CWE-400",
+    "metadata": {
+      "module_type": "",
+      "exploitability": 4,
+      "affected_components": ""
+    },
+    "url": "https://npmjs.com/advisories/1486"
+  }
+}
+{
+  "vulnerabilities": {
+    "info": 0,
+    "low": 3,
+    "moderate": 0,
+    "high": 1,
+    "critical": 0
+  },
+  "dependencies": 2183,
+  "devDependencies": 0,
+  "optionalDependencies": 0,
+  "totalDependencies": 2183
+}
+[36mModules to whitelist: http-proxy.[0m
+[32mPassed yarn security audit.[0m
