@@ -1,0 +1,12 @@
+{
+  "compilerOptions": {
+    "sourceMap": true,
+    "baseUrl": "./",
+    "paths": {
+      "@/*": ["src/*"],
+      "@domains/*": ["src/domains/*"],
+      "@plugins/*": ["src/plugins/*"],
+      "@dataSources/*": ["src/dataSources/*"]
+    }
+  }
+}

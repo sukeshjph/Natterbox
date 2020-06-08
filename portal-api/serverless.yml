@@ -1,0 +1,34 @@
+service: serverless-graphql-rest
+
+frameworkVersion: ">=1.21.0 <2.0.0"
+
+provider:
+  name: aws
+  runtime: nodejs8.10
+  stage: dev
+  region: eu-west-1
+
+plugins:
+  - serverless-offline
+  - serverless-webpack
+
+custom:
+  serverless-offline:
+    port: 4000
+  webpackIncludeModules: true
+
+functions:
+  graphql:
+    handler: server.graphqlHandler
+    events:
+      - cloudwatchLog:
+          logGroup: "/aws/lambda/hello"
+      #          filter: '{$.userIdentity.type = Root}'
+      - http:
+          path: graphql
+          method: post
+          cors: true
+      - http:
+          path: playground
+          method: get
+          cors: true
