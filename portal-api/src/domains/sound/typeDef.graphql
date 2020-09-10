@@ -1,0 +1,17 @@
+type Sound {
+  id: Int
+  tag: String
+  description: String
+  size: Int
+  created: String
+  modified: String
+}
+
+extend type Query {
+  soundPaginated(index: Int, length: Int): Paginated
+  sound: [Sound]
+}
+
+extend type Paginated {
+  sound: [Sound]
+}

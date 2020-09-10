@@ -12,6 +12,9 @@ export async function getEndpoint(_self, stub, url, params = "") {
 export async function postEndpoint(_self, stub, url, data) {
   return _self.post(url, data, {
     timeout: _self.context.getRemainingTimeInMillis,
+    headers: {
+      'Content-Type': 'application/json',
+    },
   })
 }
 
@@ -33,4 +36,13 @@ export async function deleteEndpoint(_self, stub, url) {
     {},
     { timeout: _self.context.getRemainingTimeInMillis },
   )
+}
+
+export async function putEndpoint(_self, stub, url, data) {
+  if (process.env.STUBS === "true") {
+    return stub
+  }
+  return _self.put(url, data, {
+    timeout: _self.context.getRemainingTimeInMillis,
+  })
 }

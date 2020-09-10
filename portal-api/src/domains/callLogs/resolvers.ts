@@ -1,15 +1,79 @@
 import { keys, isNil } from "ramda"
 import { parseISO, isAfter, isBefore } from "date-fns"
-import { getResultsFilteredByKeys } from "../../utils/tools"
-import { CallLog } from "../../resolvers-types"
+import { getResultsFilteredByKeys } from "@/utils/tools"
+import { CallLog } from "@/resolvers-types"
+
+const { getPaginatedResults } = require("@/utils/tools")
 
 type CallogExtended = CallLog & {
   aUuid: string
   bUuid: string
 }
 
+const getFilteredLogs = (callLogs, searchInput) =>
+  getResultsFilteredByKeys<CallogExtended>(
+    callLogs,
+    keys(searchInput)
+      .filter(x => x)
+      .reduce(
+        (acc, curkey) => ({
+          ...acc,
+          [curkey]: searchInput[curkey],
+        }),
+        {},
+      ),
+    {
+      startTime: item => {
+        const { startTime } = searchInput
+        return isNil(startTime)
+          ? item
+          : isAfter(parseISO(item.timeStart), parseISO(startTime))
+      },
+      endTime: item => {
+        const { endTime } = searchInput
+        return isNil(endTime)
+          ? item
+          : isBefore(parseISO(item.timeStart), parseISO(endTime))
+      },
+      uuid: item => {
+        const { aUuid, bUuid } = item
+        let foundMatch = false
+
+        if (aUuid && searchInput.uuid === aUuid) {
+          foundMatch = true
+        }
+
+        if (bUuid && searchInput.uuid === bUuid) {
+          foundMatch = true
+        }
+
+        return foundMatch
+      },
+    },
+  )
+
 const resolvers = {
   Query: {
+    callLogsPaginated: async (
+      root,
+      { index, length, searchInput },
+      context,
+    ) => {
+      context.logger.debug("Start of resolver CallLog.callLogs")
+      const logs = await context.dataSources.sapienAPI.getCallLogs()
+      let logsData = logs.data
+
+      if (searchInput && Object.keys(searchInput).length !== 0) {
+        logsData = getFilteredLogs(logsData, searchInput)
+      }
+
+      return getPaginatedResults({
+        index,
+        length,
+        results: logsData.reverse(),
+        dynamicKey: "callLogs",
+      })
+    },
     callLogs: async (root, args, context) => {
       context.logger.debug("Start of resolver CallLog.callLogs")
       const logs = await context.dataSources.sapienAPI.getCallLogs()
@@ -17,46 +81,7 @@ const resolvers = {
       const { searchInput } = args
 
       if (searchInput && Object.keys(searchInput).length !== 0) {
-        return getResultsFilteredByKeys<CallogExtended>(
-          logs.data,
-          keys(searchInput)
-            .filter(x => x)
-            .reduce(
-              (acc, curkey) => ({
-                ...acc,
-                [curkey]: searchInput[curkey],
-              }),
-              {},
-            ),
-          {
-            startTime: item => {
-              const { startTime } = searchInput
-              return isNil(startTime)
-                ? item
-                : isAfter(parseISO(item.timeStart), parseISO(startTime))
-            },
-            endTime: item => {
-              const { endTime } = searchInput
-              return isNil(endTime)
-                ? item
-                : isBefore(parseISO(item.timeStart), parseISO(endTime))
-            },
-            uuid: item => {
-              const { aUuid, bUuid } = item
-              let foundMatch = false
-
-              if (aUuid && searchInput.uuid === aUuid) {
-                foundMatch = true
-              }
-
-              if (bUuid && searchInput.uuid === bUuid) {
-                foundMatch = true
-              }
-
-              return foundMatch
-            },
-          },
-        )
+        return getFilteredLogs(logs.data, searchInput)
       }
 
       return logs.data

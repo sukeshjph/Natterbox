@@ -1,3 +1,5 @@
+const { getPaginatedResults } = require("@/utils/tools")
+
 const resolvers = {
   Mutation: {
     createDevice: async (root, args, context) => {
@@ -34,6 +36,17 @@ const resolvers = {
     },
   },
   Query: {
+    devicesPaginated: async (root, { index, length }, context) => {
+      context.logger.debug("Start of Resolver Device.devices")
+      const devices = await context.dataSources.sapienAPI.getDevices()
+
+      return getPaginatedResults({
+        index,
+        length,
+        results: devices.data.reverse(),
+        dynamicKey: "devices",
+      })
+    },
     devices: async (root, args, context) => {
       context.logger.debug("Start of Resolver Device.devices")
       const devices = await context.dataSources.sapienAPI.getDevices()

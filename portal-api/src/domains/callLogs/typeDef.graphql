@@ -43,6 +43,11 @@ type CallLog {
 }
 
 extend type Query {
+  callLogsPaginated(
+    index: Int
+    length: Int
+    searchInput: CallLogSearchInput
+  ): Paginated!
   callLogs(searchInput: CallLogSearchInput): [CallLog]
 }
 
@@ -55,4 +60,8 @@ input CallLogSearchInput {
   toNumberDialled: String
   connectedTo: String
   connectedToNumber: String
+}
+
+extend type Paginated {
+  callLogs: [CallLog]!
 }

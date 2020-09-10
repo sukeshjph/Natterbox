@@ -14,6 +14,22 @@ const resolvers = {
 
       return result.data
     },
+    deleteNumber: async (root, { countryCode, number}, context) => {
+      context.logger.debug("Start of resolver Number.deleteNumber", {
+        meta: {
+          number,
+          countryCode
+        }
+      })
+
+      const result = await context.dataSources.coreAPI.deleteNumber(
+        countryCode,
+        number,
+      )
+
+      console.log(`Delete number`, JSON.stringify(result))
+      return result
+    },
   },
   Query: {
     numbersPaginated: async (root, { index, length }, context) => {

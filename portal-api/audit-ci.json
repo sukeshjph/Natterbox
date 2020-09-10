@@ -1,0 +1,10 @@
+{
+  "low": "high",
+  "package-manager": "yarn",
+  "allowlist": [
+    1213,
+    1547
+  ],
+  "whitelist": ["dot-prop", "elliptic"],
+  "registry": "https://registry.npmjs.org"
+}

@@ -49,21 +49,28 @@ export const getPaginatedResults = ({
   return objPage
 }
 
+export enum CompareTypes {
+  IS = "Is",
+  LIKE = "Like",
+}
+
 export const getResultsFilteredByKeys = <T extends unknown>(
   results: T[] = [],
   keysObj: Record<string, string>,
   filterFuncObj?: Record<string, (item: any) => boolean>,
+  compareType: CompareTypes = CompareTypes.IS,
 ): T[] => {
   const allKeys = keys(keysObj)
-
   if (allKeys.length === 0) return []
-
   return allKeys.reduce(
     (accResults, key) =>
       accResults.filter(obj => {
-        return keys(filterFuncObj).includes(key)
-          ? filterFuncObj[key](obj)
-          : obj[key] === keysObj[key]
+        if (keys(filterFuncObj).includes(key)) {
+          return filterFuncObj[key](obj)
+        }
+        return compareType === CompareTypes.IS
+          ? obj[key] === keysObj[key]
+          : obj[key].toUpperCase().includes(keysObj[key].toUpperCase())
       }),
     results,
   )

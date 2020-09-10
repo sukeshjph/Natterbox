@@ -11,6 +11,7 @@ type Device {
 }
 
 extend type Query {
+  devicesPaginated(index: Int, length: Int): Paginated!
   devices: [Device]
   device(id: ID): Device
 }
@@ -34,4 +35,8 @@ input createDevice {
   description: String
   location: String
   enabled: Boolean
+}
+
+extend type Paginated {
+  devices: [Device]!
 }

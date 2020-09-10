@@ -1,0 +1,65 @@
+enum PolicyType {
+  CALL,
+  NON_CALL,
+  SYSTEM
+}
+
+type Policy {
+  id: ID
+  name: String
+  type: PolicyType
+  enabled: Boolean
+  created: DateTime
+  modified: DateTime
+  items: [ PolicyItems ]
+}
+
+input policyInput {
+  id: ID
+  name: String
+  type: PolicyType
+  enabled: Boolean
+  created: DateTime
+  modified: DateTime
+  items: [ PolicyItemsInput ]
+}
+
+input PolicyItemsInput {
+  id: ID
+  name: String
+  templateId: ID
+  variables: JSON
+  subItems: JSON
+}
+
+type PolicyItems {
+  id: ID
+  name: String
+  templateId: ID
+  variables: JSON
+  subItems: JSON
+}
+
+input PolicySearchInput {
+  name: String
+}
+
+extend type Mutation {
+  putPolicy(id: ID, policy: policyInput): Policy
+  createPolicy(policy: policyInput): Policy
+}
+
+extend type Query {
+  policiesPaginated(
+    index: Int #  The number of results to show. Must be >= 1. Default = 100
+    length: Int # If you add a cursor here, it will only return results _after_ this cursor
+    searchInput: PolicySearchInput
+    type: String
+  ): Paginated!
+  policies: [Policy]!
+  policy(id: ID): Policy
+}
+
+extend type Paginated { # add this below the Query type as an additional type.
+  policies: [Policy]!
+}

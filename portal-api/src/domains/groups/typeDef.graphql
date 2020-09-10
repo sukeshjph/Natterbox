@@ -4,6 +4,51 @@ type Group {
   name: String
   system: Boolean
   category: String
+  emailAddress: String
+  members: Members
+}
+
+type Logins {
+  login: JSON
+}
+
+type Members {
+  users: [ID]
+}
+
+input MembersInput {
+  users: [Int]
+}
+
+extend type Mutation {
+  updateGroup(id: ID, group: updateGroup): Group
+  createGroup(group: createGroup): Group
+  updateGroupUsers(
+    id: ID # ID of the group
+    users: JSON
+  ): Group
+}
+
+input createGroup {
+  name: String!
+  category: String!
+  sipExtension: String
+  emailAddress: String
+  pin: String
+  members: MembersInput
+}
+
+input updateGroup {
+  name: String
+  category: String
+  sipExtension: String
+  emailAddress: String
+  pin: String
+  members: MembersInput
+}
+
+type GroupLoggedIn {
+  ID: Boolean
 }
 
 extend type Query {
@@ -11,8 +56,25 @@ extend type Query {
     index: Int #  The number of results to show. Must be >= 1. Default = 100
     length: Int # If you add a cursor here, it will only return results _after_ this cursor
   ): Paginated!
+  group(id: ID): Group
+  groups: [Group]!
+  groupMembersPaginated(
+    id: ID
+    index: Int #  The number of results to show. Must be >= 1. Default = 100
+    length: Int # If you add a cursor here, it will only return results _after_ this cursor
+  ): Paginated
+  groupLoggedIn(id: ID!): Logins
+}
+
+extend type User {
+  loggedIn: Boolean
+}
+
+extend type Paginated { # add this below the Query type as an additional type.
+  usersExtended: [User]
 }
 
 extend type Paginated { # add this below the Query type as an additional type.
   groups: [Group]!
+  members: [User]
 }

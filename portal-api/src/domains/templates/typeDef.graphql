@@ -1,0 +1,19 @@
+type Template {
+    id: ID
+    parent: ID
+    name: String
+    description: String
+    type: String
+    variables: TemplateVariables
+}
+
+type TemplateVariables {
+    type: String
+    additionalProperties: Boolean
+    properties: JSON
+}
+
+extend type Query {
+    template(id: ID): Template
+    templates: [Template]!
+}

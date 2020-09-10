@@ -1,10 +1,25 @@
 import { ApolloServer } from "apollo-server-lambda"
 import { makeExecutableSchema } from "graphql-tools"
 import logger from "@plugins/winston"
+import cacheManager from "cache-manager"
+
+// our libs
 import lifecycleInterceptor from "@plugins/lifecycleInterceptor"
 import typeDefs from "@/schema"
 import resolvers from "@/resolvers"
 import SapienAPI from "@dataSources/sapienAPI"
+import CoreAPI from "@dataSources/coreAPI"
+import CoreApiAuth from "@plugins/coreApiAuth"
+import Cache from "@plugins/cache"
+
+// config libs
+const memoryCache = cacheManager.caching({
+  store: "memory",
+  max: 100,
+  ttl: 3000 /* seconds */,
+})
+const cache = new Cache(memoryCache)
+const coreApiAuth = new CoreApiAuth()
 
 const playground =
   process.env.PLAYGROUND === "true"
@@ -21,8 +36,9 @@ const server = new ApolloServer({
   }),
   dataSources: () => ({
     sapienAPI: new SapienAPI(),
+    coreAPI: new CoreAPI(),
   }),
-  context: ({ event, context }) => {
+  context: async ({ event, context }) => {
     // get the user token from the headers
     let token = event.headers.Authorization || ""
     token = token.replace("Bearer ", "")
@@ -48,7 +64,66 @@ const server = new ApolloServer({
       userID: authContext.userID,
     })
 
+    const oldCacheKeys = await cache.memoryCache.keys()
+
+    // whats in our cache?
+    logger.info("Cache Keys", {
+      meta: {
+        cacheKeys: oldCacheKeys,
+        token,
+      },
+    })
+
+    // Try and get a cached Lasso Token
+    let lassoToken
+    const cachedValue = await cache.get(token)
+
+    // if one not available then get it and stash it
+    if (!cachedValue) {
+      logger.info("No cached token")
+      try {
+        lassoToken = await coreApiAuth.getLassoToken(
+          authContext.orgID,
+          authContext.userID,
+          token,
+          childLogger,
+        )
+
+        logger.info("Got token from lasso", {
+          meta: {
+            token,
+            lassoToken,
+          },
+        })
+
+        await cache.set(token, lassoToken)
+        const updatedCacheKeys = await cache.memoryCache.keys()
+
+        // whats in our cache?
+        logger.info("Cache Keys after caching", {
+          meta: {
+            cacheKeys: updatedCacheKeys,
+            token,
+          },
+        })
+      } catch (error) {
+        logger.error("Couldn't get Lasso Token")
+      }
+
+      if (!lassoToken) {
+        logger.error("Couldn't get Lasso Token")
+        // throw new Error("Internal server error")
+      }
+    } else {
+      lassoToken = cachedValue
+    }
+
+    logger.info("Token is cached", {
+      meta: cachedValue,
+    })
+
     return {
+      lassoToken,
       authContext,
       token,
       headers: event.headers,

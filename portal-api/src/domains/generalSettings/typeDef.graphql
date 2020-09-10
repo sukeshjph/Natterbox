@@ -3,7 +3,22 @@ type HoldMusic {
   preset: String
 }
 
-type GeneralSettings {
+enum TwoFactorAuth {
+  OPTIONAL
+  MANDATORY
+}
+
+enum DirectNotifications {
+  YES
+  NO
+}
+
+enum LogCompliance {
+  YES
+  NO
+}
+
+type LocaleSettings {
   externalCallerIdNumber: String
   presentCallerId: Boolean
   timezone: String
@@ -13,16 +28,47 @@ type GeneralSettings {
   message: String
 }
 
+type GeneralSettings {
+  orgId: ID
+  name: String
+  alias: String
+  maxUsers: String
+  maxDevices: String
+  maxConnectors: String
+  maxSIPTrunkLicenses: String
+  directNotifications: DirectNotifications
+  logCompliance: LogCompliance
+  twoFactorAuth: TwoFactorAuth
+}
+
 extend type Query {
   generalSettings: GeneralSettings
+  localeSettings: LocaleSettings
 }
 
 extend type Mutation {
-  updateGeneralSettings(settings: inputUpdateGSettings): GeneralSettings
-  deleteGeneralSettings(deleteInput: inputDeleteGSettings): GeneralSettings
+  updateGeneralSettings(
+    id: ID
+    settings: inputUpdateGeneralSettings
+  ): GeneralSettings
+  updateLocaleSettings(settings: inputUpdateLocaleSettings): LocaleSettings
+  deleteLocaleSettings(deleteInput: inputDeleteLocaleSettings): LocaleSettings
 }
 
-input inputUpdateGSettings {
+input inputUpdateGeneralSettings {
+  orgId: ID
+  name: String
+  alias: String
+  maxUsers: String
+  maxDevices: String
+  maxConnectors: String
+  maxSIPTrunkLicenses: String
+  directNotifications: DirectNotifications
+  logCompliance: LogCompliance
+  twoFactorAuth: TwoFactorAuth
+}
+
+input inputUpdateLocaleSettings {
   externalCallerIdNumber: String
   presentCallerId: Boolean
   timezone: String
@@ -30,7 +76,7 @@ input inputUpdateGSettings {
   countryCode: String
 }
 
-input inputDeleteGSettings {
+input inputDeleteLocaleSettings {
   settingsCategory: String!
   settings: [String]!
 }

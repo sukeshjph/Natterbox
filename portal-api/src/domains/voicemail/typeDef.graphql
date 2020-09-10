@@ -1,0 +1,31 @@
+type Voicemail {
+    emailNotification: Boolean
+    emailTo: [ String ]
+    emailAttachFile: Boolean
+    emailKeepFile: Boolean
+    ccMailboxes: ccMailboxes
+}
+
+input inputVoicemail {
+    emailNotification: Boolean
+    emailTo: [ String ]
+    emailAttachFile: Boolean
+    emailKeepFile: Boolean
+    ccMailboxes: inputCCMailboxes
+}
+
+input inputCCMailboxes {
+    users: [Int]
+}
+
+type ccMailboxes {
+    users: [Int]
+}
+
+extend type Mutation {
+    updateVoicemail(id: ID, voicemail: inputVoicemail): Voicemail
+}
+
+extend type Query {
+    voicemail(id: ID): Voicemail
+}

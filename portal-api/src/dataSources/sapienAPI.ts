@@ -6,8 +6,9 @@ import userStub, {
   getUserStub,
   createUserStub,
   updateUserStub,
+  deleteUserStub,
 } from "@domains/users/stub"
-import policyStub from "@domains/policies/stub"
+import { getPolicyByIdStub, getPoliciesStub } from "@domains/policies/stub"
 import recordingStub from "@domains/recordings/stub"
 import {
   devicesStub,
@@ -16,19 +17,26 @@ import {
   updateDeviceStub,
   deleteDeviceStub,
 } from "@domains/devices/stub"
+import { soundStub } from "@domains/sound/stub"
 import { numbersStub } from "@domains/numbers/stub"
 import {
   generalSettingsStub,
   generalSettingsUpdateStub,
   generalSettingsDeleteStub,
 } from "@domains/generalSettings/stub"
-import { groupsStub } from "@domains/groups/stub"
+import {
+  groupsStub,
+  groupStub,
+  groupMembersLoggedIn,
+} from "@domains/groups/stub"
+import { getVoicemailStub } from "@domains/voicemail/stub"
 
 import {
   postEndpoint,
   getEndpoint,
   patchEndpoint,
   deleteEndpoint,
+  putEndpoint,
 } from "@/utils/callEndpoint"
 
 class SapienAPI extends RESTDataSource {
@@ -40,7 +48,7 @@ class SapienAPI extends RESTDataSource {
   // SET AUTH HEADER
   willSendRequest(request) {
     request.headers.set("Authorization", `Bearer ${this.context.token}`)
-    this.context.logger.silly("sapienAPI.willSendRequest", { meta: request })
+    this.context.logger.debug("sapienAPI.willSendRequest", { meta: request })
   }
 
   getCommonUrl(context) {
@@ -53,6 +61,15 @@ class SapienAPI extends RESTDataSource {
       this,
       callLogsStub,
       `${this.getCommonUrl(this.context)}/log/call`,
+    )
+  }
+
+  // GET CALL SOUND
+  async getAllSound() {
+    return getEndpoint(
+      this,
+      soundStub,
+      `${this.getCommonUrl(this.context)}/sound`,
     )
   }
 
@@ -74,24 +91,50 @@ class SapienAPI extends RESTDataSource {
     )
   }
 
+  async getGroupLoggedIn(groupId) {
+    return getEndpoint(
+      this,
+      groupMembersLoggedIn,
+      `${this.getCommonUrl(this.context)}/user-group/${groupId}/user-login`,
+    )
+  }
+
+  async updateGroupLoggedIn(groupId, loggedIn) {
+    return patchEndpoint(
+      this,
+      groupMembersLoggedIn,
+      `${this.getCommonUrl(this.context)}/user-group/${groupId}/user-login`,
+      loggedIn,
+    )
+  }
+
   // CREATE A NEW USER
-  async createUser(user) {
+  async createUser(userInput) {
     return postEndpoint(
       this,
       createUserStub,
       `${this.getCommonUrl(this.context)}/user`,
-      user,
+      userInput,
     )
   }
 
   // UPDATE AN EXISTING USER
 
-  async updateUser(user) {
+  async updateUser(id, user) {
     return patchEndpoint(
       this,
       updateUserStub,
-      `${this.getCommonUrl(this.context)}/user/${user.id}`,
+      `${this.getCommonUrl(this.context)}/user/${id}`,
       user,
+    )
+  }
+
+  // DELETE User
+  async deleteUser(id) {
+    return deleteEndpoint(
+      this,
+      deleteUserStub,
+      `${this.getCommonUrl(this.context)}/user/${id}`,
     )
   }
 
@@ -100,9 +143,47 @@ class SapienAPI extends RESTDataSource {
     const params = "?_limit=100"
     return getEndpoint(
       this,
-      policyStub,
+      getPolicyByIdStub,
       `${this.getCommonUrl(this.context)}/dial-plan/policy/${policyId}`,
       params,
+    )
+  }
+
+  async postPolicy(policy) {
+    return postEndpoint(
+      this,
+      getPoliciesStub,
+      `${this.getCommonUrl(
+        this.context,
+      )}/dial-plan/policy`,
+      policy,
+    )
+  }
+
+  async putPolicy(id, policy) {
+    return putEndpoint(
+      this,
+      getPoliciesStub,
+      `${this.getCommonUrl(this.context)}/dial-plan/policy/${id}`,
+      policy,
+    )
+  }
+
+  // GET POLICIES
+  async getPolicies() {
+    return getEndpoint(
+      this,
+      getPoliciesStub,
+      `${this.getCommonUrl(this.context)}/dial-plan/policy`,
+    )
+  }
+
+  // GET POLICY
+  async getPolicy() {
+    return getEndpoint(
+      this,
+      getPoliciesStub,
+      `${this.getCommonUrl(this.context)}/dial-plan/policy`,
     )
   }
 
@@ -179,7 +260,7 @@ class SapienAPI extends RESTDataSource {
   }
 
   // GET General settings
-  async getGeneralSettings() {
+  async getLocaleSettings() {
     return getEndpoint(
       this,
       generalSettingsStub,
@@ -188,7 +269,7 @@ class SapienAPI extends RESTDataSource {
   }
 
   // Update general settings
-  async updateGeneralSettings(settings) {
+  async updateLocale(settings) {
     const response = await patchEndpoint(
       this,
       generalSettingsUpdateStub,
@@ -203,7 +284,7 @@ class SapienAPI extends RESTDataSource {
   }
 
   // Delete general settings
-  async deleteGeneralSettings(deleteSettings) {
+  async deleteLocale(deleteSettings) {
     const { settingsCategory, settingName } = deleteSettings
     let response = ""
 
@@ -231,12 +312,83 @@ class SapienAPI extends RESTDataSource {
     return response
   }
 
+  // UPDATE GROUPS
+  async updateGroup(id, group) {
+    return patchEndpoint(
+      this,
+      groupStub,
+      `${this.getCommonUrl(this.context)}/user-group/${id}`,
+      group,
+    )
+  }
+
+  // CREATE GROUP
+  async createGroup(group) {
+    return postEndpoint(
+      this,
+      groupStub,
+      `${this.getCommonUrl(this.context)}/user-group`,
+      group,
+    )
+  }
+
   // GET GROUPS
   async getGroups() {
     return getEndpoint(
       this,
       groupsStub,
       `${this.getCommonUrl(this.context)}/user-group`,
+    )
+  }
+
+  // GET GROUP
+  async getGroup(id) {
+    return getEndpoint(
+      this,
+      groupStub,
+      `${this.getCommonUrl(this.context)}/user-group/${id}`,
+    )
+  }
+
+  // GET GROUP
+  async getTemplates() {
+    return getEndpoint(
+      this,
+      groupStub,
+      `${this.getCommonUrl(this.context)}/dial-plan/template`,
+    )
+  }
+
+  // GET GROUP
+  async getTemplate(id) {
+    return getEndpoint(
+      this,
+      groupStub,
+      `${this.getCommonUrl(this.context)}/dial-plan/template/${id}`,
+    )
+  }
+
+  // TEST
+  async getTest() {
+    return getEndpoint(this, {}, `${this.baseURL}/v1/test/secure`)
+  }
+
+  // GET VOICEMAIL
+  async getVoicemail(userID) {
+    return getEndpoint(
+      this,
+      getVoicemailStub,
+      `${this.getCommonUrl(this.context)}/user/${userID}/setting/voicemail`,
+    )
+  }
+
+  // GET VOICEMAIL
+  async patchVoicemail(userID, data) {
+    return patchEndpoint(
+      this,
+      getVoicemailStub,
+      `${this.getCommonUrl(this.context)}/user/${userID}/setting/voicemail`,
+      data,
     )
   }
 }

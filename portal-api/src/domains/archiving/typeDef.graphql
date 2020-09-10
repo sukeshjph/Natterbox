@@ -1,0 +1,151 @@
+type DefaultPolicy {
+  Type: String
+  PolicyID: Int
+}
+
+type OtherVersion {
+  ThisVersion: String
+  VersionNumber: String
+  ModifyTimeEpoch: String
+  ModifiedByUserID: String
+}
+
+type OrgUser {
+  UserID: String
+  CanRead: String
+  CanDelete: String
+}
+
+type OrgPolicy {
+  ID: Int
+  Name: String
+  Mode: String
+  Version: Int
+  OrgID: Int
+  RetentionMin: Int
+  RetentionMax: Int
+  ReducedRedundancy: String
+  StorageEndpointID: Int
+  OwnerUser: String
+  AskReasonForAccess: String
+  Description: String
+  AutoApproveDataSubjectRequest: String
+  AllowUnrestrictedAccess: String
+  DisallowRecordingDownload: String
+  ACLType: String
+  Groups: String
+  OtherVersions: [OtherVersion]
+  Users: [OrgUser]
+  DataCustodians: String
+}
+
+type Endpoint {
+  ID: Int
+  Name: String
+  Type: String
+  Encrypted: String
+  Compressed: String
+  RetentionManaged: String
+  OrgID: Int
+  Bucket: String
+  Region: String
+  AwsRegion: String
+}
+
+extend type Query {
+  defaultPolicies: [DefaultPolicy]
+  endpoints: [Endpoint]
+  orgPolicies: [OrgPolicy]
+}
+
+extend type Mutation {
+  createArchivingPolicy(policyToCreate: inputCreatePolicy): OrgPolicy
+}
+
+input inputOtherVersion {
+  ThisVersion: String
+  VersionNumber: String
+  ModifyTimeEpoch: String
+  ModifiedByUserID: String
+}
+
+input inputOrgUser {
+  UserID: String
+  CanRead: String
+  CanDelete: String
+}
+
+input updatableWithString {
+  Updatable: String
+  Value: String
+}
+
+input updatableWithInt {
+  Updatable: String
+  Value: Int
+}
+
+input retentionType {
+  Updatable: String
+  Value: Int
+  Unit: String
+}
+
+input ownerUser {
+  Updatable: String
+  CanRead: String
+  CanDelete: String
+}
+
+input inputUsersDTO {
+  childKey: String
+  Value: [inputOrgUser]
+}
+
+input inputUsers {
+  Updatable: String
+  Value: inputUsersDTO
+}
+
+input inputOtherVersionDTO {
+  childKey: String
+  Value: [inputOtherVersion]
+}
+
+input inputOtherVersions {
+  Updatable: String
+  Value: inputOtherVersionDTO
+}
+
+input dataCustodian {
+  Updatable: String
+  Notify: String
+  Value: String
+}
+
+input policyInputObject {
+  Name: updatableWithString
+  Mode: updatableWithString
+  Version: updatableWithInt
+  OrgID: updatableWithInt
+  RetentionMin: retentionType
+  RetentionMax: retentionType
+  ReducedRedundancy: updatableWithString
+  StorageEndpointID: updatableWithInt
+  OwnerUser: ownerUser
+  AskReasonForAccess: updatableWithString
+  Description: updatableWithString
+  AutoApproveDataSubjectRequest: updatableWithString
+  AllowUnrestrictedAccess: updatableWithString
+  DisallowRecordingDownload: updatableWithString
+  ACLType: updatableWithString
+  Groups: updatableWithString
+  OtherVersions: inputOtherVersions
+  Users: inputUsers
+  DataCustodians: dataCustodian
+}
+
+input inputCreatePolicy {
+  ReadOnly: String
+  Value: policyInputObject
+}

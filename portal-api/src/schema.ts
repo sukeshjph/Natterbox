@@ -6,13 +6,20 @@ import devices from "@domains/devices"
 import numbers from "@domains/numbers"
 import generalSettings from "@domains/generalSettings"
 import groups from "@domains/groups"
+import sound from "@domains/sound"
+import health from "@domains/health"
+import policies from "@domains/policies"
+import templates from "@domains/templates"
+import voicemail from "@domains/voicemail"
+import archiving from "@domains/archiving"
 
 const typeDef = gql`
   scalar Date
   scalar Time
   scalar FileStream
   scalar Null
-  
+  scalar JSON
+
   #  from graphql-scalars
   scalar DateTime
   scalar EmailAddress
@@ -23,14 +30,14 @@ const typeDef = gql`
 
   type Query
   type Mutation
-  
+
   type Paginated {
-      hasMore: Boolean!
-      firstIndex: Int
-      lastIndex: Int
-      prevIndex: Int
-      nextIndex: Int
-      count: Int
+    hasMore: Boolean!
+    firstIndex: Int
+    lastIndex: Int
+    prevIndex: Int
+    nextIndex: Int
+    count: Int
   }
 `
 
@@ -41,5 +48,11 @@ export default [
   devices.typeDef,
   numbers.typeDef,
   generalSettings.typeDef,
-  groups.typeDef
+  groups.typeDef,
+  sound.typeDef,
+  health.typeDef,
+  policies.typeDef,
+  templates.typeDef,
+  voicemail.typeDef,
+  archiving.typeDef,
 ]

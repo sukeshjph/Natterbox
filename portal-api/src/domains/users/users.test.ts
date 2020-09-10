@@ -5,7 +5,7 @@ import SapienAPI from "@dataSources/sapienAPI"
 import userResolvers from "./resolvers"
 
 const userObj = {
-  id: 2282,
+  userId: 2282,
   userName: "sheriour1@redmatter.com",
   firstName: "Marek",
   lastName: "Dziekan",

@@ -3,10 +3,10 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "audit-ci": "audit-ci --high --advisories 1217",
+    "audit-ci": "audit-ci",
     "test": "env-cmd -f .env.stubs jest",
-    "stubs": "env-cmd -f .env.stubs serverless offline start --httpPort 4000 --websocketPort 4001 --lambdaPort 4002",
-    "qa": "env-cmd -f .env.qa serverless offline start --httpPort 4000 --websocketPort 4001 --lambdaPort 4002",
+    "stubs": "env-cmd -f .env.stubs nodemon --exec serverless offline start --httpPort 4000 --websocketPort 4001 --lambdaPort 4002",
+    "qa": "env-cmd -f .env.qa nodemon --exec serverless offline start --httpPort 4000 --websocketPort 4001 --lambdaPort 4002 --noTimeout",
     "staging": "env-cmd -f .env.staging serverless offline start --httpPort 4000 --websocketPort 4001 --lambdaPort 4002",
     "deploy-prod": "serverless --stage=production deploy",
     "lint": "eslint .",
@@ -24,9 +24,12 @@
     "apollo-server-lambda": "^2.2.1",
     "axios": "^0.19.2",
     "babel-plugin-source-map-support": "^2.1.1",
+    "cache-manager": "^3.3.0",
     "dataloader": "^2.0.0",
     "date-fns": "^2.14.0",
-    "eslint-import-resolver-webpack": "^0.12.1",
+    "dot-prop": "^5.2.0",
+    "elliptic": "^6.5.3",
+    "eslint-import-resolver-webpack": "^0.12.2",
     "glob": "^7.1.6",
     "graphql": "^14.6.0",
     "graphql-scalars": "^1.1.2",
@@ -35,12 +38,15 @@
     "husky": "^4.2.3",
     "jsonwebtoken": "^8.5.1",
     "node-fetch": "^1.7.3",
+    "nodemon": "^2.0.4",
     "oauth": "^0.9.15",
     "path": "^0.12.7",
     "qs": "^6.9.3",
     "ramda": "^0.27.0",
+    "serverless-dynamodb-local": "^0.2.39",
     "source-map-support": "^0.5.16",
-    "winston": "^3.2.1"
+    "winston": "^3.2.1",
+    "xml2js": "^0.4.23"
   },
   "devDependencies": {
     "@babel/core": "^7.9.0",
@@ -50,11 +56,13 @@
     "@graphql-codegen/typescript": "^1.13.4",
     "@graphql-codegen/typescript-graphql-files-modules": "^1.13.4",
     "@graphql-codegen/typescript-resolvers": "^1.13.4",
+    "@types/cache-manager": "^2.10.3",
     "@types/date-fns": "^2.6.0",
     "@types/ramda": "^0.27.6",
+    "@types/xml2js": "^0.4.5",
     "@typescript-eslint/eslint-plugin": "2.24.0",
     "@typescript-eslint/parser": "^2.30.0",
-    "audit-ci": "^2.5.1",
+    "audit-ci": "^3.1.1",
     "aws-sdk": "^2.4.8",
     "babel-loader": "^8.1.0",
     "body-parser": "^1.15.2",
@@ -74,12 +82,12 @@
     "jest": "^25.2.2",
     "lint-staged": "^10.0.8",
     "prettier": "1.19.1",
-    "serverless": "^1.67.0",
-    "serverless-offline": "5.12.0",
-    "serverless-webpack": "5.3.1",
+    "serverless": "^1.78.0",
+    "serverless-offline": "6.5.0",
+    "serverless-webpack": "5.3.3",
     "ts-loader": "^6.2.2",
     "typescript": "^3.8.3",
-    "webpack": "4.42.1",
+    "webpack": "4.44.1",
     "webpack-node-externals": "^1.6.0"
   },
   "husky": {
@@ -90,8 +98,7 @@
   "lint-staged": {
     "src/**/*.{ts,js}": [
       "yarn run lint --fix",
-      "yarn test --bail --findRelatedTests",
-      "yarn run audit-ci"
+      "yarn test --bail --findRelatedTests"
     ]
   },
   "jest": {

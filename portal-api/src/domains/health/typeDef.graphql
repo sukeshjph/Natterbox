@@ -1,0 +1,24 @@
+type CoreApiUser {
+  ID: String
+  HomeOrgID: String
+  UserName: String
+  FirstName: String
+  MiddleNames: String
+  LastName: String
+  PrimaryMobile: String
+  Status: String
+  PermissionLevel: String
+  Created: String
+  Virgin: String
+  ArchivingScope: String
+  TwoFactorAuth: String
+  PreviousLoginDetails: String
+  PlaybackPerms: String
+  AvailabilityProfileID: String
+  AvailabilityStateID: String
+}
+
+extend type Query {
+  health: Boolean
+}
+

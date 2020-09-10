@@ -109,3 +109,7 @@ export const updateUserStub = {
     pciEnabled: false,
   },
 }
+
+export const deleteUserStub = {
+  data: {},
+}

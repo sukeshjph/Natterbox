@@ -21,6 +21,26 @@ type CallLog {
     type: String
 }
 
+type CoreApiUser {
+    ArchivingScope: String
+    AvailabilityProfileID: String
+    AvailabilityStateID: String
+    Created: String
+    FirstName: String
+    HomeOrgID: String
+    ID: String
+    LastName: String
+    MiddleNames: String
+    PermissionLevel: String
+    PlaybackPerms: String
+    PreviousLoginDetails: String
+    PrimaryMobile: String
+    Status: String
+    TwoFactorAuth: String
+    UserName: String
+    Virgin: String
+}
+
 type Device {
     description: String
     enabled: Boolean
@@ -34,13 +54,16 @@ type Device {
 }
 
 type GeneralSettings {
-    countryCode: String
-    externalCallerIdNumber: String
-    holdMusic: HoldMusic
-    message: String
-    presentCallerId: Boolean
-    timezone: String
-    voice: String
+    alias: String
+    directNotifications: DirectNotifications
+    logCompliance: LogCompliance
+    maxConnectors: String
+    maxDevices: String
+    maxSIPTrunkLicenses: String
+    maxUsers: String
+    name: String
+    orgId: ID
+    twoFactorAuth: TwoFactorAuth
 }
 
 type Group {
@@ -53,9 +76,27 @@ type Group {
     system: Boolean
 }
 
+type GroupLoggedIn {
+    ID: Boolean
+}
+
 type HoldMusic {
     preset: String
     type: String
+}
+
+type LocaleSettings {
+    countryCode: String
+    externalCallerIdNumber: String
+    holdMusic: HoldMusic
+    message: String
+    presentCallerId: Boolean
+    timezone: String
+    voice: String
+}
+
+type Logins {
+    login: JSON
 }
 
 type Members {
@@ -65,14 +106,20 @@ type Members {
 type Mutation {
     createDevice(device: createDevice): Device
     createGroup(group: createGroup): Group
+    createPolicy(policy: policyInput): Policy
     createUser(user: CreateUser): User
     deleteDevice(id: ID): Device
-    deleteGeneralSettings(deleteInput: inputDeleteGSettings): GeneralSettings
+    deleteLocaleSettings(deleteInput: inputDeleteLocaleSettings): LocaleSettings
+    deleteUser(id: Int): User
+    putPolicy(id: ID, policy: policyInput): Policy
     updateDevice(device: updateDevice, id: ID): Device
-    updateGeneralSettings(settings: inputUpdateGSettings): GeneralSettings
+    updateGeneralSettings(id: ID, settings: inputUpdateGeneralSettings): GeneralSettings
     updateGroup(group: updateGroup, id: ID): Group
+    updateGroupUsers(id: ID, users: JSON): Group
+    updateLocaleSettings(settings: inputUpdateLocaleSettings): LocaleSettings
     updateNumber(id: String, number: updateNumber): Number
-    updateUser(id: ID!, user: UpdateUser): User
+    updateUser(id: String, user: UpdateUser): User
+    updateVoicemail(id: ID, voicemail: inputVoicemail): Voicemail
 }
 
 type Number {
@@ -88,28 +135,93 @@ type Number {
 }
 
 type Paginated {
+    callLogs: [CallLog]!
     count: Int
+    devices: [Device]!
     firstIndex: Int
     groups: [Group]!
     hasMore: Boolean!
     lastIndex: Int
+    members: [User]
     nextIndex: Int
     numbers: [Number]!
+    policies: [Policy]!
     prevIndex: Int
+    sound: [Sound]
+    users: [User]!
+    usersExtended: [User]
+}
+
+type Policy {
+    created: DateTime
+    enabled: Boolean
+    id: ID
+    items: [PolicyItems]
+    modified: DateTime
+    name: String
+    type: PolicyType
+}
+
+type PolicyItems {
+    id: ID
+    name: String
+    subItems: JSON
+    templateId: ID
+    variables: JSON
 }
 
 type Query {
     callLogs(searchInput: CallLogSearchInput): [CallLog]
+    callLogsPaginated(index: Int, length: Int, searchInput: CallLogSearchInput): Paginated!
     device(id: ID): Device
     devices: [Device]
+    devicesPaginated(index: Int, length: Int): Paginated!
     generalSettings: GeneralSettings
     group(id: ID): Group
+    groupLoggedIn(id: ID!): Logins
+    groupMembersPaginated(id: ID, index: Int, length: Int): Paginated!
     groups: [Group]!
     groupsPaginated(index: Int, length: Int): Paginated!
+    health: Boolean
+    localeSettings: LocaleSettings
     numbers: [Number]!
-    numbersPaginated(index: Int, length: Int): Paginated!
+    numbersPaginated(index: Int, length: Int): Paginated
+    policies: [Policy]!
+    policiesPaginated(index: Int, length: Int, searchInput: PolicySearchInput, type: String): Paginated!
+    policy(id: ID): Policy
+    sound: [Sound]
+    soundPaginated(index: Int, length: Int): Paginated
+    template(id: ID): Template
+    templates: [Template]!
     user(id: ID!): User
+    userSettings(id: ID!): User
     users: [User]
+    usersPaginated(index: Int, length: Int): Paginated!
+    voicemail(id: ID): Voicemail
+}
+
+type Sound {
+    created: String
+    description: String
+    id: Int
+    modified: String
+    size: Int
+    tag: String
+}
+
+type Template {
+    description: String
+    id: ID
+    name: String
+    parent: ID
+    type: String
+    variables: TemplateVariables
+}
+
+type TemplateVariables {
+    additionalProperties: Boolean
+    properties: JSON
+    type: String
 }
 
 type User {
@@ -119,8 +231,10 @@ type User {
     connectedToNumber: String
     enabled: Boolean
     firstName: String
+    id: ID
     lastName: String
-    memberOf: [String]
+    loggedIn: Boolean
+    memberOf: [Int]
     middleNames: String
     password: String
     pciEnabled: Boolean
@@ -128,10 +242,38 @@ type User {
     primaryGroupId: String
     primaryMobileNumber: String
     scopes: [String]
+    settings: UserSettings
     sipDevices: [String]
     sipExtension: String
     userId: ID
     userName: String
+}
+
+type UserSettings {
+    countryCode: String
+    externalCallerIdNumber: String
+    internalCallerIdName: String
+    internalCallerIdNumber: String
+    presentCallerId: ID
+    timezone: String
+    voice: String
+}
+
+type Voicemail {
+    ccMailboxes: ccMailboxes
+    emailAttachFile: Boolean
+    emailKeepFile: Boolean
+    emailNotification: Boolean
+    emailTo: [String]
+}
+
+type ccMailboxes {
+    users: [Int]
+}
+
+enum DirectNotifications {
+    NO
+    YES
 }
 
 enum Flags {
@@ -160,6 +302,22 @@ enum Flags {
     TRANSFERRED
     VIRTUAL_CHANNEL
     VOICEMAIL_RECORD_ENABLED
+}
+
+enum LogCompliance {
+    NO
+    YES
+}
+
+enum PolicyType {
+    CALL
+    NON_CALL
+    SYSTEM
+}
+
+enum TwoFactorAuth {
+    MANDATORY
+    OPTIONAL
 }
 
 input CallLogSearchInput {
@@ -191,6 +349,22 @@ input CreateUser {
     userName: String!
 }
 
+input MembersInput {
+    users: [Int]
+}
+
+input PolicyItemsInput {
+    id: ID
+    name: String
+    subItems: JSON
+    templateId: ID
+    variables: JSON
+}
+
+input PolicySearchInput {
+    name: String
+}
+
 input UpdateUser {
     availabilityProfileId: Int
     availabilityStateId: Int
@@ -209,6 +383,29 @@ input UpdateUser {
     userName: String
 }
 
+input UserInput {
+    availabilityProfileId: String
+    availabilityStateId: String
+    connectedTo: String
+    connectedToNumber: String
+    enabled: Boolean
+    firstName: String
+    id: ID
+    lastName: String
+    memberOf: [String]
+    middleNames: String
+    password: String
+    pciEnabled: Boolean
+    permissionLevel: String
+    primaryGroupId: Int
+    primaryMobileNumber: String
+    scopes: [String]
+    sipDevices: [String]
+    sipExtension: String
+    userId: ID
+    userName: String
+}
+
 input createDevice {
     description: String
     enabled: Boolean
@@ -219,22 +416,58 @@ input createDevice {
 input createGroup {
     category: String!
     emailAddress: String
+    members: MembersInput
     name: String!
     pin: String
     sipExtension: String
 }
 
-input inputDeleteGSettings {
+input inputCCMailboxes {
+    users: [Int]
+}
+
+input inputDeleteLocaleSettings {
     settings: [String]!
     settingsCategory: String!
 }
 
-input inputUpdateGSettings {
+input inputUpdateGeneralSettings {
+    alias: String
+    directNotifications: DirectNotifications
+    logCompliance: LogCompliance
+    maxConnectors: String
+    maxDevices: String
+    maxSIPTrunkLicenses: String
+    maxUsers: String
+    name: String
+    orgId: ID
+    twoFactorAuth: TwoFactorAuth
+}
+
+input inputUpdateLocaleSettings {
     countryCode: String
     externalCallerIdNumber: String
     presentCallerId: Boolean
     timezone: String
     voice: String
+}
+
+input inputVoicemail {
+    ccMailboxes: inputCCMailboxes
+    emailAttachFile: Boolean
+    emailKeepFile: Boolean
+    emailNotification: Boolean
+    emailTo: [String]
+}
+
+input policyInput {
+    created: DateTime
+    enabled: Boolean
+    id: ID
+    items: [PolicyItemsInput]
+    modified: DateTime
+    name: String
+    type: PolicyType
 }
 
 input updateDevice {
@@ -248,6 +481,7 @@ input updateDevice {
 input updateGroup {
     category: String
     emailAddress: String
+    members: MembersInput
     name: String
     pin: String
     sipExtension: String
@@ -267,11 +501,13 @@ scalar FileStream
 
 scalar Null
 
+"A date-time string at UTC, such as 2007-12-03T10:15:30Z, compliant with the `date-time` format outlined in section 5.6 of the RFC 3339 profile of the ISO 8601 standard for representation of dates and times using the Gregorian calendar."
+scalar DateTime
+
+scalar JSON
+
 "Integers that will have a value greater than 0."
 scalar PositiveInt
-
-"Use JavaScript Date object for date/time fields."
-scalar DateTime
 
 "A field whose value conforms to the standard internet email address format as specified in RFC822: https://www.w3.org/Protocols/rfc822/."
 scalar EmailAddress

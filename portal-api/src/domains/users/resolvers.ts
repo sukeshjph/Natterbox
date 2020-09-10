@@ -1,5 +1,18 @@
+const { getPaginatedResults } = require("@/utils/tools")
+
 const resolvers = {
   Query: {
+    usersPaginated: async (root, { index, length }, context) => {
+      context.logger.debug("Start of Resolver Users.users")
+      const users = await context.dataSources.sapienAPI.getAllUsers()
+
+      return getPaginatedResults({
+        index,
+        length,
+        results: users.data.reverse(),
+        dynamicKey: "users",
+      })
+    },
     users: async (root, args, context) => {
       context.logger.debug("Start of Resolver Users.users")
       const users = await context.dataSources.sapienAPI.getAllUsers()
@@ -17,23 +30,26 @@ const resolvers = {
     createUser: async (root, args, context) => {
       context.logger.debug("Start of resolver User.createUser")
 
-      const result = await context.dataSources.sapienAPI.createUser(args.user)
+      const result = await context.dataSources.sapienAPI.createUser({
+        ...args.user,
+      })
 
-      const { id, password, data } = result
-      return {
-        id,
-        password,
-        ...data,
+      if (result) {
+        const { id, password, data } = result
+        return {
+          id,
+          password,
+          ...data,
+        }
       }
+
+      return {}
     },
     updateUser: async (root, args, context) => {
       context.logger.debug("Start of resolver User.updateUser")
 
       const { id, user } = args
-      const result = await context.dataSources.sapienAPI.updateUser({
-        id,
-        ...user,
-      })
+      const result = await context.dataSources.sapienAPI.updateUser(id, user)
 
       const { resultId, data } = result
       return {
@@ -41,11 +57,28 @@ const resolvers = {
         ...data,
       }
     },
+    deleteUser: async (root, args, context) => {
+      context.logger.debug("Start of resolver User.deleteUser")
+      let result
+      try {
+        result = await context.dataSources.sapienAPI.deleteUser(args.id)
+      } catch (error) {
+        throw new Error("User can't be deleted")
+      }
+
+      return result
+    },
   },
   User: {
     userId: (obj, args, context) => {
       context.logger.debug("Start of User.userId", { meta: obj })
-      return obj.id
+      if (obj.id) return obj.id
+      return obj.userId
+    },
+    id: (obj, args, context) => {
+      context.logger.debug("Start of User.id", { meta: obj })
+      if (obj.id) return obj.id
+      return obj.userId
     },
     firstName: (obj, args, context) => {
       context.logger.debug("Start of User.firstName", { meta: obj })

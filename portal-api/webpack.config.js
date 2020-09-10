@@ -40,6 +40,7 @@ module.exports = {
       "@domains": path.resolve(__dirname, "src/domains"),
       "@plugins": path.resolve(__dirname, "src/plugins"),
       "@dataSources": path.resolve(__dirname, "src/dataSources"),
+      "@utils": path.resolve(__dirname, "src/utils")
     },
     extensions: [".ts", ".js"],
   },

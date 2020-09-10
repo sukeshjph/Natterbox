@@ -1,4 +1,5 @@
 type User {
+  id: ID
   userId: ID
   password: String
   userName: String
@@ -12,6 +13,29 @@ type User {
   primaryGroupId: String
   availabilityProfileId: String
   availabilityStateId: String
+  memberOf: [Int]
+  sipDevices: [String]
+  pciEnabled: Boolean
+  scopes: [String]
+  connectedTo: String # bUuid !== null THEN GET NAME OF USER if outbound fromUserID, if inbound toUserId
+  connectedToNumber: String # bUuid !== null THEN GET NUMBER OF USER if outbound fromUserID, if inbound toUserId
+}
+
+input UserInput {
+  id: ID
+  userId: ID
+  password: String
+  userName: String
+  firstName: String
+  lastName: String
+  middleNames: String
+  sipExtension: String
+  primaryMobileNumber: String
+  permissionLevel: String
+  enabled: Boolean
+  primaryGroupId: Int
+  availabilityProfileId: String
+  availabilityStateId: String
   memberOf: [String]
   sipDevices: [String]
   pciEnabled: Boolean
@@ -21,13 +45,19 @@ type User {
 }
 
 extend type Query {
+  usersPaginated(index: Int, length: Int): Paginated!
   users: [User]
   user(id: ID!): User
 }
 
+extend type Paginated {
+  users: [User]!
+}
+
 extend type Mutation {
   createUser(user: CreateUser): User
-  updateUser(id: ID!, user: UpdateUser): User
+  updateUser(id: String, user: UpdateUser): User
+  deleteUser(id: Int): User
 }
 
 input CreateUser {
@@ -35,11 +65,11 @@ input CreateUser {
   firstName: String!
   middleNames: String!
   lastName: String!
-  sipExtension: String
   primaryMobileNumber: String!
-  pin: String
   permissionLevel: String!
   enabled: Boolean!
+  sipExtension: String
+  pin: String
   primaryGroupId: Int
   availabilityProfileId: Int
   availabilityStateId: Int
