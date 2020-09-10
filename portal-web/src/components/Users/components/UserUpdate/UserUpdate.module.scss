@@ -1,0 +1,68 @@
+@import "styles/core-styles";
+@import "../common/common.scss";
+
+.userDetailsModal {
+  min-width: 700px;
+  display: flex;
+  flex-direction: column;
+}
+
+.formValidator {
+  @include formValidator;
+
+  margin-top: 10px;
+}
+
+.formControl {
+  @include formControl;
+}
+
+.textControl {
+  @include textControl;
+}
+
+.compactSelect {
+  display: initial;
+}
+
+.userSettingsSelect {
+  .settingsDropdown {
+    @include common-select;
+
+    min-width: 179px;
+    margin-top: 20px;
+  }
+}
+
+.userRevertChanges {
+  @include linkButton;
+
+  margin-top: 18px;
+  margin-right: 20px;
+}
+
+.updateButtonPanel {
+  min-width: 270px;
+  display: flex;
+  align-items: flex-start;
+  margin-top: auto;
+}
+
+.formButton {
+  @include formButton;
+}
+
+.deleteUnSelectedButton {
+  @include formButton;
+
+  background-color: $colour-grey-mid-light;
+}
+
+.deleteHeaderMessage {
+  display: flex;
+  align-items: center;
+
+  svg {
+    margin-right: 5px;
+  }
+}

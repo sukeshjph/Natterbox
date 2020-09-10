@@ -1,6 +1,6 @@
 export const GetAccountSettingsResponse = {
   data: {
-    generalSettings: {
+    locale: {
       externalCallerIdNumber: "120287654321",
       presentCallerId: true,
       timezone: "Africa/Bissau",

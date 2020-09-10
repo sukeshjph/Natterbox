@@ -1,0 +1,167 @@
+body {
+  font-family: HelveticaNeue, Roboto, Arial, sans-serif;
+  font-size: 1.125; //18px
+}
+
+// Headings
+.headingsTitleLeft {
+  @include headingsTitleLeft;
+}
+
+.headingsTitleCenter {
+  @include headingsTitleCenter;
+}
+
+.headingsTitleRight {
+  @include headingsTitleRight;
+}
+
+// Headings with white text
+.headingsTitleLeftWhiteText {
+  @include headingsTitleLeftWhiteText;
+}
+
+.headingsTitleCenterWhiteText {
+  @include headingsTitleCenterWhiteText;
+}
+
+.headingsTitleRightWhiteText {
+  @include headingsTitleRightWhiteText;
+}
+
+// Headings with bold text
+.headingsTitleLeftBoldtext {
+  @include headingsTitleLeftBoldtext;
+}
+
+.headingsTitleCenterBoldtext {
+  @include headingsTitleCenterBoldtext;
+}
+
+.headingsTitleRightBoldtext {
+  @include headingsTitleRightBoldtext;
+}
+
+// Body Text
+.bodyTextLeft {
+  font-size: 1rem;
+  font-family: inherit;
+  color: $colour-grey-darkest;
+  text-align: left;
+}
+
+.bodyTextCenter {
+  font-size: 1rem;
+  font-family: inherit;
+  color: $colour-grey-darkest;
+  text-align: center;
+}
+
+.bodyTextRight {
+  font-size: 1rem;
+  font-family: inherit;
+  color: $colour-grey-darkest;
+  text-align: right;
+}
+
+// Body Text with red text
+.bodyTextLeftRedText {
+  font-size: 1rem;
+  font-family: inherit;
+  color: $colour-red;
+  text-align: left;
+}
+
+.bodyTextCenterRedText {
+  font-size: 1rem;
+  font-family: inherit;
+  color: $colour-red;
+  text-align: center;
+}
+
+.bodyTextRightRedText {
+  font-size: 1rem;
+  font-family: inherit;
+  color: $colour-red;
+  text-align: right;
+}
+
+.bodyTextLeftRedTextUnderline {
+  font-size: 1rem;
+  font-family: inherit;
+  color: $colour-red;
+  text-align: left;
+  text-decoration: underline;
+}
+
+.bodyTextCenterRedTextUnderline {
+  font-size: 1rem;
+  font-family: inherit;
+  color: $colour-red;
+  text-align: center;
+  text-decoration: underline;
+}
+
+.bodyTextRightRedTextUnderline {
+  font-size: 1rem;
+  font-family: inherit;
+  color: $colour-red;
+  text-align: right;
+  text-decoration: underline;
+}
+
+// Body Text with blue text
+.bodyTextLeftBlueText {
+  font-size: 1rem;
+  font-family: inherit;
+  color: $colour-blue-mid;
+  text-align: left;
+}
+
+.bodyTextCenterBlueText {
+  font-size: 1rem;
+  font-family: inherit;
+  color: $colour-blue-mid;
+  text-align: center;
+}
+
+.bodyTextRightBlueText {
+  font-size: 1rem;
+  font-family: inherit;
+  color: $colour-blue-mid;
+  text-align: right;
+}
+
+.bodyTextLeftBlueTextUnderline {
+  font-size: 1rem;
+  font-family: inherit;
+  color: $colour-blue-mid;
+  text-align: left;
+  text-decoration: underline;
+}
+
+.bodyTextCenterBlueTextUnderline {
+  font-size: 1rem;
+  font-family: inherit;
+  color: $colour-blue-mid;
+  text-align: center;
+  text-decoration: underline;
+}
+
+.bodyTextRightBlueTextUnderline {
+  font-size: 1rem;
+  font-family: inherit;
+  color: $colour-blue-mid;
+  text-align: right;
+  text-decoration: underline;
+}
+
+// Header Title Text
+$toolbar_ttile_color: #5c6770 !default;
+
+@mixin headerBarTitlesGrey {
+  font-family: inherit;
+  font-size: 1rem;
+  font-weight: 700;
+  color: $toolbar_ttile_color;
+}

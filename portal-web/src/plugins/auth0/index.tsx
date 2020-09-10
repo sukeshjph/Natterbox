@@ -16,6 +16,7 @@ interface Auth0Context {
   isInitializing: boolean
   isPopupOpen: boolean
   apiUrl: string
+  sapienUrl: string
   loginWithPopup(o?: PopupLoginOptions): Promise<void>
   handleRedirectCallback(): Promise<RedirectLoginResult>
   getIdTokenClaims(o?: getIdTokenClaimsOptions): Promise<IdToken>
@@ -32,6 +33,13 @@ interface Auth0ProviderOptions {
 export const Auth0Context = React.createContext<Auth0Context | null>(null)
 export const useAuth0 = () => useContext(Auth0Context)!
 
+const getAppendedSapienUrl = url => {
+  if (!url.includes("v1")) {
+    return url.slice(url.length - 1) === "/" ? `${url}v1/` : `${url}/v1/`
+  }
+  return url
+}
+
 const getConfigResponse = async () => {
   if (process.env.NODE_ENV === "development") {
     return {
@@ -39,6 +47,7 @@ const getConfigResponse = async () => {
       domain: process.env.REACT_APP_AUTH0_DOMAIN,
       client_id: process.env.REACT_APP_AUTH0_CLIENTID,
       audience: process.env.REACT_APP_AUTH0_AUDIENCE,
+      sapien_url: process.env.REACT_APP_SAPIEN_URL,
     }
   }
 
@@ -51,16 +60,14 @@ const getConfigResponse = async () => {
     )
   }
 
-  const {
-    authDomain: domain,
-    clientId: client_id,
-    ...others
-  } = await response.json()
+  const configData = await response.json()
+  const { authDomain, clientId, sapienUrl, ...others } = configData
 
   return {
     ...others,
-    domain,
-    client_id,
+    domain: authDomain,
+    client_id: clientId,
+    sapien_url: getAppendedSapienUrl(sapienUrl),
   }
 }
 
@@ -76,6 +83,7 @@ export const Auth0Provider = ({
   const [userToken, setUserToken] = useState<"">()
   const [auth0Client, setAuth0Client] = useState<Auth0Client>()
   const [apiUrl, setApiUrl] = useState("")
+  const [sapienUrl, setSapienUrl] = useState("")
 
   useEffect(() => {
     const initAuth0 = async () => {
@@ -84,6 +92,7 @@ export const Auth0Provider = ({
         domain,
         client_id,
         graphqlUrl,
+        sapien_url,
       } = await getConfigResponse()
 
       const auth0FromHook = await createAuth0Client({
@@ -95,6 +104,7 @@ export const Auth0Provider = ({
 
       setAuth0Client(auth0FromHook)
       setApiUrl(graphqlUrl)
+      setSapienUrl(sapien_url)
 
       if (window.location.search.includes("code=")) {
         let appState: RedirectLoginResult = {}
@@ -181,6 +191,7 @@ export const Auth0Provider = ({
         getIdTokenClaims,
         getTokenWithPopup,
         apiUrl,
+        sapienUrl,
       }}>
       {children}
     </Auth0Context.Provider>

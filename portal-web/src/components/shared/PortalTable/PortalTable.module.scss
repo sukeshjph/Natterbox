@@ -1,4 +1,4 @@
-@import "../../../styles/variables";
+@import "../../../styles/core-styles";
 
 .portalTableContainer {
   height: 62vh;
@@ -6,13 +6,6 @@
 
 .portalTable {
   min-width: 750;
-}
-
-%headerCell {
-  position: sticky;
-  top: 0;
-  background-color: #b9bfc6;
-  z-index: 2;
 }
 
 .portalHeaderCell {

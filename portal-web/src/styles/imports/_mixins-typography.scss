@@ -1,0 +1,65 @@
+// Headings
+@mixin headingsTitleLeft {
+  font-size: 1rem;
+  font-family: inherit;
+  color: $colour-grey-darkest;
+  text-align: left;
+}
+
+@mixin headingsTitleCenter {
+  font-size: 1rem;
+  font-family: inherit;
+  color: $colour-grey-darkest;
+  text-align: center;
+}
+
+@mixin headingsTitleRight {
+  font-size: 1rem;
+  font-family: inherit;
+  color: $colour-grey-darkest;
+  text-align: right;
+}
+
+// Headings with white text
+@mixin headingsTitleLeftWhiteText {
+  font-size: 1rem;
+  font-family: inherit;
+  color: $colour-white;
+  text-align: left;
+}
+
+@mixin headingsTitleCenterWhiteText {
+  font-size: 1rem;
+  font-family: inherit;
+  color: $colour-white;
+  text-align: center;
+}
+
+@mixin headingsTitleRightWhiteText {
+  font-size: 1rem;
+  font-family: inherit;
+  color: $colour-white;
+  text-align: right;
+}
+
+// Headings with bold text
+@mixin headingsTitleLeftBoldtext {
+  font-size: 1rem;
+  font-family: inherit;
+  font-weight: 700;
+  text-align: left;
+}
+
+@mixin headingsTitleCenterBoldtext {
+  font-size: 1rem;
+  font-family: inherit;
+  font-weight: 700;
+  text-align: center;
+}
+
+@mixin headingsTitleRightBoldtext {
+  font-size: 1rem;
+  font-family: inherit;
+  font-weight: 700;
+  text-align: right;
+}

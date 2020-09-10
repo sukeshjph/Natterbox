@@ -4,8 +4,10 @@ import { Accounts, Assets } from "../../components/AccountSettings"
 import { TabbedTable } from "../../components/shared"
 
 const LogTabs: Record<string, any> = {
-  Accounts: <Accounts />,
-  Assets: <Assets />,
+  General: <Accounts />,
+  IPLines: <Assets />,
+  Phones: <Assets />,
+  Sims: <Assets />,
 }
 
 const AccountSettings = React.memo(() => <TabbedTable TabsMenu={LogTabs} />)

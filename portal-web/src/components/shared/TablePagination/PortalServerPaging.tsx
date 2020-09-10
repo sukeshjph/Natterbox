@@ -40,7 +40,7 @@ export const PortalServerPaging: React.FC<IPager> = React.memo(
       <div className={styles.root}>
         {children}
         <div>
-          Page {currentPage} of {totalPagesCount}
+          Page {currentPage + 1} of {totalPagesCount}
         </div>
         <div className={styles.pagerIconContainer}>
           <IconButton

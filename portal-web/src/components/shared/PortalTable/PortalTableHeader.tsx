@@ -11,13 +11,18 @@ interface HeaderProps {
     label: string
   }[]
   showCheckBoxColumn?: boolean
+  filterComp?: React.ReactNode
+  filterRowVisible?: boolean
 }
 
 export const PortalTableHeader: FunctionComponent<HeaderProps> = ({
   properties,
   showCheckBoxColumn,
+  filterComp,
+  filterRowVisible,
 }) => (
   <TableHead>
+    {filterRowVisible ? filterComp : null}
     <TableRow>
       {showCheckBoxColumn && (
         <TableCell className={styles.portalHeaderCheckbox}>

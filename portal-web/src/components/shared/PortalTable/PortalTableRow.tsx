@@ -7,13 +7,14 @@ import styles from "./PortalTable.module.scss"
 import { getColValueWithDefault } from "../../../util"
 
 interface Props<ObjectType> {
-  object: ObjectType
+  object: ObjectType & { rowSelected?: boolean }
   properties: {
     key: number | symbol | string
     label: string
-    render?: (colData: any) => string | React.ReactElement
+    render?: (colData: any, row?: any, key?: any) => string | React.ReactElement
   }[]
   handleRowClick?: (row: ObjectType) => void
+  handleCheckBoxChange?: (row: ObjectType, rowCheck: boolean) => void
   showCheckBoxColumn?: boolean
   rowIndex: number
 }
@@ -23,8 +24,16 @@ function PortalTableRow<ObjectType>({
   properties,
   handleRowClick,
   showCheckBoxColumn = false,
+  handleCheckBoxChange,
   rowIndex,
 }: Props<ObjectType>) {
+  const handleCheckboxClick = event => {
+    event.stopPropagation()
+    if (handleCheckBoxChange) {
+      handleCheckBoxChange(object, event.target.checked)
+    }
+  }
+
   return (
     <TableRow
       hover
@@ -37,7 +46,10 @@ function PortalTableRow<ObjectType>({
       )}>
       {showCheckBoxColumn && (
         <TableCell padding="checkbox">
-          <Checkbox onClick={event => event.stopPropagation()} />
+          <Checkbox
+            onClick={handleCheckboxClick}
+            checked={object.rowSelected}
+          />
         </TableCell>
       )}
       {properties.map(property => (
@@ -46,7 +58,11 @@ function PortalTableRow<ObjectType>({
           align="left"
           className={styles.portalDataCell}>
           {property.render
-            ? property.render(getColValueWithDefault(object[property.key]))
+            ? property.render(
+                getColValueWithDefault(object[property.key]),
+                object,
+                property.key,
+              )
             : getColValueWithDefault(object[property.key])}
         </TableCell>
       ))}

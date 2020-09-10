@@ -1,0 +1,43 @@
+@import "styles/core-styles";
+@import "../common/common.scss";
+
+.formValidator {
+  @include formValidator;
+
+  margin-top: 10px;
+}
+
+.formControl {
+  @include formControl;
+}
+
+.textControl {
+  @include textControl;
+}
+
+.userSettingsSelect {
+  .settingsDropdown {
+    @include common-select;
+
+    min-width: 179px;
+    margin-top: 20px;
+  }
+}
+
+.createButtonPanel {
+  min-width: 270px;
+  display: flex;
+  align-items: flex-start;
+  margin-top: auto;
+}
+
+.cancelUserCreateButton {
+  @include linkButton;
+
+  margin-top: 18px;
+  margin-right: 20px;
+}
+
+.formButton {
+  @include formButton;
+}

@@ -21,13 +21,15 @@ export const UsersLazy = Loadable({
 })
 
 export const DevicesLazy = Loadable({
-  loader: () => import(/* webpackChunkName: 'Users' */ "./devices/DevicesPage"),
+  loader: () =>
+    import(/* webpackChunkName: 'Devices' */ "./devices/DevicesPage"),
   loading: RouteLoading,
   delay: 500,
 })
 
 export const NumbersLazy = Loadable({
-  loader: () => import(/* webpackChunkName: 'Users' */ "./numbers/NumbersPage"),
+  loader: () =>
+    import(/* webpackChunkName: 'Numbers' */ "./numbers/NumbersPage"),
   loading: RouteLoading,
   delay: 500,
 })
@@ -39,7 +41,21 @@ export const MeLazy = Loadable({
 })
 
 export const GroupsLazy = Loadable({
-  loader: () => import(/* webpackChunkName: 'Me' */ "./groups/GroupsPage"),
+  loader: () => import(/* webpackChunkName: 'Groups' */ "./groups/GroupsPage"),
+  loading: RouteLoading,
+  delay: 500,
+})
+
+export const ErrorLazy = Loadable({
+  loader: () =>
+    import(/* webpackChunkName: 'Error' */ "./errorHandler/ErrorPage"),
+  loading: RouteLoading,
+  delay: 500,
+})
+
+export const PoliciesLazy = Loadable({
+  loader: () =>
+    import(/* webpackChunkName: 'Policies' */ "./policies/PoliciesPage"),
   loading: RouteLoading,
   delay: 500,
 })

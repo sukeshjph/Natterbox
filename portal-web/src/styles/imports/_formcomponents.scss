@@ -1,0 +1,15 @@
+.inputText {
+  @include inputField;
+}
+
+.inputTextWithIconSmall {
+  @include inputFieldNoBorderIconSmall;
+}
+
+.inputTextWithIconMedium {
+  @include inputFieldNoBorderIconMedium;
+}
+
+.inputTextWithIconLarge {
+  @include inputFieldNoBorderIconLarge;
+}

@@ -1,0 +1,143 @@
+Arguments: 
+  C:\Program Files\nodejs\node.exe C:\Program Files (x86)\Yarn\bin\yarn.js add @types/node --save
+
+PATH: 
+  C:\Program Files\cmder\bin;C:\Program Files\cmder\vendor\bin;C:\Users\Jack\Documents\work\natterbox\portal-api\node_modules\.bin;C:\Program Files (x86)\Razer\ChromaBroadcast\bin;C:\Program Files\Razer\ChromaBroadcast\bin;C:\Python27\;C:\Python27\Scripts;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0\;C:\Windows\System32\OpenSSH\;C:\Program Files\NVIDIA Corporation\NVIDIA NvDLISR;C:\Program Files (x86)\NVIDIA Corporation\PhysX\Common;C:\Program Files\Intel\WiFi\bin\;C:\Program Files\Common Files\Intel\WirelessCommon\;C:\Users\Jack\AppData\Roaming\npm\;C:\Program Files\nodejs\;C:\ProgramData\chocolatey\bin;C:\Program Files\Git\cmd;C:\Program Files\Git\mingw64\bin;C:\Program Files\Git\usr\bin;C:\Program Files\ngrok;C:\Windows\system32\config\systemprofile\AppData\Local\Microsoft\WindowsApps;C:\Users\Jack\AppData\Roaming\nvm;C:\Program Files\nodejs;C:\Users\Jack\AppData\Roaming\nvm;C:\Program Files\PuTTY\;C:\Program Files (x86)\Yarn\bin\;C:\Program Files\Docker\Docker\resources\bin;C:\ProgramData\DockerDesktop\version-bin;C:\Users\Jack\AppData\Local\Microsoft\WindowsApps;C:\Program Files\JetBrains\WebStorm 2019.3\bin;C:\Users\Jack\AppData\Roaming\npm;C:\Users\Jack\AppData\Roaming\nvm;C:\Program Files\nodejs;C:\Users\Jack\AppData\Local\Yarn\bin;C:\Program Files\Git\cmd;C:\Program Files\Git\mingw64\bin;C:\Program Files\Git\usr\bin;C:\Program Files\cmder
+
+Yarn version: 
+  1.22.4
+
+Node version: 
+  13.11.0
+
+Platform: 
+  win32 x64
+
+Trace: 
+  SyntaxError: C:\Users\Jack\Documents\work\natterbox\portal-api\package.json: Unexpected token < in JSON at position 1253
+      at JSON.parse (<anonymous>)
+      at C:\Program Files (x86)\Yarn\lib\cli.js:1625:59
+      at Generator.next (<anonymous>)
+      at step (C:\Program Files (x86)\Yarn\lib\cli.js:310:30)
+      at C:\Program Files (x86)\Yarn\lib\cli.js:321:13
+
+npm manifest: 
+  {
+    "name": "portal-api",
+    "version": "0.0.0",
+    "private": true,
+    "scripts": {
+      "audit-ci": "audit-ci --high --advisories 1217",
+      "test": "env-cmd -f .env.stubs jest",
+      "stubs": "env-cmd -f .env.stubs serverless offline start --httpPort 4000 --websocketPort 4001 --lambdaPort 4002",
+      "qa": "env-cmd -f .env.qa serverless offline start --httpPort 4000 --websocketPort 4001 --lambdaPort 4002",
+      "staging": "env-cmd -f .env.staging serverless offline start --httpPort 4000 --websocketPort 4001 --lambdaPort 4002",
+      "deploy-prod": "serverless --stage=production deploy",
+      "lint": "eslint .",
+      "debug": "export SLS_DEBUG=* && node --inspect ./node_modules/.bin/serverless offline --noTimeout --dontPrintOutput -s dev",
+      "coverage": "yarn test -- --coverage",
+      "generate": "graphql-codegen"
+    },
+    "dependencies": {
+      "@babel/code-frame": "^7.8.3",
+      "@types/jest": "^25.2.1",
+      "@types/node": "^13.11.0",
+      "apollo-datasource-rest": "^0.8.0",
+      "apollo-server-errors": "^2.4.1",
+      "apollo-server-lambda": "^2.2.1",
+      "axios": "^0.19.2",
+      "babel-plugin-source-map-support": "^2.1.1",
+      "dataloader": "^2.0.0",
+      "eslint-import-resolver-webpack": "^0.12.1",
+      "glob": "^7.1.6",
+      "graphql": "^14.6.0",
+  <<<<<<< HEAD
+      "graphql-scalars": "^1.1.2",
+      "graphql-tools": "^5.0.0",
+  =======
+      "graphql-tag": "^2.10.3",
+  >>>>>>> develop
+      "husky": "^4.2.3",
+      "jsonwebtoken": "^8.5.1",
+      "node-fetch": "^1.7.3",
+      "oauth": "^0.9.15",
+      "path": "^0.12.7",
+      "qs": "^6.9.3",
+      "ramda": "^0.27.0",
+      "source-map-support": "^0.5.16",
+      "winston": "^3.2.1"
+    },
+    "devDependencies": {
+      "@babel/core": "^7.9.0",
+      "@babel/preset-env": "^7.9.0",
+      "@graphql-codegen/cli": "^1.13.4",
+      "@graphql-codegen/typescript": "^1.13.4",
+      "@graphql-codegen/typescript-graphql-files-modules": "^1.13.4",
+      "@graphql-codegen/typescript-resolvers": "^1.13.4",
+      "audit-ci": "^2.5.1",
+      "aws-sdk": "^2.4.8",
+      "babel-loader": "^8.1.0",
+      "body-parser": "^1.15.2",
+      "cors": "2.8.4",
+      "env-cmd": "^10.1.0",
+      "eslint": "^6.8.0",
+      "eslint-config-airbnb": "^18.1.0",
+      "eslint-config-prettier": "^6.10.0",
+      "eslint-plugin-import": "^2.20.1",
+      "eslint-plugin-jsx-a11y": "^6.2.3",
+      "eslint-plugin-prettier": "^3.1.2",
+      "eslint-plugin-react": "^7.19.0",
+      "eslint-plugin-react-hooks": "^2.5.0",
+      "imports-loader": "^0.7.1",
+      "jest": "^25.2.2",
+      "lint-staged": "^10.0.8",
+      "prettier": "1.19.1",
+      "serverless": "^1.67.0",
+      "serverless-offline": "5.12.0",
+      "serverless-webpack": "5.3.1",
+      "ts-loader": "^6.2.2",
+      "typescript": "^3.8.3",
+      "webpack": "4.42.1",
+      "webpack-node-externals": "^1.6.0"
+    },
+    "husky": {
+      "hooks": {
+        "pre-commit": "lint-staged"
+      }
+    },
+    "lint-staged": {
+      "src/**/*.{ts,js}": [
+        "yarn run lint --fix",
+        "yarn run test --passWithNoTests",
+        "yarn run audit-ci"
+      ]
+    },
+    "jest": {
+      "collectCoverageFrom": [
+        "**/*.js",
+        "**/*.ts",
+        "!**/node_modules/**",
+        "!**/vendor/**"
+      ],
+      "coverageThreshold": {
+        "global": {
+          "statements": 1,
+          "branches": 1,
+          "functions": 1,
+          "lines": 1
+        }
+      },
+      "moduleNameMapper": {
+        "@/(.*)$": "<rootDir>/src/$1",
+        "@domains/(.*)$": "<rootDir>/src/domains/$1",
+        "@plugins/(.*)$": "<rootDir>/src/plugins/$1",
+        "@dataSources/(.*)$": "<rootDir>/src/dataSources/$1"
+      }
+    }
+  }
+
+yarn manifest: 
+  No manifest
+
+Lockfile: 
+  No lockfile

@@ -29,7 +29,7 @@ export const TabbedTable: FunctionComponent<TabbedTableProps> = React.memo(
     return (
       <>
         <div className={styles.toolBar}>
-          <p className={styles.headerText}>Brightec Demo</p>
+          <p className={styles.headerBarTitle}>Brightec Demo</p>
           <Tabs
             value={currentTab}
             className={styles.tabsMenu}

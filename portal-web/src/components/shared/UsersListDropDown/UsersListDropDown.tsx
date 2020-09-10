@@ -1,20 +1,12 @@
-import React, { useState } from "react"
+import React, { useState, useEffect } from "react"
 import FormControl from "@material-ui/core/FormControl"
-import { useQuery } from "@apollo/react-hooks"
+import { useLazyQuery } from "@apollo/react-hooks"
 import Select from "react-select"
-import { IUser } from "../../Users/User.type"
 import { GET_ALL_USERS } from "../../Users/UserQueries"
 
 type labelOption = {
   value: number
   label: string
-}
-
-const buildOptions = (users: IUser[]): labelOption[] => {
-  return users.map(user => ({
-    value: user.userId,
-    label: `${user.firstName} ${user.lastName} (Ext: ${user.sipExtension})`,
-  }))
 }
 
 type classes = {
@@ -23,52 +15,185 @@ type classes = {
   formSelect: any
 }
 
+const buildOptions = (users: IUser[]): labelOption[] =>
+  users.map(({ userId, firstName, lastName, sipExtension }) => ({
+    value: userId,
+    label: `${firstName} ${lastName} (Ext: ${sipExtension})`,
+  }))
+
 interface IOwnProps {
+  users?: IUser[]
+  loadLocalUsers?: boolean
   handleUserChange: (e: any) => void
   classes?: Partial<classes>
-  usersLoaded: () => void
+  usersLoaded?: () => void
+  loadingComp?: React.ReactNode
+  reLoad?: any
+  showLabel?: boolean
+  userLabel?: string
+  defaultUserId?: number
+  isMulti?: boolean
+  customStyles?: any
 }
 
-export const UsersListDropDown: React.FC<IOwnProps> = React.memo(
-  ({ handleUserChange, classes, usersLoaded }) => {
-    const [userOptions, setUserOptions] = useState<labelOption[] | null>(null)
-    const [userOption, setUserOption] = useState<labelOption | null>(null)
+export const UsersListDropDown: React.FC<IOwnProps> = React.memo(props => {
+  const {
+    handleUserChange,
+    classes,
+    usersLoaded,
+    loadingComp,
+    showLabel = true,
+    userLabel,
+    reLoad,
+    defaultUserId,
+    isMulti = false,
+    customStyles,
+    users,
+    loadLocalUsers = true,
+  } = props
 
-    const { loading: userLoading } = useQuery(GET_ALL_USERS, {
+  const [userOptions, setUserOptions] = useState<labelOption[] | null>(null)
+  const [userOption, setUserOption] = useState<labelOption | null>(null)
+  const [allUsers, setAllUsers] = useState<IUser[]>([])
+
+  const selectStyles = {
+    menu: provided => ({
+      ...provided,
+      zIndex: 3,
+    }),
+    ...customStyles,
+  }
+
+  const handleLocalUserData = (userData: IUser[]) => {
+    setUserOptions(buildOptions(userData))
+    setAllUsers(userData)
+
+    if (defaultUserId) {
+      const defaultUser = userData.find(user => user.userId === defaultUserId)
+
+      if (defaultUser) {
+        setUserOption({
+          value: defaultUserId,
+          label: `${defaultUser.firstName} ${defaultUser.lastName} (Ext: ${defaultUser.sipExtension})`,
+        })
+      }
+    }
+  }
+
+  const [loadUsers, { loading: userLoading, refetch }] = useLazyQuery(
+    GET_ALL_USERS,
+    {
       onCompleted(data) {
-        setUserOptions(buildOptions(data.users))
-        usersLoaded()
+        handleLocalUserData(data.users)
+        if (usersLoaded) {
+          usersLoaded()
+        }
       },
-    })
+    },
+  )
 
-    return (
-      <>
-        {userLoading && <div>Loading users...</div>}
-        {!userLoading && userOptions && (
-          <FormControl
-            margin="normal"
-            className={
-              classes && classes.formControl ? classes.formControl : ""
-            }>
+  useEffect(() => {
+    if (loadLocalUsers) {
+      if (refetch) {
+        refetch()
+      }
+    }
+  }, [reLoad])
+
+  useEffect(() => {
+    if (loadLocalUsers) {
+      loadUsers()
+    } else if (users && users.length !== 0) {
+      handleLocalUserData(users)
+    }
+  }, [])
+
+  const getLoadingComp = () => {
+    if (loadingComp) {
+      return <>{loadingComp}</>
+    }
+    return <div>Loading users...</div>
+  }
+
+  const handleFilterOption = (option, inputValue) => {
+    const { value } = option
+
+    if (inputValue) {
+      const foundUser = allUsers.find(user => user.userId === value)
+
+      if (foundUser) {
+        const { firstName, lastName, sipExtension } = foundUser
+        let match = false
+
+        const splitInput = inputValue.split(" ")
+
+        if (firstName) {
+          if (splitInput[0]) {
+            match = firstName
+              .toUpperCase()
+              .startsWith(splitInput[0].toUpperCase())
+          }
+        }
+
+        if (lastName) {
+          if (splitInput[1]) {
+            match =
+              match &&
+              lastName.toUpperCase().startsWith(splitInput[1].toUpperCase())
+          }
+        }
+
+        if (sipExtension) {
+          if (splitInput[2]) {
+            match =
+              match &&
+              sipExtension.toUpperCase().startsWith(splitInput[2].toUpperCase())
+          }
+        }
+
+        return match
+      }
+
+      return false
+    }
+
+    return true
+  }
+
+  return (
+    <>
+      {userLoading && getLoadingComp()}
+      {!userLoading && userOptions && (
+        <FormControl
+          margin="normal"
+          className={classes && classes.formControl ? classes.formControl : ""}>
+          {showLabel && (
             <span
               className={classes && classes.formLabel ? classes.formLabel : ""}>
-              From(User)
+              {userLabel || "From(User)"}
             </span>
-            <Select
-              value={userOption}
-              onChange={(e: any) => {
-                setUserOption(e)
-                handleUserChange(e)
-              }}
-              isClearable
-              options={userOptions}
-              className={
-                classes && classes.formSelect ? classes.formSelect : ""
-              }
-            />
-          </FormControl>
-        )}
-      </>
-    )
-  },
-)
+          )}
+          <Select
+            value={userOption}
+            filterOption={handleFilterOption}
+            isMulti={isMulti}
+            styles={selectStyles}
+            onChange={(e: any) => {
+              setUserOption(e)
+              handleUserChange(e)
+            }}
+            isClearable
+            options={userOptions}
+            className={classes && classes.formSelect ? classes.formSelect : ""}
+          />
+        </FormControl>
+      )}
+      {!userLoading && userOptions && userOptions.length === 0 && (
+        <Select
+          styles={selectStyles}
+          className={classes && classes.formSelect ? classes.formSelect : ""}
+        />
+      )}
+    </>
+  )
+})

@@ -1,0 +1,13 @@
+$footer_bg_color: #818d98 !default;
+
+.footer {
+  flex-shrink: 0;
+  text-align: center;
+  background-color: $footer_bg_color;
+  color: $colour-white;
+
+  p {
+    padding-right: 10px;
+    font-size: 0.8rem;
+  }
+}

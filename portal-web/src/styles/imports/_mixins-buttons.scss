@@ -1,0 +1,132 @@
+// Standard Green Buttons
+@mixin standardGreenButton {
+  position: relative;
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  min-width: 4.5rem;
+  max-height: 40px;
+  margin-top: $s_sm;
+  margin-bottom: $s_sm;
+  padding: $s_md;
+  overflow: hidden;
+  vertical-align: top;
+  color: $colour-grey-darkest;
+  text-decoration: none;
+  font-size: 0.9rem;
+  background-color: $colour-green-light;
+  outline: none;
+  border: none;
+  border-radius: 4px;
+  transition: all 0.2s ease-in-out;
+  cursor: pointer;
+
+  &:hover {
+    background: $colour-grey-darkest;
+    color: $colour-white;
+    text-decoration: none;
+  }
+
+  &:focus {
+    text-decoration: none;
+  }
+}
+
+// Standard Grey Button
+@mixin standardGreyButton {
+  position: relative;
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  min-width: 7.25rem;
+  margin-top: $s_sm;
+  margin-bottom: $s_sm;
+  padding: $s_md;
+  overflow: hidden;
+  vertical-align: top;
+  color: $colour-grey-darkest;
+  text-decoration: none;
+  font-size: 0.9rem;
+  background-color: $colour-grey-mid-light;
+  outline: none;
+  border: none;
+  border-radius: 4px;
+  transition: all 0.2s ease-in-out;
+  cursor: pointer;
+
+  &:hover {
+    background: $colour-white;
+    color: $colour-grey-darkest;
+    text-decoration: none;
+  }
+
+  &:focus {
+    text-decoration: none;
+  }
+}
+
+// Standard Secondary Outlined Button
+@mixin standardSecondaryOutline {
+  position: relative;
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  min-width: 7.25rem;
+  margin-top: $s_sm;
+  margin-bottom: $s_sm;
+  padding: $s_md;
+  overflow: hidden;
+  vertical-align: top;
+  color: $colour-grey-darkest;
+  text-decoration: none;
+  font-size: 0.9rem;
+  background-color: transparent;
+  outline: none;
+  border: 1px solid $colour-grey-darkest;
+  border-radius: 4px;
+  transition: all 0.2s ease-in-out;
+  cursor: pointer;
+
+  &:hover {
+    background: $colour-grey-darkest;
+    color: $colour-white;
+    text-decoration: none;
+  }
+
+  &:focus {
+    text-decoration: none;
+  }
+}
+
+// Standard Stop/Cancel/Remove Red Button
+@mixin standardSecondaryRedButton {
+  position: relative;
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  min-width: 7.25rem;
+  margin-top: $s_sm;
+  margin-bottom: $s_sm;
+  padding: $s_md;
+  overflow: hidden;
+  vertical-align: top;
+  color: $colour-red;
+  text-decoration: none;
+  font-size: 0.9rem;
+  background-color: transparent;
+  outline: none;
+  border: 1px solid $colour-red;
+  border-radius: 4px;
+  transition: all 0.2s ease-in-out;
+  cursor: pointer;
+
+  &:hover {
+    background: $colour-red;
+    color: $colour-white;
+    text-decoration: none;
+  }
+
+  &:focus {
+    text-decoration: none;
+  }
+}

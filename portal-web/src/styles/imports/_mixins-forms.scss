@@ -1,0 +1,125 @@
+// Form Component Mixins
+@mixin inputField {
+  width: 320px;
+  height: 34px;
+  padding-top: 4px;
+  padding-right: 8px;
+  padding-bottom: 4px;
+  padding-left: 8px;
+  font-size: 0.95rem;
+  color: $colour-grey-darkest;
+  border: 1px solid $colour-grey-mid;
+  border-radius: 4px;
+
+  & ::-webkit-input-placeholder {
+    //Chrome
+    color: $colour-grey-darkest;
+    font-size: 0.95rem;
+  }
+
+  & ::-moz-placeholder {
+    //Firefox 19+
+    color: $colour-grey-darkest;
+    font-size: 0.95rem;
+  }
+
+  & :-moz-placeholder {
+    //Firefox 18-
+    color: $colour-grey-darkest;
+    font-size: 0.95rem;
+  }
+}
+
+@mixin inputFieldNoBorderIconSmall {
+  width: 150px;
+  height: 34px;
+  padding-top: 2px;
+  padding-right: 10px;
+  padding-bottom: 2px;
+  padding-left: 8px;
+  font-size: 0.95rem;
+  color: $colour-grey-darkest;
+  border-radius: 4px;
+
+  & ::-webkit-input-placeholder {
+    //Chrome
+    color: $colour-grey-darkest;
+    font-size: 0.95rem;
+  }
+
+  & ::-moz-placeholder {
+    //Firefox 19+
+    color: $colour-grey-darkest;
+    font-size: 0.95rem;
+  }
+
+  & :-moz-placeholder {
+    //Firefox 18-
+    color: $colour-grey-darkest;
+    font-size: 0.95rem;
+  }
+}
+
+@mixin inputFieldNoBorderIconMedium {
+  width: 200px;
+  height: 34px;
+  padding-top: 2px;
+  padding-right: 10px;
+  padding-bottom: 2px;
+  padding-left: 8px;
+  font-size: 0.95rem;
+  color: $colour-grey-darkest;
+  border-radius: 4px;
+
+  & ::-webkit-input-placeholder {
+    //Chrome
+    color: $colour-grey-darkest;
+    font-size: 0.95rem;
+  }
+
+  & ::-moz-placeholder {
+    //Firefox 19+
+    color: $colour-grey-darkest;
+    font-size: 0.95rem;
+  }
+
+  & :-moz-placeholder {
+    //Firefox 18-
+    color: $colour-grey-darkest;
+    font-size: 0.95rem;
+  }
+}
+
+@mixin inputFieldNoBorderIconLarge {
+  width: 300px;
+  height: 34px;
+  padding-top: 2px;
+  padding-right: 10px;
+  padding-bottom: 2px;
+  padding-left: 8px;
+  font-size: 0.95rem;
+  color: $colour-grey-darkest;
+  border-radius: 4px;
+
+  & ::-webkit-input-placeholder {
+    //Chrome
+    color: $colour-grey-darkest;
+    font-size: 0.95rem;
+  }
+
+  & ::-moz-placeholder {
+    //Firefox 19+
+    color: $colour-grey-darkest;
+    font-size: 0.95rem;
+  }
+
+  & :-moz-placeholder {
+    //Firefox 18-
+    color: $colour-grey-darkest;
+    font-size: 0.95rem;
+  }
+
+  &:active {
+    border-color: $colour-green-light;
+  }
+}

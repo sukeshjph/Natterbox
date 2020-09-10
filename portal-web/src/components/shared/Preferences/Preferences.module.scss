@@ -1,0 +1,52 @@
+@import "styles/core-styles";
+
+.ActionBlock {
+  @include ActionBlock;
+}
+
+.ActionIconText {
+  @include ActionIconText;
+}
+
+.ActionIconButton {
+  @include ActionIconButton;
+}
+
+.PrefContainer {
+  position: absolute;
+  margin-top: 35px;
+  z-index: 999;
+  min-width: 700px;
+}
+
+.prefContent {
+  padding: 20px;
+}
+
+.prefHeading {
+  color: #5c6770;
+  font-size: 1.2rem;
+  padding-bottom: 10px;
+  padding-top: 10px;
+}
+
+.pageCount {
+  display: flex;
+
+  input {
+    width: 25px;
+    margin-right: 5px;
+  }
+}
+
+.row {
+  @include row;
+}
+
+.column {
+  @include column;
+}
+
+.submitButton {
+  @include greenButton(12rem);
+}

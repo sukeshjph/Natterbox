@@ -1,0 +1,31 @@
+/* --------------------------------------------------------------
+## PORTAL LAYOUT
+-------------------------------------------------------------- */
+
+// Globals
+@import "imports/_globalstandards";
+
+// Spacings
+@import "imports/_spaces";
+
+// Mixins
+@import "imports/_mixins";
+@import "imports/_mixins-buttons";
+@import "imports/_mixins-forms";
+@import "imports/mixins-typography";
+
+// Standards
+@import "../assets/fonts/fonts";
+@import "imports/_typography";
+
+// Components
+@import "imports/_buttons";
+@import "imports/_formcomponents";
+
+// Layouts
+@import "imports/_header";
+@import "imports/_layout";
+@import "imports/_titles";
+@import "imports/_footer";
+
+// Misc

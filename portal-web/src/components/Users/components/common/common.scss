@@ -1,0 +1,17 @@
+@import "styles/core-styles";
+
+@mixin formControl {
+  margin-right: 30px;
+  margin-top: 16px;
+  margin-bottom: 20px;
+}
+
+@mixin formButton {
+  @include greenButton;
+
+  align-self: flex-start;
+  margin-top: 10px;
+  margin-right: 10px;
+  text-transform: none;
+  max-width: inherit;
+}

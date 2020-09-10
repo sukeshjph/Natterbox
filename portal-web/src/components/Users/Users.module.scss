@@ -1,34 +1,5 @@
-@import "../../styles/common";
+@import "styles/core-styles";
 
-.userDetailsModal {
-  min-width: 700px;
-}
-
-%formControlCommon {
-  margin-bottom: 20px;
-}
-
-.userDetailsSectionTitles {
-  padding-bottom: 10px;
-}
-
-.formControl {
-  margin-right: 30px;
-  margin-top: 16px;
-
-  @extend %formControlCommon;
-}
-
-.textControl {
-  @include textControl;
-}
-
-.userSettingsSelect {
-  display: initial;
-
-  @extend %formControlCommon;
-
-  .settingsDropdown {
-    @include common-select;
-  }
+.pageSizeDropdown {
+  @include pageSizeDropdown;
 }

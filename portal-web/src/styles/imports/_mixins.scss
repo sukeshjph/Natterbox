@@ -1,0 +1,92 @@
+@mixin common-select {
+  border: 1px solid $colour-grey-mid;
+  border-radius: 4px;
+  padding: 5px;
+  min-width: 150px;
+  background-color: white;
+}
+
+@mixin textControl {
+  border: 1px solid $colour-grey-mid;
+  border-radius: 4px;
+  padding: 5px;
+  margin-top: 20px !important;
+}
+
+@mixin pageSizeDropdown {
+  border: 1px solid $colour-grey-mid;
+  border-radius: 4px;
+  padding: 5px;
+  background-color: white;
+  height: 30px;
+  margin-right: 10px;
+}
+
+@mixin formValidator {
+  min-width: 350px;
+}
+
+@mixin tooltip {
+  background-color: white !important;
+}
+
+@mixin ActionBlock {
+  display: flex;
+  align-items: center;
+  padding-left: 10px;
+  padding-right: 10px;
+  outline: none;
+  cursor: pointer;
+
+  span {
+    padding-left: 6px;
+  }
+}
+
+@mixin ActionIconButton {
+  padding: 5px;
+}
+
+@mixin ActionIconText {
+  font-size: 13px;
+  font-weight: 500;
+  color: $colour-grey-darkest;
+}
+
+@mixin greenButton($maxWidth: 100px) {
+  max-width: $maxWidth;
+  background-color: $colour-green-light;
+
+  &:hover {
+    background-color: $colour-green-light;
+  }
+}
+
+%headerCell {
+  position: sticky;
+  top: 0;
+  background-color: #b9bfc6;
+  z-index: 2;
+}
+
+@mixin row {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  width: 100%;
+}
+
+@mixin column {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  flex-basis: 50%;
+}
+
+@mixin linkButton {
+  background: none !important;
+  border: none;
+  padding: 0 !important;
+  color: $colour-blue-mid;
+  cursor: pointer;
+}

@@ -1,0 +1,39 @@
+@import "../../../styles/core-styles";
+
+.portalHeaderFilterCell {
+  @extend %headerCell;
+
+  font-size: 0.9rem;
+  max-width: 300px;
+  min-width: 150px;
+  padding: 2px 10px;
+  text-align: left;
+  color: #5c6770;
+  font-weight: 600;
+  background-color: #c7ccd1;
+  z-index: 4;
+}
+
+.portalHeaderCheckbox {
+  @extend %headerCell;
+
+  padding: 0 0 0 4px;
+  background-color: #c7ccd1;
+}
+
+.dateTimeContainer {
+  display: flex;
+  align-items: center;
+
+  input {
+    max-width: 150px;
+  }
+
+  select {
+    height: 21px;
+  }
+}
+
+.datePicker {
+  z-index: 9999;
+}
