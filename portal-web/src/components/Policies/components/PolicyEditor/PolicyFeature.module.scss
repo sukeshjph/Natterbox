@@ -1,0 +1,130 @@
+@import "../../../../styles/core-styles";
+
+.ComponentContainer {
+  width: 100%;
+  background-color: $colour-grey-light;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin-top: 2px;
+
+  &:nth-child(1) {
+    margin-top: 0;
+  }
+
+  .Import {
+    margin-left: -8px;
+
+    .Button {
+      &.Connected {
+        background-image: url("../../../../assets/icons/right.svg");
+      }
+    }
+  }
+
+  .Export {
+    margin-right: -8px;
+
+    .Button {
+      &.Connected {
+        background-image: none;
+      }
+    }
+  }
+
+  .Import,
+  .Export {
+    height: 15px;
+    width: 15px;
+    z-index: 1;
+
+    .Button {
+      cursor: pointer;
+      user-select: none;
+      margin-top: -2px;
+      margin-left: -2px;
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      border: 2px $colour-white solid;
+      outline: none;
+      background-color: $colour-green-light;
+      background-size: 90%;
+      background-position: center;
+      background-repeat: no-repeat;
+      background-image: url("../../../../assets/icons/plus-white.svg");
+
+      &.Connected {
+        background-color: $colour-grey-mid-dark;
+      }
+
+      &:hover {
+        width: 17px;
+        height: 17px;
+        margin: -3px -3px;
+      }
+    }
+  }
+
+  .Component {
+    cursor: pointer;
+    user-select: none;
+    position: relative;
+    font-weight: 500;
+    font-size: 13px;
+    flex-grow: 1;
+    padding: 8px 16px;
+
+    &.Active::before {
+      content: "";
+      position: absolute;
+      left: -4px;
+      right: -4px;
+      top: 4px;
+      bottom: 4px;
+      border: 2px solid $colour-blue-mid;
+      border-radius: 4px;
+    }
+  }
+}
+
+.PolicyFeature {
+  background-color: #fff;
+  position: relative;
+  margin: 10px 20px;
+
+  &.Active::before {
+    content: "";
+    position: absolute;
+    left: -4px;
+    right: -4px;
+    top: -4px;
+    bottom: -4px;
+    border: 2px solid $colour-blue-mid;
+    border-radius: 8px;
+  }
+
+  .Header,
+  .Footer {
+    color: $colour-white;
+    margin: 0;
+
+    .Component {
+      font-size: 16px;
+    }
+  }
+
+  .Content {
+    background-color: #aaa;
+  }
+
+  .Header {
+    border-radius: 4px 4px 0 0;
+    background-color: $colour-grey-mid;
+  }
+
+  .Footer {
+    border-radius: 0 0 4px 4px;
+    background-color: $colour-grey-mid-light;
+  }
+}

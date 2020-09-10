@@ -35,9 +35,9 @@ export const Header = ({ location }: headerProps) => {
 
   return (
     <AppBar position="static" className={styles.root}>
-      <div id="header-main">
+      <div id="header-main" className={styles.header}>
         <div className={styles.upperHeader}>
-          <div className={styles.rectangle}>
+          <div className={styles.buttonGreen}>
             <AccountIcon />
             Brightec
           </div>
@@ -66,9 +66,10 @@ export const Header = ({ location }: headerProps) => {
               />
             ))}
           </Tabs>
-          <Paper className={styles.search}>
+          <Paper className={styles.headerSearch}>
             <InputBase
-              placeholder="Search…"
+              className={styles.inputTextWithIconLarge}
+              placeholder="Search Org…"
               inputProps={{ "aria-label": "search" }}
             />
             <div>

@@ -1,5 +1,4 @@
 import React, { useState, useRef } from "react"
-import { Base64 } from "js-base64"
 import Alert from "@material-ui/lab/Alert"
 import IconButton from "@material-ui/core/IconButton"
 import Collapse from "@material-ui/core/Collapse"
@@ -10,16 +9,14 @@ import TextField from "@material-ui/core/TextField"
 import CloseIcon from "@material-ui/icons/Close"
 import AssignmentReturnIcon from "@material-ui/icons/AssignmentReturn"
 import { useAuth0 } from "../../../plugins/auth0"
+import { getDecodedTokenValues } from "../../../util"
 
 import styles from "./MePage.module.scss"
 
 export const Me = () => {
   const [copyAlert, setCopyAlertOpen] = useState(false)
   const { userToken } = useAuth0()
-  const s = userToken?.split(".")
-  const details = s && Base64.decode(s[1])
-  const data = details && JSON.parse(details)
-
+  const data = getDecodedTokenValues(userToken!)
   const inputEl = useRef<HTMLInputElement>(null)
 
   const copyToClipboard = () => {

@@ -1,4 +1,4 @@
-import { gql } from "apollo-boost"
+import gql from "graphql-tag"
 
 export const GET_ALL_NUMBERS = gql`
   query numbers($index: Int, $length: Int) {
@@ -25,6 +25,13 @@ export const UPDATE_NUMBER = gql`
   mutation UpdateNumber($id: String, $number: updateNumber) {
     updateNumber(id: $id, number: $number) {
       userId
+    }
+  }
+`
+export const DELETE_NUMBER = gql`
+  mutation DeleteNumber($countryCode: String, $number: String) {
+    deleteNumber(countryCode: $countryCode, number: $number) {
+      message
     }
   }
 `

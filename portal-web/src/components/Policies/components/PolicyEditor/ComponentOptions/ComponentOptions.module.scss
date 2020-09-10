@@ -1,0 +1,133 @@
+@import "../../../../../styles/core-styles";
+
+.textControl {
+  @include textControl;
+
+  color: $colour-grey-mid-dark;
+  font-size: 12px;
+  padding-top: 8px;
+  padding-bottom: 8px;
+}
+
+.dropdownControl {
+  @include textControl;
+
+  padding: 0;
+  color: $colour-grey-mid-dark;
+  font-size: 12px;
+}
+
+.switchLabel {
+  font-size: 12px;
+  color: $colour-grey-mid-dark;
+}
+
+.switchContainer {
+  display: flex;
+  align-items: center;
+}
+
+.root {
+  max-width: 600px;
+}
+
+.componentOptionsPaper {
+  max-width: 600px;
+  top: 175px;
+  height: calc(100% - 175px);
+}
+
+.form {
+  margin-left: 16px;
+  margin-right: 16px;
+  overflow: auto;
+  padding-bottom: 100px;
+  margin-bottom: 20px;
+}
+
+.submitButtonContainer {
+  position: fixed;
+  width: 600px;
+  bottom: 0;
+  box-shadow: 0 0 10px $colour-grey-mid-dark;
+  height: 100px;
+  background: white;
+  margin-left: -16px;
+}
+
+.submitButton {
+  @include greenButton;
+
+  margin-top: 32px;
+  margin-left: 24px;
+  margin-right: 24px;
+  color: $colour-grey-darkest;
+}
+
+.removeButton {
+  margin-top: 32px;
+}
+
+.formError {
+  font-size: 12px;
+  margin-top: 24px;
+  color: $colour-red;
+}
+
+.VariablesTable {
+  display: flex;
+  flex-direction: column;
+  width: 400px;
+
+  .Row {
+    display: flex;
+    flex-direction: row;
+    padding: 4px;
+    justify-content: space-between;
+
+    &:nth-child(odd) {
+      background-color: $colour-grey-mid-light;
+    }
+
+    .Heading {
+      padding: 12px 4px;
+      font-size: 1.2em;
+    }
+
+    .Key {
+      padding: 4px;
+      font-weight: bold;
+      flex-shrink: 1;
+    }
+
+    .Value {
+      padding: 4px;
+      font-weight: normal;
+      flex-shrink: 1;
+      overflow: auto;
+      overflow-wrap: break-word;
+    }
+  }
+}
+
+.pullOutContainer {
+  width: 400px;
+}
+
+.TemplateName {
+  padding: 8px;
+  background-color: $colour-grey-mid-light;
+}
+
+.SchemaError {
+  padding: 8px;
+  background-color: $colour-grey-mid-light;
+  color: $colour-red;
+}
+
+.scriptContainer {
+  height: 400px;
+  border-radius: 4px;
+  border: solid 1px $colour-grey-mid;
+  width: 40px;
+}

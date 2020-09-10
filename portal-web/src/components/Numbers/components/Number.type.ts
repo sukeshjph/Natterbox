@@ -6,12 +6,17 @@ export interface INumber {
   policyId: string | null
 }
 
-export interface INumberWithPagers {
-  hasMore: boolean
-  firstIndex: number
-  lastIndex: number
-  prevIndex: number
-  nextIndex: number
-  count: number
+export interface INumberWithPagers extends IPager {
   numbers: INumber[]
+}
+
+export interface NumberState {
+  columnsToShow: IColType<INumber>[]
+  showAddNew: boolean
+  showUpdateView: boolean
+  showError: boolean
+  error: string
+  pageLength: number
+  currentPageIndex: number
+  currentNumber: null | INumber
 }

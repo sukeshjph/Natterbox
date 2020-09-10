@@ -22,30 +22,30 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">16.67% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>6/6</span>
+                <span class='fraction'>1/6</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">66.67% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>4/6</span>
+                <span class='fraction'>0/6</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>1/1</span>
+                <span class='fraction'>0/1</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">20% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>5/5</span>
+                <span class='fraction'>1/5</span>
             </div>
         
             
@@ -54,7 +54,7 @@
             Press <em>n</em> or <em>j</em> to go to the next uncovered block, <em>b</em>, <em>p</em> or <em>k</em> for the previous block.
         </p>
     </div>
-    <div class='status-line high'></div>
+    <div class='status-line low'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -99,7 +99,10 @@
 <a name='L41'></a><a href='#L41'>41</a>
 <a name='L42'></a><a href='#L42'>42</a>
 <a name='L43'></a><a href='#L43'>43</a>
-<a name='L44'></a><a href='#L44'>44</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L44'></a><a href='#L44'>44</a>
+<a name='L45'></a><a href='#L45'>45</a>
+<a name='L46'></a><a href='#L46'>46</a>
+<a name='L47'></a><a href='#L47'>47</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -120,12 +123,15 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">100x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">4x</span>
-<span class="cline-any cline-yes">4x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -154,24 +160,27 @@ export const DeviceColProps: IColType&lt;IDevice&gt;[] = [
   {
     key: "id",
     label: "ID",
+    show: true,
   },
   {
     key: "macAddress",
     label: "Address",
+    show: true,
   },
   {
     key: "registrationExpiry",
     label: "Registration Expires In",
-    render: colData =&gt; {
-      if (isEmpty(colData)) return ""
+    show: true,
+    render: <span class="fstat-no" title="function not covered" >co</span>lData =&gt; {
+<span class="cstat-no" title="statement not covered" >      if (isEmpty(colData)) <span class="cstat-no" title="statement not covered" >return ""</span></span>
 &nbsp;
-      const today = new Date()
-      const regDate = parseISO(colData)
+      const today = <span class="cstat-no" title="statement not covered" >new Date()</span>
+      const regDate = <span class="cstat-no" title="statement not covered" >parseISO(colData)</span>
 &nbsp;
-      return (
+<span class="cstat-no" title="statement not covered" >      return (</span>
         &lt;div style={{ display: "flex", alignItems: "center" }}&gt;
           &lt;Icon
-            path={isAfter(today, regDate) ? mdiTimerOffOutline : <span class="branch-1 cbranch-no" title="branch not covered" >mdiTimer}</span>
+            path={isAfter(today, regDate) ? mdiTimerOffOutline : mdiTimer}
             size={0.8}
             horizontal
             vertical
@@ -179,7 +188,7 @@ export const DeviceColProps: IColType&lt;IDevice&gt;[] = [
           /&gt;
           {isAfter(today, regDate)
             ? "Expired"
-            : <span class="branch-1 cbranch-no" title="branch not covered" >getHourMinutesSeconds(differenceInSeconds(regDate, today))}</span>
+            : getHourMinutesSeconds(differenceInSeconds(regDate, today))}
         &lt;/div&gt;
       )
     },
@@ -192,7 +201,7 @@ export const DeviceColProps: IColType&lt;IDevice&gt;[] = [
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank">istanbul</a>
-                at Fri May 22 2020 17:13:55 GMT+0100 (British Summer Time)
+                at Fri Aug 14 2020 13:35:48 GMT+0530 (India Standard Time)
             </div>
         </div>
         <script src="../../../../prettify.js"></script>

@@ -1,0 +1,21 @@
+@import "../../../../styles/core-styles";
+
+.PolicyViewArea {
+  display: flex;
+  overflow: auto;
+}
+
+.PolicyViewContent {
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+}
+
+.PolicyFeatureColumn {
+  min-width: 220px;
+  margin: 10px;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+}

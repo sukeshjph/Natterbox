@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react"
+import React, { useEffect, useReducer } from "react"
 import { useLazyQuery } from "@apollo/react-hooks"
 import Spinner from "react-spinkit"
 import Paper from "@material-ui/core/Paper"
@@ -12,35 +12,39 @@ import {
   ActionBlocks,
   ActionTypes,
   PortalServerPaging,
+  Preferences,
 } from "../../shared"
 import { INumberWithPagers, INumber } from "./Number.type"
-import { NumberColProps } from "./NumberColProps"
+import {
+  removeError,
+  setShowAddNew,
+  setPageLength,
+  setCurrentPageIndex,
+  setColumnsToShow,
+  setShowUpdateView,
+  setCurrentNumber,
+} from "./NumberActions"
 import { GET_ALL_NUMBERS } from "./NumberQueries"
 import { NumberCreate } from "./NumberCreate/NumberCreate"
 import { NumberUpdate } from "./NumberUpdate/NumberUpdate"
+import { initialNumberState, numberReducer } from "./NumberReducer"
 
 import styles from "./Numbers.module.scss"
 
 const pagerOptions = [100, 150, 250, 400]
 
 export const NumberList = () => {
-  const [errorSnack, setErrorSnack] = useState(false)
-  const [showAddNew, setShowAddNew] = useState(false)
-  const [viewUpdate, setViewUpdate] = useState<{
-    show: boolean
-    number?: INumber
-  }>({
-    show: false,
-    number: {
-      label: null,
-      number: null,
-      countryCode: null,
-      userId: null,
-      policyId: null,
-    },
-  })
-  const [pageLength, setPageLength] = useState(pagerOptions[0])
-  const [currentPageIndex, setCurrentPageIndex] = useState(0)
+  const [state, dispatch] = useReducer(numberReducer, initialNumberState)
+
+  const {
+    columnsToShow,
+    showAddNew,
+    showUpdateView,
+    showError,
+    pageLength,
+    currentPageIndex,
+    currentNumber,
+  } = state
 
   const [loadNumbers, { called, loading, error, data, refetch }] = useLazyQuery(
     GET_ALL_NUMBERS,
@@ -80,24 +84,27 @@ export const NumberList = () => {
   } = numbersWithPagers
 
   const handlePageSizeChange = event => {
-    setPageLength(event.target.value)
+    dispatch(setPageLength(event.target.value))
     loadNumbers()
   }
 
   const handlePageNavigation = (pageIndex: number) => () => {
-    setCurrentPageIndex(pageIndex)
+    dispatch(setCurrentPageIndex(pageIndex))
     loadNumbers()
   }
 
   const handleTableRowClick = (number: INumber) => {
-    setViewUpdate({
-      show: true,
-      number,
-    })
+    dispatch(setShowUpdateView(true))
+    dispatch(setCurrentNumber(number))
   }
 
-  const actionEvents = {
-    [ActionTypes.ADDNEW]: () => setShowAddNew(true),
+  const handlePrefChange = (inputCols: IColType<INumber>[]) =>
+    dispatch(setColumnsToShow(inputCols))
+
+  const actions = {
+    [ActionTypes.ADDNEW]: {
+      event: () => setShowAddNew(true),
+    },
   }
 
   return (
@@ -106,13 +113,21 @@ export const NumberList = () => {
       {error && (
         <ErrorSnack
           error={error!.message}
-          open={error! && !errorSnack}
-          handleClose={() => setErrorSnack(true)}
+          open={error! && !showError}
+          handleClose={() => dispatch(removeError())}
         />
       )}
       {!loading && !error && (
         <>
-          <ActionBlocks actionEvents={actionEvents}>
+          <ActionBlocks
+            actions={actions}
+            preferences={
+              <Preferences
+                columns={columnsToShow}
+                handlePrefChange={handlePrefChange}
+                showFilter={() => undefined}
+              />
+            }>
             <PortalServerPaging
               totalPagesCount={count}
               currentPage={currentPageIndex}
@@ -140,22 +155,18 @@ export const NumberList = () => {
           </ActionBlocks>
           <PortalTable<INumber>
             objects={rows}
-            properties={NumberColProps}
+            properties={columnsToShow.filter(column => column.show)}
             handleRowClick={handleTableRowClick}
             showCheckBoxColumn
           />
           {showAddNew && (
             <NumberCreate closeDialog={() => setShowAddNew(false)} />
           )}
-          {viewUpdate.show && (
+          {showUpdateView && (
             <NumberUpdate
-              number={viewUpdate.number!}
+              number={currentNumber!}
               refetchNumbers={refetch}
-              closeDialog={() =>
-                setViewUpdate({
-                  show: false,
-                })
-              }
+              closeDialog={() => dispatch(setShowUpdateView(false))}
             />
           )}
         </>

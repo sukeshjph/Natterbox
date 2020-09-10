@@ -6,13 +6,14 @@ exports[`Header Renders Header 1`] = `
   position="static"
 >
   <div
+    className="header"
     id="header-main"
   >
     <div
       className="upperHeader"
     >
       <div
-        className="rectangle"
+        className="buttonGreen"
       >
         <AccountIcon />
         Brightec
@@ -299,15 +300,16 @@ exports[`Header Renders Header 1`] = `
         />
       </WithStyles(ForwardRef(Tabs))>
       <WithStyles(ForwardRef(Paper))
-        className="search"
+        className="headerSearch"
       >
         <WithStyles(ForwardRef(InputBase))
+          className="inputTextWithIconLarge"
           inputProps={
             Object {
               "aria-label": "search",
             }
           }
-          placeholder="Search…"
+          placeholder="Search Org…"
         />
         <div>
           <Icon
