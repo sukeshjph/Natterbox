@@ -1,0 +1,40 @@
+service: serverless-graphql-rest
+
+provider:
+  name: aws
+  runtime: nodejs12.x
+  stage: dev
+  profile: serverless-admin
+  region: eu-west-2
+  memorySize: 128
+  timeout: 300
+
+plugins:
+  - serverless-webpack
+  - serverless-offline
+  - serverless-dotenv-plugin
+
+custom:
+  webpack:
+    keepOutputDirectory: false
+    packager: "yarn"
+    includeModules: true
+    webpackIncludeModules: true
+    packagerOptions:
+      scripts:
+        - prisma generate
+  serverless-offline:
+    port: 4000
+
+functions:
+  graphql:
+    handler: server.graphqlHandler
+    events:
+      - http:
+          path: graphql
+          method: post
+          cors: true
+      - http:
+          path: playground
+          method: get
+          cors: true

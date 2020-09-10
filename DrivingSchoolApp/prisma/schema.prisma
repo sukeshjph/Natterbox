@@ -1,0 +1,613 @@
+generator client {
+  provider      = "prisma-client-js"
+  binaryTargets = ["native", "rhel-openssl-1.0.x"]
+}
+
+//generator typegraphql {
+//  provider = "typegraphql-prisma"
+//  output   = "../generated/type-graphql"
+//}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model access_log {
+  access_log_id Int       @id
+  user_id       Int?
+  access_date   DateTime?
+  access_client String?
+  location      String?
+  created_by    Int?
+  created_date  DateTime?
+  updated_by    Int?
+  updated_date  DateTime?
+  users         users?    @relation(fields: [user_id], references: [user_id])
+}
+
+model address {
+  address_id Int        @default(autoincrement()) @id
+  post_code  String?
+  add_line1  String?
+  add_line2  String?
+  add_line3  String?
+  city       String?
+  county     String?
+  country    String?
+  district   String?
+  latitude   String?
+  longitude  String?
+  branch     branch[]
+  company    company[]
+  customer   customer[]
+  entity     entity[]
+}
+
+model arinvoice {
+  invoice_id     Int            @id
+  invoice_num    String?
+  customer_id    Int?
+  branch_id      Int?
+  training_hours Int?
+  course_id      Int?
+  unit_price     Int?
+  currency       String?
+  total_amount   Int?
+  payment_type   Int?
+  paid_flag      String?        @default("N")
+  entity_id      Int?
+  branch         branch?        @relation(fields: [branch_id], references: [branch_id])
+  course_header  course_header? @relation(fields: [course_id], references: [course_id])
+  customer       customer?      @relation(fields: [customer_id], references: [customer_id])
+  arreceipts     arreceipts[]
+}
+
+model arreceipts {
+  receipt_id     Int        @id
+  invoice_id     Int?
+  payment_type   String?
+  payment_date   DateTime?
+  payment_amount Int?
+  fin_app_refno  String?
+  arinvoice      arinvoice? @relation(fields: [invoice_id], references: [invoice_id])
+}
+
+model branch {
+  branch_id                 Int             @default(autoincrement()) @id
+  branch_name               String?
+  branch_code               String?
+  branch_type               String?
+  entity_id                 Int?
+  address_id                Int?
+  primary_contact_firstname String?
+  primary_contact_lastname  String?
+  email_id                  String?
+  contact_number            String?
+  alt_contact_number        String?
+  active_flag               String?
+  address                   address?        @relation(fields: [address_id], references: [address_id])
+  entity                    entity?         @relation(fields: [entity_id], references: [entity_id])
+  arinvoice                 arinvoice[]
+  company                   company[]
+  course_header             course_header[]
+
+  @@unique([branch_id, entity_id], name: "unq_branch_branchid")
+}
+
+model company {
+  company_id    Int        @id
+  company_name  String?
+  company_type  String?
+  address_id    Int?
+  contact_name  String?
+  land_line_no  String?
+  mobile_no     String?
+  email         String?
+  contact_name2 String?
+  land_lineno2  String?
+  mobile_no2    String?
+  email2        String?
+  branch_id     Int?
+  entity_id     Int?
+  vat_number    String?
+  reg_number    String?
+  address       address?   @relation(fields: [address_id], references: [address_id])
+  branch        branch?    @relation(fields: [branch_id], references: [branch_id])
+  entity        entity?    @relation(fields: [entity_id], references: [entity_id])
+  customer      customer[]
+}
+
+model coursechedules {
+  schedule_id                                               Int              @id
+  line_id                                                   Int?
+  lesson_category                                           Int?
+  lesson_type                                               String?
+  seqno                                                     Int?
+  branch_id                                                 Int?
+  spissued_by                                               Int?
+  spissued_date                                             DateTime?
+  lic_app_date                                              DateTime?
+  licappsentt_od_vla                                        DateTime?
+  licappsenttodvla_flag                                     DateTime?
+  mc_booked_date                                            DateTime?
+  mctest_date                                               DateTime?
+  mcdoctorpaid_date                                         DateTime?
+  mc_doctor_paid_flag                                       String?
+  mccompleted_flag                                          String?
+  testbooked_date                                           DateTime?
+  test_date                                                 DateTime?
+  testcenter                                                String?
+  currency                                                  String?
+  testresult_flag                                           String?
+  lessonstart_date                                          DateTime?
+  lessonend_date                                            DateTime?
+  lessonstart_hour                                          Int?
+  lessonend_hour                                            Int?
+  lessoninstructor_id                                       Int?
+  booked_flag                                               String?
+  booked_date                                               DateTime?
+  current_flag                                              DateTime?
+  rescheduled_flag                                          DateTime?
+  lessonunit_price                                          Int?
+  lessonconfirmedby_customer                                String?
+  lessoncancelled_flag                                      String?
+  booked_by                                                 Int?
+  lesson_id                                                 Int?
+  course_id                                                 Int?
+  customer_id                                               Int?
+  lessonshistory_coursechedules_lesson_idTolessonshistory   lessonshistory?  @relation("coursechedules_lesson_idTolessonshistory", fields: [lesson_id], references: [lesson_id])
+  course_lines                                              course_lines?    @relation(fields: [line_id], references: [line_id])
+  lessonshistory_coursechedulesTolessonshistory_schedule_id lessonshistory[] @relation("coursechedulesTolessonshistory_schedule_id")
+}
+
+model course_header {
+  course_id                                                 Int                 @id
+  customer_id                                               Int?
+  course_type                                               String?
+  pack_ageid                                                Int?
+  pack_age_name                                             String?             @unique
+  cat_p                                                     String?
+  cat_a1                                                    String?
+  cat_a                                                     String?
+  cat_b1                                                    String?
+  cat_b                                                     String?
+  cat_b_auto                                                String?
+  cat_b_e                                                   String?
+  cat_c1                                                    String?
+  cat_c1_e                                                  String?
+  cat_c                                                     String?
+  cat_c_e                                                   String?
+  cat_d1                                                    String?
+  cat_d1_e                                                  String?
+  cat_d                                                     String?
+  cat_d_e                                                   String?
+  cat_f                                                     String?
+  cat_g                                                     String?
+  cat_h                                                     String?
+  cat_k                                                     String?
+  s1medical_test                                            String?
+  s2ttstudy_pack                                            String?
+  s1provlic                                                 String?
+  s2hptheory_test                                           String?             @default("N")
+  s2mctheory_test                                           String?
+  s2cpc2theory_test                                         String?
+  s3practicalles_sons                                       String?             @default("N")
+  s3dvlapractical_test                                      String?             @default("N")
+  s4cpcpracticalles_sons                                    String?             @default("N")
+  s4dvlapractical_test                                      String?             @default("N")
+  cpcidverificationre_quired                                String?
+  s5cepracticalles_sons                                     String?
+  s5cedvlatest_free                                         String?
+  assessment_drive                                          String?
+  comments                                                  String?
+  training_hours                                            String?
+  unit_price                                                Int?
+  currency                                                  String?
+  total_amount                                              Int?
+  branch_id                                                 Int?
+  payment_type                                              String?
+  payment_date                                              DateTime?
+  paymentrequired_flag                                      DateTime?
+  training_pace                                             String?
+  gdpr_flag                                                 String?
+  po_number                                                 String?
+  primary_instructor_id                                     Int?
+  branch                                                    branch?             @relation(fields: [branch_id], references: [branch_id])
+  customer                                                  customer?           @relation(fields: [customer_id], references: [customer_id])
+  coursepackages_course_header_pack_ageidTocoursepackages   coursepackages?     @relation("course_header_pack_ageidTocoursepackages", fields: [pack_ageid], references: [package_id])
+  arinvoice                                                 arinvoice[]
+  course_lines                                              course_lines[]
+  coursepackages_course_headerTocoursepackages_package_name coursepackages[]    @relation("course_headerTocoursepackages_package_name")
+  cpcidconfirmation                                         cpcidconfirmation[]
+  gdpr_consent                                              gdpr_consent[]
+}
+
+model course_lines {
+  line_id           Int              @id
+  course_id         Int?
+  customer_id       Int?
+  lesson_category   Int?
+  lesson_type       Int?
+  quantity          Int?
+  training_hours    Int?
+  training_days     Int?
+  unit_price        Int?
+  currency          String?
+  net_amount        Int?
+  vat_amount        Int?
+  total_line_amount Int?
+  ar_invoice_number String?
+  course_header     course_header?   @relation(fields: [course_id], references: [course_id])
+  coursechedules    coursechedules[]
+}
+
+model coursepackages {
+  package_id                                               Int             @id
+  package_name                                             String?
+  course_header_course_headerTocoursepackages_package_name course_header?  @relation("course_headerTocoursepackages_package_name", fields: [package_name], references: [pack_age_name])
+  course_header_course_header_pack_ageidTocoursepackages   course_header[] @relation("course_header_pack_ageidTocoursepackages")
+}
+
+model course_type {
+  course_type_id       Int                  @default(autoincrement()) @id
+  course_type          String?
+  gdpr_consent_flag    String?
+  id_confirmation_flag String?
+  seq_prefix           String?
+  lesson_categories    lesson_categories[]
+  license_categories   license_categories[]
+}
+
+model cpcidconfirmation {
+  cpc_id           Int            @id
+  form_of_id       Int?
+  verified_flag    String?
+  verfication_date DateTime?
+  verified_by_user Int?
+  course_id        Int?
+  // This type is currently not supported.
+  // uploaded_file binary?
+  course_header    course_header? @relation(fields: [course_id], references: [course_id])
+}
+
+model customer {
+  customer_id      Int             @id
+  customer_type    String
+  first_name       String?
+  middle_name      String?
+  last_name        String?
+  dob              DateTime?
+  gender           String?
+  email            String?
+  branch_id        Int?
+  mobile_no        String?
+  landline_no      String?
+  mobile_no2       String?
+  comments         String?
+  dl_no            String?
+  ni_no            String?
+  company_id       Int?
+  address_id       Int?
+  cpc_expiry_date  DateTime?
+  prov_lic_car     String?
+  prov_lic_lgv_hgv String?
+  prov_lic_pcv     String?
+  full_lic_car     String?
+  full_lic_lgv_hgv String?
+  full_lic_pcv     DateTime?
+  address          address?        @relation(fields: [address_id], references: [address_id])
+  company          company         @relation(fields: [customer_id], references: [company_id])
+  arinvoice        arinvoice[]
+  course_header    course_header[]
+}
+
+model dvlatest {
+  test_id           Int       @id
+  dvlatest_type     Int?
+  test_date         DateTime?
+  booked_date       DateTime?
+  center            DateTime?
+  result            DateTime?
+  deposit_paid_flag String?   @default("N")
+  deposit_paid      Int?
+  deposit_type      String?
+  fin_appre_fno     String?
+  date_paid         Int?
+  test_type         Int?
+  course_id         Int?
+}
+
+// The underlying table does not contain a valid unique identifier and can therefore currently not be handled.
+// model employee1 {
+// employee_id       Int?
+// employee_number   String?
+// first_name        String?
+// middle_name       String?
+// last_name         String?
+// email_id          String?
+// dob               DateTime?
+// gender            String?
+// contact_no        String?
+// alt_contact_no    String?
+// address_id        Int?
+// photo_url         String?
+// entity_id         Int?
+// default_branch_id Int?
+// hire_date         DateTime?
+// leaving_date      DateTime?
+// supervisior_id    Int?
+// department_type   String?
+// position_title    String?
+// job_title         String?
+// identity_id       Int?
+// created_by        Int?
+// created_date      DateTime?
+// last_updated_by   Int?
+// last_updated_date DateTime?
+// }
+
+model employees {
+  id                Int       @default(autoincrement()) @id
+  employee_number   String?
+  first_name        String?
+  middle_name       String?
+  last_name         String?
+  email_id          String?
+  dob               DateTime?
+  gender            String?
+  contact_no        String?
+  alt_contact_no    String?
+  address_id        Int?
+  photo_url         String?
+  entity_id         Int?
+  default_branch_id Int?
+  hire_date         DateTime?
+  leaving_date      DateTime?
+  supervisior_id    Int?
+  department_type   String?
+  position_title    String?
+  job_title         String?
+  identity_id       Int?
+  created_by        Int?
+  created_date      DateTime?
+  last_updated_by   Int?
+  last_updated_date DateTime?
+  createdAt         DateTime?
+  updatedAt         DateTime?
+  employee_id       Int?
+}
+
+model entity {
+  entity_id                 Int       @default(autoincrement()) @id
+  name                      String?
+  reg_num                   String?
+  vat_num                   String?
+  logo_url                  String?
+  primary_contact_firstname String?
+  primary_contact_lastname  String?
+  email_id                  String?
+  contact_number            String?
+  alt_contact_number        String?
+  base_currency             String?
+  tax_profile_country       String?
+  address_id                Int?
+  active_flag               String?
+  branch_count              Int?
+  address                   address?  @relation(fields: [address_id], references: [address_id])
+  branch                    branch[]
+  company                   company[]
+}
+
+model gdpr_consent {
+  consent_id            Int            @id
+  course_id             Int?
+  customer_id           Int?
+  consent_received_flag String?
+  consent_date          DateTime?
+  consent_method        String?
+  // This type is currently not supported.
+  // consent_file       binary?
+  // This type is currently not supported.
+  // created_by         binary?
+  create_date           DateTime?      @map("create date")
+  course_header         course_header? @relation(fields: [course_id], references: [course_id])
+}
+
+model identity_details {
+  identity_id       Int       @default(autoincrement()) @id
+  identity_type     String?
+  issue_date        DateTime?
+  expiry_date       DateTime?
+  verified_date     DateTime?
+  verified_by       DateTime?
+  expiry_status     Boolean?
+  created_by        Int?
+  created_date      DateTime?
+  last_updated_by   Int?
+  last_updated_date DateTime?
+  image_url         String?
+}
+
+model instructor {
+  instructor_id              Int                          @id
+  first_name                 String?
+  middle_name                String?
+  last_name                  String?
+  gender                     String?
+  hire_date                  DateTime?
+  email_id                   Int?
+  entity_id                  Int?
+  default_branch_id          Int?
+  driving_lic_no             Int?
+  ni_no                      Int?
+  instructor_number          String?
+  instructor_billing_profile instructor_billing_profile[]
+  instructorcalendar         instructorcalendar[]
+  instructor_certificates    instructor_certificates[]
+  lessonshistory             lessonshistory[]
+}
+
+model instructor_billing_profile {
+  billing_profile_id      Int         @id
+  instructor_id           Int?
+  franchise_weekly_amount Int?
+  currency                String?
+  effective_start_date    DateTime?
+  effective_end_date      DateTime?
+  current_flag            String?
+  commission_percent      Int?
+  instructor              instructor? @relation(fields: [instructor_id], references: [instructor_id])
+}
+
+model instructorcalendar {
+  calendar_id      Int             @id
+  instructor_id    Int?
+  work_date        DateTime?
+  start_work_hour  Int?
+  end_work_hour    Int?
+  available_flag   String?
+  booked_flag      String?
+  not_working_flag String?
+  vacation_flag    String?
+  lesson_id        Int?
+  instructor       instructor?     @relation(fields: [instructor_id], references: [instructor_id])
+  lessonshistory   lessonshistory? @relation(fields: [lesson_id], references: [lesson_id])
+}
+
+model instructor_certificates {
+  certificate_id              Int         @id
+  instructor_id               Int?
+  current_flag                String?
+  instructor_certificate_type String?
+  issue_date                  DateTime?
+  expiry_date                 DateTime?
+  // This type is currently not supported.
+  // uploaded_file            binary?
+  vertification_date          DateTime?
+  vertified_by_user           DateTime?
+  verified_flag               String?
+  instructor                  instructor? @relation(fields: [instructor_id], references: [instructor_id])
+}
+
+model lesson_categories {
+  lesson_category_id   Int          @default(autoincrement()) @id
+  course_type_id       Int?
+  lesson_category_name String?
+  instructor_led_flag  Boolean?
+  license_category_id  Int?
+  course_type          course_type? @relation(fields: [course_type_id], references: [course_type_id])
+}
+
+model lessonshistory {
+  lesson_id                                                 Int                  @id
+  schedule_id                                               Int?
+  branch_id                                                 Int?
+  seq_no                                                    Int?
+  lesson_type                                               String?
+  lesson_code                                               String?              @unique
+  no_of_hours                                               Int?
+  lesson_start_date                                         DateTime?
+  lessonend_date                                            DateTime?
+  lesson_star_thour                                         Int?
+  lessonendhour                                             Int?
+  instructorid                                              Int?
+  bookedflag                                                String?
+  bookedby                                                  Int?
+  bookeddate                                                DateTime?
+  currentflag                                               String?
+  rescheduledflag                                           DateTime?
+  unitprice                                                 Int?
+  currency                                                  String?
+  deliverdflag                                              String?
+  confirmedbycustomer                                       String?
+  cancelledflag                                             String?
+  booked_flag                                               String?
+  instructor_id                                             Int?
+  booked_by                                                 Int?
+  booked_date                                               DateTime?
+  rescheduled_flag                                          DateTime?
+  current_flag                                              String?
+  unit_price                                                Int?
+  lessonend_hour                                            Int?
+  deliverd_flag                                             String?
+  confirmedby_customer                                      String?
+  cancelled_flag                                            String?
+  instructor                                                instructor?          @relation(fields: [instructor_id], references: [instructor_id])
+  coursechedules_coursechedulesTolessonshistory_schedule_id coursechedules?      @relation("coursechedulesTolessonshistory_schedule_id", fields: [schedule_id], references: [schedule_id])
+  coursechedules_coursechedules_lesson_idTolessonshistory   coursechedules[]     @relation("coursechedules_lesson_idTolessonshistory")
+  instructorcalendar                                        instructorcalendar[]
+}
+
+model licenseapplication {
+  applica_tion_id   Int       @id
+  applica_tion_date DateTime?
+  sentt_od_vla      String?   @default("N")
+  datesentt_od_vla  DateTime?
+  course_id         Int?
+}
+
+model license_categories {
+  license_category_id       Int          @default(autoincrement()) @id
+  lic_cat_name              String?
+  course_type_id            Int?
+  min_age                   Int?
+  additional_details        String?
+  special_condition_comment String?
+  start_date                DateTime?
+  end_date                  DateTime?
+  active_flag               String?
+  special_condition_flag    Boolean
+  cpc_periodic_training     Boolean?     @default(false)
+  course_type               course_type? @relation(fields: [course_type_id], references: [course_type_id])
+}
+
+model SequelizeMeta {
+  name String @id
+}
+
+model studypack {
+  pack_id     Int       @id
+  course_id   Int?
+  issued_by   Int?
+  issued_date DateTime?
+}
+
+model taxcodes {
+  taxcode_id         Int       @default(autoincrement()) @id
+  taxcode_name       String?
+  tax_country        String?
+  taxcode_percentage Int?
+  start_date         DateTime?
+  end_date           DateTime?
+  status             Boolean?
+}
+
+model users {
+  user_id       Int          @default(autoincrement()) @id
+  username      String?
+  pass          String?
+  user_type     String?
+  start_date    DateTime?
+  end_date      DateTime?
+  employee_role String?
+  created_by    Int?
+  created_date  DateTime?
+  updated_date  DateTime?
+  updated_by    Int?
+  user_link_id  Int?
+  entity_id     Int?
+  branch_id1    Int?
+  branch_id2    Int?
+  branch_id3    Int?
+  branch_id4    Int?
+  branch_id5    Int?
+  branch_id6    Int?
+  branch_id7    Int?
+  branch_id8    Int?
+  branch_id9    Int?
+  branch_id10   Int?
+  branch_id11   Int?
+  branch_id12   Int?
+  access_log    access_log[]
+}
