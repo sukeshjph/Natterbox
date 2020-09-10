@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24" height="24" viewBox="0 0 24 24">
+	<path d="M14.6 3c.6 0 1 .4 1 1v3.5c0 .5-.4.9-.9.9s-.9-.4-.9-.9V4.8h-9v14.4h9v-2.7c0-.5.4-.9.9-.9s.9.4.9.9V20c0 .6-.4 1-1 1H4c-.6 0-1-.4-1-1V4c0-.6.4-1 1-1h10.6zm2.8 6.3L21 12l-3.6 2.7v-1.8h-7.2c-.5 0-.9-.4-.9-.9s.4-.9.9-.9h7.2V9.3z" fill-rule="evenodd" clip-rule="evenodd" fill="#d8d8d8"/>
+	<defs>
+		<filter id="a" filterUnits="userSpaceOnUse" x="1.2" y="1.2" >
+		<feColorMatrix values="1 0 0 0 0 0 1 0 0 0 0 0 1 0 0 0 0 0 1 0"/></filter>
+	</defs>
+	<mask maskUnits="userSpaceOnUse" x="1.2" y="1.2" id="b" >
+		<g filter="url(#a)">
+		<path d="M14.6 3c.6 0 1 .4 1 1v3.5c0 .5-.4.9-.9.9s-.9-.4-.9-.9V4.8h-9v14.4h9v-2.7c0-.5.4-.9.9-.9s.9.4.9.9V20c0 .6-.4 1-1 1H4c-.6 0-1-.4-1-1V4c0-.6.4-1 1-1h10.6zm2.8 6.3L21 12l-3.6 2.7v-1.8h-7.2c-.5 0-.9-.4-.9-.9s.4-.9.9-.9h7.2V9.3z" fill-rule="evenodd" clip-rule="evenodd" fill="#fff"/>
+		</g>
+	</mask>
+	<path d="M1.2 1.2h21.6v21.6H1.2V1.2z" mask="url(#b)" fill-rule="evenodd" clip-rule="evenodd"/>
+</svg>

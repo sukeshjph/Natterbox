@@ -1,6 +1,7 @@
 /* eslint-disable no-console */
 import React from "react"
 import { render } from "react-dom"
+import { BrowserRouter as Router } from "react-router-dom"
 import App from "./App"
 import { Auth0Provider } from "./plugins/auth0"
 import history from "./plugins/history"
@@ -25,7 +26,9 @@ render(
   <Auth0Provider
     redirect_uri={window.location.origin}
     onRedirectCallback={onAuthRedirectCallback}>
-    <App />
+    <Router>
+      <App />
+    </Router>
   </Auth0Provider>,
   document.getElementById("root"),
 )

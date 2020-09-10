@@ -1,4 +1,4 @@
-@import "../../../../styles/common";
+@import "../../../../styles/core-styles";
 
 .root {
   padding: 30px;
@@ -6,6 +6,10 @@
 
 %formControlCommon {
   margin-bottom: 20px;
+}
+
+.settingsDropdownContainer {
+  padding-left: 30px;
 }
 
 .settingsDropdown {
@@ -17,8 +21,10 @@
 }
 
 .gSettingsRoot {
+  padding: 30px;
   display: flex;
   flex-direction: column;
+  background-color: #f7f7f7;
 }
 
 .gSettingsFormLabel {

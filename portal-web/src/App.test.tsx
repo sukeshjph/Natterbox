@@ -1,3 +1,4 @@
+/* eslint-disable import/no-extraneous-dependencies */
 import React from "react"
 import { shallow } from "enzyme"
 import toJson from "enzyme-to-json"
@@ -6,6 +7,13 @@ import App from "./App"
 import { useAuth0 } from "./plugins/auth0"
 
 jest.mock("./plugins/auth0")
+
+jest.mock("react-router-dom", () => ({
+  ...jest.requireActual("react-router-dom"),
+  useHistory: () => ({
+    push: jest.fn(),
+  }),
+}))
 
 describe("Main App", () => {
   const setup = (mockOverrides = {}) => ({

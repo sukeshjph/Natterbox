@@ -3,7 +3,7 @@ type HoldMusic = {
   preset: String
 }
 
-export interface IGeneralSettings {
+export interface ILocale {
   externalCallerIdNumber: string | null
   presentCallerId: boolean | null
   timezone: string | null

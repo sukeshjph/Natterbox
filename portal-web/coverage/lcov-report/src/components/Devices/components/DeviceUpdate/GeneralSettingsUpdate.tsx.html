@@ -22,30 +22,30 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">7.69% </span>
+                <span class="strong">9.09% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>2/26</span>
+                <span class='fraction'>2/22</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>0/18</span>
+                <span class='fraction'>0/16</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>0/7</span>
+                <span class='fraction'>0/8</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">8% </span>
+                <span class="strong">9.52% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>2/25</span>
+                <span class='fraction'>2/21</span>
             </div>
         
             
@@ -283,8 +283,10 @@
 <a name='L225'></a><a href='#L225'>225</a>
 <a name='L226'></a><a href='#L226'>226</a>
 <a name='L227'></a><a href='#L227'>227</a>
-<a name='L228'></a><a href='#L228'>228</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L228'></a><a href='#L228'>228</a>
+<a name='L229'></a><a href='#L229'>229</a>
+<a name='L230'></a><a href='#L230'>230</a>
+<a name='L231'></a><a href='#L231'>231</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -324,15 +326,10 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -347,15 +344,9 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -472,6 +463,21 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -511,12 +517,11 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import React, { useState, useEffect } from "react"
-import { pathOr, isNil } from "ramda"
+import { pathOr } from "ramda"
 import { useMutation, useQuery } from "@apollo/react-hooks"
 import FormControl from "@material-ui/core/FormControl"
 &nbsp;
 import FormControlLabel from "@material-ui/core/FormControlLabel"
-import Checkbox from "@material-ui/core/Checkbox"
 import Switch from "@material-ui/core/Switch"
 import Button from "@material-ui/core/Button"
 import FormGroup from "@material-ui/core/FormGroup"
@@ -528,7 +533,7 @@ import styles from "../Device.module.scss"
 &nbsp;
 type DeviceState = Pick&lt;
   IDevice,
-  "sipExtension" | "description" | "location" | "enabled" | "password"
+  "sipExtension" | "description" | "location" | "enabled"
 &gt;
 &nbsp;
 const DeviceInitialState = {
@@ -543,7 +548,7 @@ type ownProps = {
 }
 &nbsp;
 const GeneralSettingsUpdate: React.FC&lt;ownProps&gt; = <span class="fstat-no" title="function not covered" >({</span> id }) =&gt; {
-  const { loading, data, refetch } = <span class="cstat-no" title="statement not covered" >useQuery(VIEW_DEVICE, {</span>
+  const { loading, data } = <span class="cstat-no" title="statement not covered" >useQuery(VIEW_DEVICE, {</span>
     variables: { id },
   })
 &nbsp;
@@ -551,15 +556,10 @@ const GeneralSettingsUpdate: React.FC&lt;ownProps&gt; = <span class="fstat-no" t
     DeviceInitialState,
   )
 &nbsp;
-  const [password, setPassword] = <span class="cstat-no" title="statement not covered" >useState(false)</span>
   const [
     updateDevice,
     { loading: mutationLoading, data: updatedDeviceData },
-  ] = <span class="cstat-no" title="statement not covered" >useMutation(UPDATE_DEVICE, {</span>
-<span class="fstat-no" title="function not covered" >    on</span>Completed() {
-<span class="cstat-no" title="statement not covered" >      refetch()</span>
-    },
-  })
+  ] = <span class="cstat-no" title="statement not covered" >useMutation(UPDATE_DEVICE)</span>
 &nbsp;
 <span class="cstat-no" title="statement not covered" >  useEffect(<span class="fstat-no" title="function not covered" >()</span> =&gt; {</span>
 <span class="cstat-no" title="statement not covered" >    setDeviceState({</span>
@@ -571,21 +571,15 @@ const GeneralSettingsUpdate: React.FC&lt;ownProps&gt; = <span class="fstat-no" t
   }, [data])
 &nbsp;
   // Handle the systemGenerated checkbox
-  const updatePassword = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >e </span>=&gt; {</span>
-<span class="cstat-no" title="statement not covered" >    setPassword(e.target.checked)</span>
-&nbsp;
-<span class="cstat-no" title="statement not covered" >    if (password)</span>
-<span class="cstat-no" title="statement not covered" >      setDeviceState({</span>
-        sipExtension: deviceState.sipExtension,
-        description: deviceState.description,
-        location: deviceState.location,
-        enabled: deviceState.enabled,
-      })
-    else
-<span class="cstat-no" title="statement not covered" >      setDeviceState({</span>
-        ...deviceState,
-        password: null,
-      })
+  const updatePassword = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >()</span> =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >    updateDevice({</span>
+      variables: {
+        id,
+        device: {
+          password: null,
+        },
+      },
+    }).catch(<span class="fstat-no" title="function not covered" >()</span> =&gt; {})
   }
 &nbsp;
 <span class="cstat-no" title="statement not covered" >  if (loading) <span class="cstat-no" title="statement not covered" >return &lt;Loading /&gt;</span></span>
@@ -619,7 +613,7 @@ const GeneralSettingsUpdate: React.FC&lt;ownProps&gt; = <span class="fstat-no" t
 &nbsp;
   const { sipExtension, location, description, enabled } = <span class="cstat-no" title="statement not covered" >deviceState</span>
 &nbsp;
-  const formDisabled = <span class="cstat-no" title="statement not covered" >!isNil(updatedDeviceData) || mutationLoading</span>
+  const formDisabled = <span class="cstat-no" title="statement not covered" >mutationLoading</span>
 &nbsp;
 <span class="cstat-no" title="statement not covered" >  return (</span>
     &lt;ValidatorForm
@@ -664,10 +658,12 @@ const GeneralSettingsUpdate: React.FC&lt;ownProps&gt; = <span class="fstat-no" t
             InputLabelProps={{ shrink: true }}
             class="standard-basic"
             name="location"
-            label="Location"
+            label="Location (Optional)"
             onChange={updateField}
             value={location}
             disabled={formDisabled}
+            validators={["maxStringLength:32"]}
+            errorMessages={["Cannot be more than 32 characters"]}
             InputProps={{
               className: styles.textControl,
             }}
@@ -680,7 +676,9 @@ const GeneralSettingsUpdate: React.FC&lt;ownProps&gt; = <span class="fstat-no" t
             InputLabelProps={{ shrink: true }}
             class="standard-basic"
             name="description"
-            label="Description"
+            label="Description (Optional)"
+            validators={["maxStringLength:32"]}
+            errorMessages={["Cannot be more than 32 characters"]}
             onChange={updateField}
             value={description}
             disabled={formDisabled}
@@ -706,31 +704,42 @@ const GeneralSettingsUpdate: React.FC&lt;ownProps&gt; = <span class="fstat-no" t
         /&gt;
 &nbsp;
         {/*  UPDATE ONLY - Reset Password */}
-        &lt;FormControl margin="normal"&gt;
-          &lt;FormControlLabel
-            control={
-              &lt;Checkbox
-                value={password}
-                onChange={updatePassword}
-                name="System Generated password"
-              /&gt;
-            }
-            label="System generated password"
-            disabled={formDisabled}
-          /&gt;
-        &lt;/FormControl&gt;
-&nbsp;
-        {isNil(updatedDeviceData) &amp;&amp; (
-          &lt;Button
-            type="submit"
-            color="primary"
-            variant="contained"
-            disabled={formDisabled}
-            className={styles.DeviceButton}&gt;
-            {mutationLoading ? "Updating" : "Update"}
-          &lt;/Button&gt;
-        )}
-        {!isNil(updatedDeviceData) &amp;&amp; "Updated the device successfully"}
+        &lt;FormGroup&gt;
+          &lt;FormControl margin="normal"&gt;
+            &lt;Button
+              onClick={<span class="fstat-no" title="function not covered" >()</span> =&gt; <span class="cstat-no" title="statement not covered" >updatePassword()}</span>
+              color="primary"
+              variant="contained"
+              disabled={formDisabled}
+              className={styles.DeviceButton}&gt;
+              {mutationLoading ? "Updating" : "Reset Password"}
+            &lt;/Button&gt;
+          &lt;/FormControl&gt;
+          {updatedDeviceData &amp;&amp;
+            updatedDeviceData.updateDevice &amp;&amp;
+            updatedDeviceData.updateDevice.password &amp;&amp; (
+              &lt;&gt;
+                &lt;p&gt;
+                  &lt;strong&gt;
+                    *The password has now changed for this device. Please make a
+                    note of the new password as we will not show it to you
+                    again. You will need to update your IP phone or soft phone
+                    with this new password in order for you to be able to make
+                    and receive calls.
+                  &lt;/strong&gt;
+                &lt;/p&gt;
+                &lt;p&gt;{updatedDeviceData.updateDevice.password}&lt;/p&gt;
+              &lt;/&gt;
+            )}
+        &lt;/FormGroup&gt;
+        &lt;Button
+          type="submit"
+          color="primary"
+          variant="contained"
+          disabled={formDisabled}
+          className={styles.DeviceButton}&gt;
+          {mutationLoading ? "Updating" : "Update"}
+        &lt;/Button&gt;
       &lt;/FormGroup&gt;
     &lt;/ValidatorForm&gt;
   )
@@ -744,7 +753,7 @@ export default GeneralSettingsUpdate
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank">istanbul</a>
-                at Fri May 22 2020 17:13:55 GMT+0100 (British Summer Time)
+                at Fri Aug 14 2020 13:35:48 GMT+0530 (India Standard Time)
             </div>
         </div>
         <script src="../../../../../prettify.js"></script>

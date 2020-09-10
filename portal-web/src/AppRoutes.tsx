@@ -9,17 +9,15 @@ import {
   DevicesLazy,
   MeLazy,
   GroupsLazy,
+  ErrorLazy,
+  PoliciesLazy,
 } from "./pages"
 
-export const AppRoutes = ({ setAlert }) => {
+export const AppRoutes = ({ setAlerts }) => {
   const location = useLocation()
   useEffect(() => {
     // reset any error alerts on page change
-    setAlert({
-      show: false,
-      message: "",
-      severity: "error",
-    })
+    setAlerts([])
   }, [location])
 
   return (
@@ -31,9 +29,11 @@ export const AppRoutes = ({ setAlert }) => {
       <PrivateRoute exact path="/users" component={UsersLazy} />
       <PrivateRoute exact path="/devices" component={DevicesLazy} />
       <PrivateRoute exact path="/numbers" component={NumbersLazy} />
-      <PrivateRoute exact path="/policies" render={() => <div>Policies</div>} />
+      <PrivateRoute exact path="/policies" component={PoliciesLazy} />
+      <PrivateRoute exact path="/policies/:policyId" component={PoliciesLazy} />
       <PrivateRoute exact path="/groups" component={GroupsLazy} />
       <PrivateRoute exact path="/me" component={MeLazy} />
+      <PrivateRoute exact path="/error" component={ErrorLazy} />
     </Switch>
   )
 }

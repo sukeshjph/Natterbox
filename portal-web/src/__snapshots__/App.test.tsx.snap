@@ -285,7 +285,7 @@ exports[`Main App Renders App 1`] = `
   >
     <ApolloProvider
       client={
-        DefaultClient {
+        ApolloClient {
           "cache": InMemoryCache {
             "addTypename": true,
             "cacheKeyRoot": KeyTrie {
@@ -504,17 +504,15 @@ exports[`Main App Renders App 1`] = `
         }
       }
     >
-      <BrowserRouter>
-        <div
-          className="content"
-        >
-          <Route
-            path="/"
-            render={[Function]}
-          />
-        </div>
-        <Footer />
-      </BrowserRouter>
+      <div
+        className="content"
+      >
+        <Route
+          path="/"
+          render={[Function]}
+        />
+      </div>
+      <Footer />
     </ApolloProvider>
   </ThemeProvider>
 </StylesProvider>

@@ -1,18 +1,18 @@
-import React, { useState } from "react"
+import React from "react"
 import { ApolloProvider } from "@apollo/react-hooks"
-import ApolloClient from "apollo-boost"
+
 import {
   createMuiTheme,
   ThemeProvider,
   StylesProvider,
 } from "@material-ui/core/styles"
-import { BrowserRouter as Router, Route } from "react-router-dom"
+import { Route } from "react-router-dom"
 
 // Our Libs
-import "./styles/global.scss"
-import { useAuth0 } from "./plugins/auth0"
+import "./styles/core-styles.scss"
 import { Loading, Header, Footer, ErrorAlert } from "./components/shared"
 import { AppRoutes } from "./AppRoutes"
+import { useApp } from "./useApp.hook"
 
 const theme = createMuiTheme({
   typography: {
@@ -20,26 +20,17 @@ const theme = createMuiTheme({
   },
 })
 
-type alertProps = {
-  message: string
-  show: boolean
-  severity: "error" | "warning" | "info" | "success"
-}
-
 const App = () => {
   const {
     isInitializing,
     isAuthenticated,
     loginWithRedirect,
-    userToken,
-    apiUrl,
-  } = useAuth0()
-
-  const [alert, setAlert] = useState<alertProps>({
-    message: "",
-    show: false,
-    severity: "error",
-  })
+    apolloLink,
+    alerts,
+    setAlerts,
+    alertsOpen,
+    setAlertsOpen,
+  } = useApp()
 
   if (isInitializing) {
     return <Loading />
@@ -49,63 +40,38 @@ const App = () => {
     loginWithRedirect({})
   }
 
-  const apolloLink = new ApolloClient({
-    onError: err => {
-      if (
-        err &&
-        err.graphQLErrors &&
-        err.graphQLErrors[0] &&
-        err.graphQLErrors[0].extensions
-      )
-        setAlert({
-          show: true,
-          message: `${err.graphQLErrors[0].message}, ${err.graphQLErrors[0].extensions.description}, ${err.graphQLErrors[0].extensions.exception.orgId}, ${err.graphQLErrors[0].extensions.exception.requestId}`,
-          severity: "error",
-        })
-    },
-    uri: apiUrl,
-    request: operation => {
-      operation.setContext({
-        headers: {
-          Authorization: `Bearer ${userToken}` || "",
-        },
-      })
-    },
-  })
-
-  apolloLink.defaultOptions = {
-    watchQuery: {
-      fetchPolicy: "cache-first",
-      errorPolicy: "all",
-    },
-  }
-
   return (
     <StylesProvider injectFirst>
       <ThemeProvider theme={theme}>
         <ApolloProvider client={apolloLink}>
-          <Router>
-            <>
-              <div className="content">
-                <Route
-                  path="/"
-                  render={({ location }) => (
-                    <>
-                      <Header location={location} />
-                      {alert.show && (
-                        <ErrorAlert
-                          message={alert.message}
-                          severity={alert.severity}
-                        />
+          <>
+            <div className="content">
+              <Route
+                path="/"
+                render={({ location }) => (
+                  <>
+                    <Header location={location} />
+                    {alerts.length > 0 &&
+                      alertsOpen &&
+                      alerts.map(
+                        ({ message, severity, orgId, requestId, errors }) => (
+                          <ErrorAlert
+                            message={message}
+                            severity={severity}
+                            orgId={orgId}
+                            requestId={requestId}
+                            errors={errors}
+                            onClose={() => setAlertsOpen(false)}
+                          />
+                        ),
                       )}
-                      <AppRoutes setAlert={setAlert} />
-                    </>
-                  )}
-                />
-              </div>
-              <Footer />
-            </>
-          </Router>
+                    <AppRoutes setAlerts={setAlerts} />
+                  </>
+                )}
+              />
+            </div>
+            <Footer />
+          </>
         </ApolloProvider>
       </ThemeProvider>
     </StylesProvider>
