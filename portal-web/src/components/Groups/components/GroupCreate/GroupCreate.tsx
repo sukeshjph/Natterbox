@@ -1,7 +1,6 @@
-import React, { useState } from "react"
-import { isNil, pluck, uniq } from "ramda"
+import React from "react"
+import { isNil } from "ramda"
 import Spinner from "react-spinkit"
-import { useMutation, useQuery } from "@apollo/react-hooks"
 import FormControl from "@material-ui/core/FormControl"
 import Button from "@material-ui/core/Button"
 import FormGroup from "@material-ui/core/FormGroup"
@@ -15,101 +14,46 @@ import Select from "@material-ui/core/Select"
 import { ErrorSnack, Loading, PortalDialogTitle } from "../../../shared"
 import { LightTooltip } from "../../../shared/LightTooltip/LightTooltip"
 import styles from "../Groups.module.scss"
-import { IGroup } from "../Groups.type"
-import { CREATE_GROUP, GET_ALL_GROUPS } from "../GroupsQueries"
+import useGroupCreateHook from "./useGroupCreateHook"
+import { GroupCreateState } from "../Groups.type"
 
-type GroupState = Pick<
-  IGroup,
-  "sipExtension" | "name" | "emailAddress" | "pin" | "category" | "members"
->
-
-const GroupInitialState = {
-  sipExtension: "",
-  name: "",
-  emailAddress: "",
-  category: "",
-  members: {},
-}
 type OwnProps = {
   closeDialog: () => void
 }
 
 export const GroupCreate = ({ closeDialog }: OwnProps) => {
-  const [categoryDropdown] = useState("")
-  const [errorSnack, setErrorSnack] = useState(false)
+  const {
+    mutationLoading,
+    createdGroupData,
+    getAllGroupsCalled,
+    getAllGroupsLoading,
+    getGroupsError,
+    state: { groupState, errorSnack, categoryDropdown, categories },
+    updateField,
+    submitHandler,
+    handleSubmit,
+    handleErrorClose,
+  } = useGroupCreateHook(closeDialog)
 
-  const [GroupState, setGroupState] = useState<GroupState>(GroupInitialState)
-  const [submitType, setSubmitType] = useState(1)
-  const [categories, setCategories] = useState([])
-
-  const { called, loading, error, data } = useQuery(GET_ALL_GROUPS, {
-    onCompleted() {
-      if (data) {
-        const getCategory = pluck("category")
-        setCategories(uniq(getCategory(data.groups)))
-      }
-    },
-  })
-
-  const [
-    createGroup,
-    { loading: mutationLoading, data: createdGroupData },
-  ] = useMutation(CREATE_GROUP, {
-    onCompleted() {
-      // TODO: EITHER CLOSE THE MODAL OR WIPE DATA CLEAR
-      if (submitType === 1) {
-        // CLEAR DATA
-        setGroupState(GroupInitialState)
-      } else if (submitType === 2) {
-        setGroupState(GroupInitialState)
-        closeDialog()
-      }
-    },
-  })
-
-  // Update the Field
-  const updateField = e => {
-    if (e.target.type === "checkbox")
-      setGroupState({
-        ...GroupState,
-        [e.target.name]: e.target.checked,
-      })
-
-    setGroupState({
-      ...GroupState,
-      [e.target.name]: e.target.value === "" ? null : e.target.value,
-    })
-  }
-
-  // Send Mutation to API
-  const submitHandler = () => {
-    const group = {
-      ...GroupState,
-    }
-
-    createGroup({
-      variables: {
-        group,
-      },
-    }).catch(() => {})
-  }
-
-  const { sipExtension, name, emailAddress, category } = GroupState
+  const {
+    sipExtension,
+    name,
+    emailAddress,
+    category,
+  } = groupState as GroupCreateState
 
   const formDisabled = mutationLoading
 
-  const handleSubmit = type => {
-    setSubmitType(type)
-  }
-
   return (
     <Paper>
-      {called && loading && <Loading spinner={<Spinner name="line-scale" />} />}
-      {error && (
+      {getAllGroupsCalled && getAllGroupsLoading && (
+        <Loading spinner={<Spinner name="line-scale" />} />
+      )}
+      {getGroupsError && (
         <ErrorSnack
-          error={error!.message}
-          open={error! && !errorSnack}
-          handleClose={() => setErrorSnack(true)}
+          error={getGroupsError!.message}
+          open={getGroupsError! && !errorSnack}
+          handleClose={handleErrorClose}
         />
       )}
       <Dialog
@@ -135,6 +79,8 @@ export const GroupCreate = ({ closeDialog }: OwnProps) => {
                   onChange={updateField}
                   value={name}
                   disabled={formDisabled}
+                  validators={["required"]}
+                  errorMessages={["Name is required"]}
                   InputProps={{
                     className: styles.textControl,
                   }}
@@ -150,6 +96,8 @@ export const GroupCreate = ({ closeDialog }: OwnProps) => {
                     onChange={updateField}
                     value={category}
                     disabled={formDisabled}
+                    validators={["required"]}
+                    errorMessages={["Category is required"]}
                     InputProps={{
                       className: styles.textControl,
                     }}
@@ -185,6 +133,8 @@ export const GroupCreate = ({ closeDialog }: OwnProps) => {
                   InputProps={{
                     className: styles.textControl,
                   }}
+                  validators={["isEmail", "required"]}
+                  errorMessages={["Email is not valid", "Email is required"]}
                 />
               </FormControl>
               {/*  Extension = sipExtension */}
@@ -199,7 +149,7 @@ export const GroupCreate = ({ closeDialog }: OwnProps) => {
                     value={isNil(sipExtension) ? "" : sipExtension}
                     label="Address"
                     onChange={updateField}
-                    disabled={GroupState.sipExtension === null || formDisabled}
+                    disabled={sipExtension === null || formDisabled}
                     InputProps={{
                       className: styles.textControl,
                     }}
@@ -207,11 +157,13 @@ export const GroupCreate = ({ closeDialog }: OwnProps) => {
                       "minNumber:2000",
                       "maxNumber:7999",
                       "isNumber",
+                      "required",
                     ]}
                     errorMessages={[
                       "Number must be above 2000.",
                       "Number must be below 7999.",
                       "Must contain only numerical characters.",
+                      "sipExtension is required",
                     ]}
                     data-testid="sip-address"
                   />
@@ -223,6 +175,7 @@ export const GroupCreate = ({ closeDialog }: OwnProps) => {
                     type="submit"
                     color="primary"
                     variant="contained"
+                    data-testid="groupSaveCreate"
                     disabled={formDisabled}
                     className={styles.GroupButton}
                     onMouseDown={() => handleSubmit(1)}>

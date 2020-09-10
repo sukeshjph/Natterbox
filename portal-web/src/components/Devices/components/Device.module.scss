@@ -1,7 +1,11 @@
-@import "../../../styles/common";
+@import "../../../styles/core-styles";
 
 .DeviceButton {
   align-self: flex-start;
+}
+
+.pageSizeDropdown {
+  @include pageSizeDropdown;
 }
 
 .formControl {

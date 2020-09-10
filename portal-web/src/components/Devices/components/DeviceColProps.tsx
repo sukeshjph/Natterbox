@@ -3,21 +3,23 @@ import { parseISO, isAfter, differenceInSeconds } from "date-fns"
 import { isEmpty } from "ramda"
 import Icon from "@mdi/react"
 import { mdiTimer, mdiTimerOffOutline } from "@mdi/js"
-import { IDevice } from "./Device.type"
 import { getHourMinutesSeconds } from "../../../util"
 
 export const DeviceColProps: IColType<IDevice>[] = [
   {
     key: "id",
     label: "ID",
+    show: true,
   },
   {
     key: "macAddress",
     label: "Address",
+    show: true,
   },
   {
     key: "registrationExpiry",
     label: "Registration Expires In",
+    show: true,
     render: colData => {
       if (isEmpty(colData)) return ""
 

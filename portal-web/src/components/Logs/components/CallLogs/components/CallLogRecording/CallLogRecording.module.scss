@@ -1,0 +1,54 @@
+.callRecordingMain {
+  display: flex;
+  justify-items: center;
+
+  img {
+    padding-right: 6px;
+  }
+}
+
+.linkToRecording {
+  text-transform: none !important;
+
+  &:hover {
+    background-color: inherit !important;
+  }
+}
+
+.recordingTooltipText {
+  text-align: left;
+}
+
+.recordingToolTip {
+  display: flex;
+
+  img {
+    padding-right: 10px;
+  }
+}
+
+.recordingPlayerContainer {
+  display: flex;
+  min-width: 500px;
+
+  audio {
+    min-width: 450px;
+  }
+}
+
+.recordingDownloadContainer {
+  display: flex;
+
+  select {
+    border: 0;
+
+    &:focus {
+      outline: none !important;
+    }
+  }
+}
+
+.fileDownloadSpinner {
+  padding-top: 20px;
+  padding-left: 20px;
+}

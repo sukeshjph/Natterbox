@@ -1,0 +1,37 @@
+@import "styles/core-styles.scss";
+
+.createSoundContainer {
+  min-width: 300px;
+}
+
+%formControlCommon {
+  margin-bottom: 20px;
+}
+
+.formControl {
+  margin-right: 30px;
+  margin-top: 0;
+
+  @extend %formControlCommon;
+}
+
+.textControl {
+  @include textControl;
+
+  font-size: 12px;
+}
+
+.uploadButton {
+  @include standardGreenButton;
+
+  text-transform: none;
+  align-self: baseline;
+}
+
+.soundSubHeading {
+  @include headingsTitleLeft;
+
+  margin-bottom: 1rem;
+  margin-top: 1rem;
+  font-weight: 600;
+}

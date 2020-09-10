@@ -1,4 +1,4 @@
-import { gql } from "apollo-boost"
+import gql from "graphql-tag"
 
 export const GET_ALL_GROUPS_PAGINATED = gql`
   query groupsPaginated($index: Int, $length: Int) {
@@ -41,6 +41,9 @@ export const VIEW_GROUP = gql`
       system
       category
       emailAddress
+      members {
+        users
+      }
     }
   }
 `

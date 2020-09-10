@@ -11,6 +11,7 @@ import {
   ErrorSnack,
   ActionBlocks,
   PortalServerPaging,
+  Preferences,
   ActionTypes,
 } from "../../shared"
 import { IGroupPagination, IGroup } from "./Groups.type"
@@ -28,15 +29,18 @@ export const GroupsList = () => {
   const [showAddNew, setShowAddNew] = useState(false)
   const [pageLength, setPageLength] = useState(pagerOptions[0])
   const [currentPageIndex, setCurrentPageIndex] = useState(0)
+  const [columnsToShow, setColumnsToShow] = useState(GroupColProps)
   const [viewUpdate, setViewUpdate] = useState<{
     show: boolean
     id: string
+    isSystem: boolean
   }>({
     show: false,
     id: "",
+    isSystem: false,
   })
 
-  const [loadGroups, { called, loading, error, data }] = useLazyQuery(
+  const [loadGroups, { called, loading, error, data, refetch }] = useLazyQuery(
     GET_ALL_GROUPS_PAGINATED,
     {
       variables: {
@@ -60,7 +64,7 @@ export const GroupsList = () => {
           prevIndex: 0,
           nextIndex: 0,
           count: 0,
-          Groups: [],
+          groups: [],
         }
 
   const {
@@ -83,15 +87,21 @@ export const GroupsList = () => {
     loadGroups()
   }
 
-  const handleTableRowClick = e => {
+  const handleTableRowClick = ({ system, id }) => {
     setViewUpdate({
       show: true,
-      id: e.id,
+      id,
+      isSystem: system,
     })
   }
 
-  const actionEvents = {
-    [ActionTypes.ADDNEW]: () => setShowAddNew(true),
+  const handlePrefChange = (inputCols: IColType<IGroup>[]) =>
+    setColumnsToShow(inputCols)
+
+  const actions = {
+    [ActionTypes.ADDNEW]: {
+      event: () => setShowAddNew(true),
+    },
   }
 
   return (
@@ -106,7 +116,15 @@ export const GroupsList = () => {
       )}
       {!loading && !error && (
         <>
-          <ActionBlocks actionEvents={actionEvents}>
+          <ActionBlocks
+            preferences={
+              <Preferences
+                columns={columnsToShow}
+                handlePrefChange={handlePrefChange}
+                showFilter={() => undefined}
+              />
+            }
+            actions={actions}>
             <PortalServerPaging
               totalPagesCount={count}
               currentPage={currentPageIndex}
@@ -134,22 +152,30 @@ export const GroupsList = () => {
           </ActionBlocks>
           <PortalTable<IGroup>
             objects={rows}
-            properties={GroupColProps}
+            properties={columnsToShow.filter(column => column.show)}
             showCheckBoxColumn
             handleRowClick={handleTableRowClick}
           />
           {showAddNew && (
-            <GroupCreate closeDialog={() => setShowAddNew(false)} />
+            <GroupCreate
+              closeDialog={() => {
+                setShowAddNew(false)
+                refetch()
+              }}
+            />
           )}
           {viewUpdate.show && (
             <GroupUpdate
               id={viewUpdate.id}
-              closeDialog={() =>
+              isSystemGroup={viewUpdate.isSystem}
+              closeDialog={() => {
                 setViewUpdate({
                   show: false,
                   id: "",
+                  isSystem: false,
                 })
-              }
+                refetch()
+              }}
             />
           )}
         </>

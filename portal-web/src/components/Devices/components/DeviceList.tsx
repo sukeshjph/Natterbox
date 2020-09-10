@@ -1,5 +1,8 @@
-import React, { useState } from "react"
-import { useQuery } from "@apollo/react-hooks"
+import React, { useState, useEffect } from "react"
+import { useLazyQuery } from "@apollo/react-hooks"
+import FormControl from "@material-ui/core/FormControl"
+import Select from "@material-ui/core/Select"
+import MenuItem from "@material-ui/core/MenuItem"
 import Spinner from "react-spinkit"
 import Paper from "@material-ui/core/Paper"
 import {
@@ -8,36 +11,74 @@ import {
   ErrorSnack,
   ActionBlocks,
   ActionTypes,
-  PortalTablePaging,
+  PortalServerPaging,
+  Preferences,
 } from "../../shared"
-import { IDevice } from "./Device.type"
+import { IDeviceWithPagers } from "./Device.type"
 import { DeviceColProps } from "./DeviceColProps"
 import { DeviceCreate } from "./DeviceCreate/DeviceCreate"
 import { DeviceUpdate } from "./DeviceUpdate/DeviceUpdate"
-import { GET_ALL_DEVICES } from "./DeviceQueries"
+import { GET_ALL_DEVICES_PAGINATED } from "./DeviceQueries"
+import styles from "./Device.module.scss"
+
+const pagerOptions = [100, 150, 250, 400]
 
 export const DeviceList = () => {
   const [errorSnack, setErrorSnack] = useState(false)
-  const [page, setPage] = useState(0)
-  const [rowsPerPage, setRowsPerPage] = useState(100)
   const [showAddNew, setShowAddNew] = useState(false)
+  const [pageLength, setPageLength] = useState(pagerOptions[0])
+  const [currentPageIndex, setCurrentPageIndex] = useState(0)
+  const [columnsToShow, setColumnsToShow] = useState(DeviceColProps)
   const [viewUpdate, setViewUpdate] = useState({
     show: false,
     id: "",
   })
 
-  const { loading, error, data, refetch } = useQuery(GET_ALL_DEVICES)
+  const [loadDevices, { called, loading, error, data, refetch }] = useLazyQuery(
+    GET_ALL_DEVICES_PAGINATED,
+    {
+      variables: {
+        index: currentPageIndex,
+        length: pageLength,
+      },
+    },
+  )
 
-  const rows: IDevice[] =
-    data && data.devices && data.devices.length !== 0 ? data.devices : []
+  useEffect(() => {
+    loadDevices()
+  }, [])
 
-  const handleChangePage = (event, newPage) => {
-    setPage(newPage)
+  const DevicesWithPagers: IDeviceWithPagers =
+    data && data.devicesPaginated
+      ? data.devicesPaginated
+      : {
+          hasMore: false,
+          firstIndex: 0,
+          lastIndex: 0,
+          prevIndex: 0,
+          nextIndex: 0,
+          count: 0,
+          devices: [],
+        }
+
+  const {
+    count,
+    hasMore,
+    firstIndex,
+    lastIndex,
+    prevIndex,
+    nextIndex,
+    devices: rows,
+  } = DevicesWithPagers
+
+  const handlePageSizeChange = event => {
+    setPageLength(event.target.value)
+    loadDevices()
   }
 
-  const handleChangeRowsPerPage = event => {
-    setRowsPerPage(parseInt(event.target.value, 10))
-    setPage(0)
+  const handlePageNavigation = (pageIndex: number) => () => {
+    setCurrentPageIndex(pageIndex)
+    loadDevices()
   }
 
   const handleTableRowClick = e => {
@@ -47,20 +88,18 @@ export const DeviceList = () => {
     })
   }
 
-  const pagedRows = rows.slice(
-    page * rowsPerPage,
-    page * rowsPerPage + rowsPerPage,
-  )
+  const handlePrefChange = (inputCols: IColType<IDevice>[]) =>
+    setColumnsToShow(inputCols)
 
-  const actionEvents = {
-    [ActionTypes.ADDNEW]: () => setShowAddNew(true),
+  const actions = {
+    [ActionTypes.ADDNEW]: {
+      event: () => setShowAddNew(true),
+    },
   }
-
-  const pagesOptions = [100, 150, 200]
 
   return (
     <Paper>
-      {loading && <Loading spinner={<Spinner name="line-scale" />} />}
+      {called && loading && <Loading spinner={<Spinner name="line-scale" />} />}
       {error && (
         <ErrorSnack
           error={error!.message}
@@ -70,26 +109,43 @@ export const DeviceList = () => {
       )}
       {!loading && !error && (
         <>
-          <ActionBlocks actionEvents={actionEvents}>
-            <PortalTablePaging
-              rowsPerPageOptions={
-                rows && rows.length !== 0
-                  ? [
-                      ...pagesOptions,
-                      ...(rows.length > 200 ? [rows.length] : []),
-                    ]
-                  : pagesOptions
-              }
-              pagesCount={rows.length}
-              rowsPerPage={rowsPerPage}
-              page={page}
-              handleChangePage={handleChangePage}
-              handleChangeRowsPerPage={handleChangeRowsPerPage}
-            />
+          <ActionBlocks
+            actions={actions}
+            preferences={
+              <Preferences
+                columns={columnsToShow}
+                handlePrefChange={handlePrefChange}
+                showFilter={() => undefined}
+              />
+            }>
+            <PortalServerPaging
+              totalPagesCount={count}
+              currentPage={currentPageIndex}
+              hasMore={hasMore}
+              handlePrevPage={handlePageNavigation(prevIndex)}
+              handleNextPage={handlePageNavigation(nextIndex)}
+              handleFirstPage={handlePageNavigation(firstIndex)}
+              handleLastPage={handlePageNavigation(lastIndex)}
+              pageLoading={loading}
+              isFirstPage={currentPageIndex === 0}
+              isLastPage={currentPageIndex === lastIndex}>
+              <FormControl>
+                <Select
+                  labelId="page-select"
+                  id="page-select-id"
+                  value={pageLength}
+                  className={styles.pageSizeDropdown}
+                  onChange={handlePageSizeChange}>
+                  {pagerOptions.map(page => (
+                    <MenuItem value={page}>{page}</MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
+            </PortalServerPaging>
           </ActionBlocks>
           <PortalTable<IDevice>
-            objects={pagedRows}
-            properties={DeviceColProps}
+            objects={rows}
+            properties={columnsToShow.filter(column => column.show)}
             handleRowClick={handleTableRowClick}
             showCheckBoxColumn
           />
@@ -102,6 +158,7 @@ export const DeviceList = () => {
           {viewUpdate.show && (
             <DeviceUpdate
               id={viewUpdate.id}
+              refreshData={() => refetch()}
               closeDialog={() =>
                 setViewUpdate({
                   show: false,

@@ -35,7 +35,7 @@ describe("Device List", () => {
     expect(getByTestId(container, "loadingSpinner")).toBeDefined()
   })
 
-  it("Device List loaded", async () => {
+  it.skip("Device List loaded", async () => {
     const { container } = render(
       <MockedProvider mocks={deviceListResponse} addTypename={false}>
         <DeviceList />

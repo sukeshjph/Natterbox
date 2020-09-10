@@ -1,7 +1,9 @@
-@import "../../../styles/common";
+@import "../../../styles/core-styles";
 
-.GroupButton {
-  align-self: flex-start;
+/* Shared Group styles */
+
+.pageSizeDropdown {
+  @include pageSizeDropdown;
 }
 
 .formControl {
@@ -18,11 +20,6 @@
   flex-wrap: nowrap;
 }
 
-.GroupButtonInline {
-  margin-left: 20px;
-  align-self: flex-start;
-}
-
 .textControl {
   @include textControl;
 }
@@ -37,4 +34,34 @@
 
 .tooltip {
   @include tooltip;
+}
+
+/* Shared Group styles ends */
+
+.groupUpdateContainer {
+  min-height: 400px;
+  min-width: 400px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.membershipGroupPanel {
+  margin-top: 20px;
+}
+
+.membershipContentPanel {
+  margin-top: 10px;
+}
+
+.groupButton {
+  @include greenButton;
+
+  align-self: flex-start;
+  margin-top: 10px;
+}
+
+.groupButtonInline {
+  margin-left: 20px;
+  align-self: flex-start;
 }

@@ -1,33 +1,33 @@
 import React, { useState, useEffect } from "react"
 import { pathOr, isNil } from "ramda"
-import { useMutation, useQuery } from "@apollo/react-hooks"
+import { useMutation } from "@apollo/react-hooks"
 import FormControl from "@material-ui/core/FormControl"
 import Button from "@material-ui/core/Button"
 import FormGroup from "@material-ui/core/FormGroup"
 import { ValidatorForm, TextValidator } from "react-material-ui-form-validator"
-import { Loading } from "../../../shared/Loading/Loading"
-import { VIEW_GROUP, UPDATE_GROUP } from "../GroupsQueries"
+import { UPDATE_GROUP } from "../GroupsQueries"
 import { IGroup } from "../Groups.type"
 import styles from "../Groups.module.scss"
 import { LightTooltip } from "../../../shared/LightTooltip/LightTooltip"
 
 type GroupState = Pick<IGroup, "sipExtension" | "name" | "emailAddress" | "pin">
 
-const GroupInitialState = {
-  sipExtension: null,
-  name: "",
-  emailAddress: null,
-}
-
 type ownProps = {
   id: string
+  groupData: any
+  refetch: () => void
 }
 
-const GeneralSettingsUpdate: React.FC<ownProps> = ({ id }) => {
-  const { loading, data, refetch } = useQuery(VIEW_GROUP, {
-    variables: { id },
+const GeneralSettingsUpdate: React.FC<ownProps> = ({
+  id,
+  groupData,
+  refetch,
+}) => {
+  const [GroupState, setGroupState] = useState<GroupState>({
+    sipExtension: pathOr("", ["group", "sipExtension"], groupData),
+    name: pathOr(null, ["group", "name"], groupData),
+    emailAddress: pathOr(null, ["group", "emailAddress"], groupData),
   })
-  const [GroupState, setGroupState] = useState<GroupState>(GroupInitialState)
   const [PinState, setPinState] = useState(null)
 
   const [
@@ -41,13 +41,11 @@ const GeneralSettingsUpdate: React.FC<ownProps> = ({ id }) => {
 
   useEffect(() => {
     setGroupState({
-      sipExtension: pathOr("", ["group", "sipExtension"], data),
-      name: pathOr(null, ["group", "name"], data),
-      emailAddress: pathOr(null, ["group", "emailAddress"], data),
+      sipExtension: pathOr("", ["group", "sipExtension"], groupData),
+      name: pathOr(null, ["group", "name"], groupData),
+      emailAddress: pathOr(null, ["group", "emailAddress"], groupData),
     })
-  }, [data])
-
-  if (loading) return <Loading />
+  }, [groupData])
 
   const updatePin = e => {
     setPinState(e.target.value === "" ? null : e.target.value)
@@ -129,6 +127,8 @@ const GeneralSettingsUpdate: React.FC<ownProps> = ({ id }) => {
             InputProps={{
               className: styles.textControl,
             }}
+            validators={["isEmail"]}
+            errorMessages={["Email is not valid"]}
           />
         </FormControl>
         {/*  Extension = sipExtension */}
@@ -154,13 +154,13 @@ const GeneralSettingsUpdate: React.FC<ownProps> = ({ id }) => {
             />
           </FormControl>
         </LightTooltip>
-        {/*  Voicemail Pin = pin */}
+        {/*  LocaleSettings Pin = pin */}
         <FormControl margin="normal">
           <TextValidator
             InputLabelProps={{ shrink: true }}
             class="standard-basic"
             name="pin"
-            label="Voicemail Pin"
+            label="LocaleSettings Pin"
             onChange={updatePin}
             value={PinState}
             disabled={formDisabled}
@@ -175,7 +175,7 @@ const GeneralSettingsUpdate: React.FC<ownProps> = ({ id }) => {
             color="primary"
             variant="contained"
             disabled={formDisabled}
-            className={styles.GroupButton}>
+            className={styles.groupButton}>
             {mutationLoading ? "Updating" : "Update"}
           </Button>
         )}

@@ -15,10 +15,11 @@ import SecuritySettingsUpdate from "./SecuritySettingsUpdate"
 
 type OwnProps = {
   closeDialog: () => void
+  refreshData: () => void
   id: string
 }
 
-export const DeviceUpdate = ({ closeDialog, id }: OwnProps) => {
+export const DeviceUpdate = ({ closeDialog, id, refreshData }: OwnProps) => {
   const [form, setForm] = React.useState("generalSettingsUpdate")
 
   const handleChange = event => {
@@ -58,7 +59,13 @@ export const DeviceUpdate = ({ closeDialog, id }: OwnProps) => {
               </FormControl>
               {
                 {
-                  generalSettingsUpdate: <GeneralSettingsUpdate id={id} />,
+                  generalSettingsUpdate: (
+                    <GeneralSettingsUpdate
+                      id={id}
+                      refreshData={refreshData}
+                      closeDialog={closeDialog}
+                    />
+                  ),
                   securitySettings: <SecuritySettingsUpdate id={id} />,
                 }[form]
               }

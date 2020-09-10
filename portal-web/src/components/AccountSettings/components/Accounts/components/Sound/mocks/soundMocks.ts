@@ -1,0 +1,52 @@
+export const soundMockList = {
+  soundPaginated: {
+    hasMore: false,
+    firstIndex: 0,
+    lastIndex: 0,
+    prevIndex: 0,
+    nextIndex: 0,
+    count: 1,
+    sound: [
+      {
+        id: 104888,
+        tag: "Wavtest",
+        description: "wavtest",
+        size: 2146166,
+        created: "2020-07-31T13:43:30+00:00",
+        modified: "2020-07-31T13:43:30+00:00",
+      },
+      {
+        id: 104886,
+        tag: "Wav",
+        description: "WAV",
+        size: 109804,
+        created: "2020-07-31T13:33:23+00:00",
+        modified: "2020-07-31T13:33:23+00:00",
+      },
+      {
+        id: 105614,
+        tag: "Sound20200804104125192442",
+        description: "Test WAV file",
+        size: 46,
+        created: "2020-08-04T10:41:25+00:00",
+        modified: "2020-08-04T10:41:25+00:00",
+      },
+      {
+        id: 104887,
+        tag: "Smoketest",
+        description: "Smoketest",
+        size: 386604,
+        created: "2020-07-31T13:36:09+00:00",
+        modified: "2020-07-31T13:36:09+00:00",
+      },
+      {
+        id: 105616,
+        tag: "Blank161016",
+        description: "Created by phone",
+        size: 236524,
+        created: "2020-08-04T15:10:46+00:00",
+        modified: "2020-08-04T15:10:46+00:00",
+      },
+    ],
+  },
+}

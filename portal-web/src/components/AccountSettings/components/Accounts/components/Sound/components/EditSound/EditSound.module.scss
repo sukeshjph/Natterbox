@@ -1,0 +1,81 @@
+@import "../../../../../../../../styles/core-styles.scss";
+
+%formControlCommon {
+  margin-bottom: 20px;
+}
+
+.formControl {
+  margin-right: 30px;
+  margin-top: 0;
+
+  @extend %formControlCommon;
+}
+
+.textControl {
+  @include textControl;
+
+  font-size: 12px;
+}
+
+.editSoundContainer {
+  min-width: 400px;
+}
+
+.soundNameDiv {
+  display: flex;
+}
+
+.row {
+  @include row;
+}
+
+.column {
+  @include column;
+}
+
+.leftColumn {
+  @include column;
+
+  flex-basis: 72%;
+}
+
+.rightColumn {
+  @include column;
+
+  flex-basis: 28%;
+}
+
+%soundButton {
+  @include standardGreenButton;
+
+  text-transform: none;
+  align-self: baseline;
+  margin-top: 1.2rem;
+}
+
+.uploadButton {
+  @extend %soundButton;
+
+  margin-right: 1.5rem;
+}
+
+.downloadButton {
+  @extend %soundButton;
+}
+
+.cancelButton {
+  @extend %soundButton;
+
+  margin-right: 1.5rem;
+}
+
+.deleteButton {
+  @extend %soundButton;
+}
+
+.soundSubHeading {
+  @include headingsTitleLeft;
+
+  margin-bottom: 1rem;
+  font-weight: 600;
+}

@@ -1,0 +1,77 @@
+@import "../../../../../../styles/core-styles.scss";
+
+.usersMainPanel {
+  padding: 20px;
+  min-width: 1216px;
+  min-height: 300px;
+}
+
+.headerButtonPanel {
+  min-width: 270px;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-top: auto;
+}
+
+.userRevertChanges {
+  @include linkButton;
+
+  margin-top: 18px;
+}
+
+.pageSizeDropdown {
+  @include pageSizeDropdown;
+}
+
+.textControl {
+  @include textControl;
+}
+
+.formButton {
+  @include greenButton;
+
+  align-self: flex-start;
+  margin-top: 10px;
+  text-transform: none;
+  max-width: inherit;
+}
+
+.usersHeaderPanel {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
+  border: 0;
+}
+
+.usersListPanel {
+  display: flex;
+  justify-items: center;
+}
+
+.usersLoadingPanel {
+  display: flex;
+  align-items: center;
+  margin-top: auto;
+}
+
+.userSelect {
+  width: 400px;
+}
+
+.formLabel {
+  font-size: 12px;
+  margin-bottom: 5px;
+  color: rgba(0, 0, 0, 0.54);
+}
+
+.formControl {
+  margin-right: 0;
+  margin-bottom: 0;
+}
+
+.userAddButton {
+  margin-left: 15px;
+  margin-bottom: 2px;
+  margin-top: auto;
+}

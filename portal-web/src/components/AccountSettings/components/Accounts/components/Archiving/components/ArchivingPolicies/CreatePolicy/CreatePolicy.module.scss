@@ -1,0 +1,50 @@
+@import "../../../../../../../../../styles/core-styles.scss";
+
+.createPolicyContainer {
+  min-width: 500px;
+}
+
+.row {
+  @include row;
+
+  align-items: center;
+}
+
+.retentionColumn {
+  @include column;
+
+  flex-basis: 16.67%;
+}
+
+@mixin formControl {
+  margin-right: 30px;
+  margin-top: 16px;
+  margin-bottom: 20px;
+}
+
+.formControl {
+  @include formControl;
+}
+
+.textControl {
+  @include textControl;
+}
+
+.nameRow {
+  input[type="text"] {
+    min-width: 250px;
+  }
+
+  textarea {
+    margin-left: 20px;
+    min-width: 350px;
+  }
+}
+
+.subHeading {
+  @include headingsTitleLeft;
+
+  margin-bottom: 1rem;
+  font-weight: 600;
+  color: $colour-grey-mid-dark;
+}

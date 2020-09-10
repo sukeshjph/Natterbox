@@ -11,7 +11,6 @@ import Switch from "@material-ui/core/Switch"
 import Button from "@material-ui/core/Button"
 import FormGroup from "@material-ui/core/FormGroup"
 import { CREATE_DEVICE } from "../DeviceQueries"
-import { IDevice } from "../Device.type"
 import styles from "../Device.module.scss"
 
 const createInitialState = {

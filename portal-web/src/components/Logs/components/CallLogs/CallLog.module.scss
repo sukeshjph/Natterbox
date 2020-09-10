@@ -1,4 +1,4 @@
-@import "../../../../styles/common";
+@import "../../../../styles/core-styles";
 
 .paper {
   width: "100%";
@@ -9,70 +9,71 @@
 }
 
 .formControl {
-  margin-right: 30px;
-  margin-top: 16px;
+  margin-right: 0;
+  margin-top: 0;
+  margin-bottom: 0;
 }
 
 .textControl {
   @include textControl;
 }
 
+.pageSizeDropdown {
+  @include pageSizeDropdown;
+}
+
+/* Call Log Search */
+
+.submitButtonPanel {
+  display: flex;
+}
+
+.tableCell {
+  font-size: 0.8rem;
+  padding: 5px 12px;
+}
+
+.onlyText {
+  text-align: center;
+}
+
+.tableCellButton {
+  text-align: left;
+}
+
+.tableCellSubmitPanel {
+  border-bottom: none;
+}
+
+.addRemoveButton {
+  @include greenButton;
+
+  margin-left: 0.7rem;
+}
+
 .submitButton {
-  margin-right: 2rem;
-  max-width: 100px;
-  background-color: #c4d600;
+  @include greenButton;
 
-  &:hover {
-    background-color: #d2e506;
-  }
+  margin-left: 0.7rem;
+  margin-top: 2rem;
 }
 
-.expansionPanelSummary {
-  padding: 3px 8px;
-  min-height: 35px;
-  max-height: 45px;
-}
-
-.expansionPanelSummaryContent {
-  display: flex;
-  align-items: center;
-}
-
-.searchFormGroup {
-  padding-left: 20px;
-}
-
-.topContainer {
-  display: flex;
-  align-items: center;
-}
-
-.topItemContainer {
-  width: 200px;
-
-  input {
-    width: 190px;
-    height: 35px;
-  }
-
-  .topLabel {
-    font-size: 12px;
-    margin-bottom: 5px;
-    color: rgba(0, 0, 0, 0.54);
-  }
+.formLabel {
+  font-size: 12px;
+  margin-bottom: 5px;
+  color: rgba(0, 0, 0, 0.54);
 }
 
 .userSelect {
-  align-self: flex-end;
+  width: 155px;
 }
 
-.nonDateLogContainer {
+.startLabel {
+  padding-right: 20px;
+}
+
+.loadingContainer {
   display: flex;
-  flex-wrap: wrap;
-  width: 80%;
-}
-
-.nonDateLogContainer > .item {
-  flex: 0 50%;
-  max-width: 200px;
+  padding-top: 20px;
+  align-items: center;
 }

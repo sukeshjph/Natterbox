@@ -1,0 +1,51 @@
+@import "../../../../../../styles/core-styles.scss";
+
+.container {
+  padding-left: 30px;
+  padding-right: 10px;
+  padding-bottom: 10px;
+}
+
+.contentContainer {
+  padding-left: 20px;
+}
+
+.row {
+  @include row;
+
+  align-items: center;
+}
+
+.leftColumn {
+  @include column;
+
+  flex-basis: 15%;
+  margin-top: 30px;
+}
+
+.rightColumn {
+  @include column;
+
+  flex-basis: 70%;
+}
+
+.formControl {
+  margin-right: 30px;
+  padding-top: 8px;
+  display: initial;
+}
+
+.formSelect {
+  min-width: 250px;
+
+  .formSelectChoice {
+    @include common-select;
+
+    margin-top: 20px;
+  }
+}
+
+.allPolicies,
+.allEndpoints {
+  margin-top: 3rem;
+}
