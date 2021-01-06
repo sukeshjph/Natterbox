@@ -22,7 +22,7 @@
     "apollo-datasource-rest": "0.9.0",
     "apollo-server-errors": "^2.4.1",
     "apollo-server-lambda": "^2.2.1",
-    "axios": "^0.19.2",
+    "axios": "^0.21.1",
     "babel-plugin-source-map-support": "^2.1.1",
     "cache-manager": "^3.3.0",
     "dataloader": "^2.0.0",
