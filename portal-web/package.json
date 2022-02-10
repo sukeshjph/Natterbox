@@ -45,7 +45,7 @@
     "js-file-download": "^0.4.12",
     "material-ui-chip-input": "^1.1.0",
     "natterbox_json_parser": "git+ssh://git@bitbucket.redmatter.com/npm/react-jsonschema-form-adapter.git",
-    "node-sass": "4.13.1",
+    "node-sass": "7.0.0",
     "prop-types": "15.7.2",
     "ramda": "0.27.0",
     "react": "16.13.0",
