@@ -18,7 +18,7 @@
     "apollo-server-express": "2.17.0",
     "class-validator": "^0.12.2",
     "eslint-import-resolver-webpack": "^0.12.2",
-    "express": "4.17.1",
+    "express": "4.17.3",
     "graphql": "15.3.0",
     "graphql-fields": "^2.0.3",
     "graphql-playground-middleware-express": "1.7.20",
