@@ -36,7 +36,7 @@
     "graphql-tag": "^2.10.3",
     "graphql-tools": "^5.0.0",
     "husky": "^4.2.3",
-    "jsonwebtoken": "^8.5.1",
+    "jsonwebtoken": "^9.0.0",
     "node-fetch": "^1.7.3",
     "nodemon": "^2.0.4",
     "oauth": "^0.9.15",
